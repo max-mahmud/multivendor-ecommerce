@@ -1,31 +1,23 @@
-require("dotenv").config();
-const express = require("express");
-const bodyParser = require("body-parser");
-const cookieParser = require("cookie-parser");
-const cors = require("cors");
+const express = require('express')
+const { dbConnect } = require('./utiles/db')
+const app = express()
+const cors = require('cors')
+const bodyParser = require('body-parser')
+const cookieParser = require('cookie-parser')
+require('dotenv').config()
 
-// express app
-const app = express();
+app.use(cors({
+  origin: ['http://localhost:3000'],
+  credentials: true
+}))
+app.use(bodyParser.json())
+app.use(cookieParser())
 
-// middlewares
-app.use(bodyParser.json());
-app.use(cookieParser());
+app.use('/api', require('./routes/authRoutes'))
 
-// endpoints
-// app.use("/api/user", require("./routes/userRoutes"));
+app.get('/', (req, res) => res.send('Hello World!'))
 
+const port = process.env.PORT 
 
-const PORT = process.env.PORT || 5000;
-
-// connect to db
-mongoose
-  .connect(process.env.MONGO_URI)
-  .then(() => {
-    // listening for requests
-    app.listen(PORT, (req, res) => {
-      console.log(`connected to db && server running on port:${PORT}`);
-    });
-  })
-  .catch((err) => {
-    console.log(err.message);
-  });
+dbConnect()
+app.listen(port, () => console.log(`Server is running on port ${port}!`))
