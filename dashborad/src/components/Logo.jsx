@@ -8,7 +8,7 @@ const Logo = () => {
         <span className="text-green-500 text-4xl">
           <SiInstacart />
         </span>
-        <div className="flex flex-col text-[#868686]">
+        <div className="flex flex-col text-[#9b9b9b]">
           <h2 className="text-3xl font-extrabold">ECOMREZ</h2>
           <span className="font-semibold text-xl -mt-3">S H O P N O W</span>
         </div>

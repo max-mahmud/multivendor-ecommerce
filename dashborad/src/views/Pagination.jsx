@@ -25,8 +25,8 @@ const Pagination = ({ pageNumber, setPageNumber, totalItem, parPage, showItem })
           className={`
                     ${
                       pageNumber === i
-                        ? "bg-green-500 shadow-lg shadow-green-500/50 text-white"
-                        : "bg-slate-700 hover:bg-green-500 shadow-lg hover:shadow-green-500/50 hover:text-white text-[#d0d2d6]"
+                        ? "bg-green-500 shadow-lg shadow-green-500/50 text-slate-100"
+                        : "bg-slate-300 hover:bg-green-500 shadow-lg hover:shadow-green-500/50 hover:text-white text-slate-600"
                     } w-[33px] h-[33px] rounded-full flex justify-center items-center cursor-pointer`}
         >
           {i}
@@ -41,7 +41,7 @@ const Pagination = ({ pageNumber, setPageNumber, totalItem, parPage, showItem })
       {pageNumber > 1 && (
         <li
           onClick={() => setPageNumber(pageNumber - 1)}
-          className="w-[33px] h-[33px] rounded-full flex justify-center items-center bg-slate-700 text-[#d0d2d6] cursor-pointer"
+          className="w-[33px] h-[33px] rounded-full flex justify-center items-center bg-slate-300 text-slate-600 cursor-pointer"
         >
           <BsChevronDoubleLeft />
         </li>
@@ -50,7 +50,7 @@ const Pagination = ({ pageNumber, setPageNumber, totalItem, parPage, showItem })
       {pageNumber < totalPage && (
         <li
           onClick={() => setPageNumber(pageNumber + 1)}
-          className="w-[33px] h-[33px] rounded-full flex justify-center items-center bg-slate-700 text-[#d0d2d6] cursor-pointer"
+          className="w-[33px] h-[33px] rounded-full flex justify-center items-center bg-slate-300 text-slate-600 cursor-pointer"
         >
           <BsChevronDoubleRight />
         </li>

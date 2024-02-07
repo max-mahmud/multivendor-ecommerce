@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { FaEdit, FaEye, FaTrash } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import Pagination from "../Pagination";
+import cateImage from "../../assets/image/44.jpg";
+
 const Sellers = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [searchValue, setSearchValue] = useState("");
@@ -9,25 +11,25 @@ const Sellers = () => {
   const [show, setShow] = useState(false);
   return (
     <div className="px-2 lg:px-7 pt-5">
-      <div className="w-full p-4  bg-gray-800 rounded-md">
+      <div className="w-full p-4  bg-slate-100 rounded-md">
         <div className="flex justify-between items-center">
           <select
             onChange={(e) => setParPage(parseInt(e.target.value))}
-            className="px-4 py-2 focus:border-green-500 outline-none bg-gray-800 border border-slate-700 rounded-md text-[#d0d2d6]"
+            className="px-4 py-2 focus:border-green-500 outline-none bg-slate-100 border border-slate-300 rounded-md text-slate-600"
           >
             <option value="5">5</option>
             <option value="5">15</option>
             <option value="5">25</option>
           </select>
           <input
-            className="px-4 py-2 focus:border-green-500 outline-none bg-gray-800 border border-slate-700 rounded-md text-[#d0d2d6]"
+            className="px-4 py-2 focus:border-green-500 outline-none bg-slate-100 border border-slate-300 rounded-md text-slate-600"
             type="text"
             placeholder="search"
           />
         </div>
-        <div className="relative overflow-x-auto">
-          <table className="w-full text-sm text-left text-[#d0d2d6]">
-            <thead className="text-xs text-[#d0d2d6] uppercase border-b border-slate-700">
+        <div className="relative overflow-x-auto mt-3">
+          <table className="w-full text-sm text-left text-slate-600">
+            <thead className="text-xs text-slate-600 uppercase border-b bg-slate-300">
               <tr>
                 <th scope="col" className="py-3 px-4">
                   No
@@ -65,29 +67,25 @@ const Sellers = () => {
                     {d}
                   </td>
                   <td scope="row" className="py-1 px-4 font-medium whitespace-nowrap">
-                    <img
-                      className="w-[45px] h-[45px]"
-                      src={`http://localhost:3000/images/category/${d}.jpg`}
-                      alt=""
-                    />
+                    <img className="w-[45px] h-[45px]" src={cateImage} alt="" />
                   </td>
                   <td scope="row" className="py-1 px-4 font-medium whitespace-nowrap">
-                    <span>Sheikh Farid</span>
+                    <span>Jakir Hasan</span>
                   </td>
                   <td scope="row" className="py-1 px-4 font-medium whitespace-nowrap">
-                    <span>Sheikh Fausion</span>
+                    <span>Jakir Fausion</span>
                   </td>
                   <td scope="row" className="py-1 px-4 font-medium whitespace-nowrap">
                     <span>pending</span>
                   </td>
                   <td scope="row" className="py-1 px-4 font-medium whitespace-nowrap">
-                    <span>farid@gmail.com</span>
+                    <span>Jakir@gmail.com</span>
                   </td>
                   <td scope="row" className="py-1 px-4 font-medium whitespace-nowrap">
-                    <span>Rangpur</span>
+                    <span>Rajshahi</span>
                   </td>
                   <td scope="row" className="py-1 px-4 font-medium whitespace-nowrap">
-                    <span>Kurigram</span>
+                    <span>chapai</span>
                   </td>
                   <td scope="row" className="py-1 px-4 font-medium whitespace-nowrap">
                     <div className="flex justify-start items-center gap-4">

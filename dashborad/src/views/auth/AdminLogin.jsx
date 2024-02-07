@@ -4,6 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { admin_login, messageClear } from "../../store/Reducers/authReducer";
+import Logo from "../../components/Logo";
+
 const AdminLogin = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -41,12 +43,12 @@ const AdminLogin = () => {
     }
   }, [errorMessage, successMessage]);
   return (
-    <div className="min-w-screen min-h-screen bg-[#161d31] flex justify-center items-center">
-      <div className="w-[350px] text-[#d0d2d6] p-2">
-        <div className="bg-gray-800 p-4 rounded-md">
-          <div className="h-[70px] flex justify-center items-center">
-            <div className="w-[180px] h-[50px]">
-              <img className="w-full h-full" src="http://localhost:3000/images/logo.png" alt="image" />
+    <div className="min-w-screen min-h-screen bg-slate-200 flex justify-center items-center">
+      <div className="w-[380px] text-slate-600 p-2">
+        <div className="bg-slate-50 shadow-md p-4 rounded-md">
+          <div className="h-[70px] flex justify-center items-center mt-5">
+            <div className="w-[180px] h-[100px]">
+              <Logo />
             </div>
           </div>
           <form onSubmit={submit}>
@@ -55,7 +57,7 @@ const AdminLogin = () => {
               <input
                 onChange={inputHandle}
                 value={state.email}
-                className="px-3 py-2 outline-none border border-slate-700 bg-transparent rounded-md text-[#d0d2d6] focus:border-green-500 overflow-hidden"
+                className="px-3 py-2 outline-none border bg-slate-300 bg-transparent rounded-md text-slate-600 focus:border-green-500 overflow-hidden"
                 type="text"
                 name="email"
                 placeholder="email"
@@ -68,7 +70,7 @@ const AdminLogin = () => {
               <input
                 onChange={inputHandle}
                 value={state.password}
-                className="px-3 py-2 outline-none border border-slate-700 bg-transparent rounded-md text-[#d0d2d6] focus:border-green-500 overflow-hidden"
+                className="px-3 py-2 outline-none border bg-slate-300 bg-transparent rounded-md text-slate-600 focus:border-green-500 overflow-hidden"
                 type="password"
                 name="password"
                 placeholder="password"

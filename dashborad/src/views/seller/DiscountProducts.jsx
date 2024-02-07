@@ -10,11 +10,11 @@ const DiscountProducts = () => {
   const [parPage, setParPage] = useState(5);
   return (
     <div className="px-2 lg:px-7 pt-5 ">
-      <div className="w-full p-4  bg-gray-800 rounded-md">
+      <div className="w-full p-4  bg-slate-100 rounded-md">
         <Search setParPage={setParPage} setSearchValue={setSearchValue} searchValue={searchValue} />
         <div className="relative overflow-x-auto mt-5">
-          <table className="w-full text-sm text-left text-[#d0d2d6]">
-            <thead className="text-sm text-[#d0d2d6] uppercase border-b border-slate-700">
+          <table className="w-full text-sm text-left text-slate-600">
+            <thead className="text-sm text-slate-600 uppercase border-b bg-slate-300">
               <tr>
                 <th scope="col" className="py-3 px-4">
                   No

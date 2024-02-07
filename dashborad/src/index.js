@@ -5,13 +5,14 @@ import store from './store/index'
 import { Provider } from 'react-redux'
 import './index.css';
 import { BrowserRouter } from 'react-router-dom'
+import Loading from './components/Loading';
 const App = lazy(() => import('./App'))
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <BrowserRouter>
     <Provider store={store}>
-      <Suspense fallback='loading...'>
+      <Suspense fallback={<Loading />}>
         <App />
         <Toaster
           toastOptions={{
