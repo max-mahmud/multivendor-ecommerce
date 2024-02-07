@@ -14,6 +14,7 @@ import { AiFillHeart } from "react-icons/ai";
 import { FaFacebookF, FaLinkedin } from "react-icons/fa";
 import { AiFillGithub, AiOutlineTwitter } from "react-icons/ai";
 import Reviews from "../components/Reviews";
+import img from "../assets/46.jpg";
 
 const Details = () => {
   const [image, setImage] = useState("");
@@ -59,7 +60,7 @@ const Details = () => {
         <div className="absolute left-0 top-0 w-full h-full bg-[#2422228a]">
           <div className="w-[85%] md:w-[80%] sm:w-[90%] lg:w-[90%] h-full mx-auto">
             <div className="flex flex-col justify-center gap-1 items-center h-full w-full text-white">
-              <h2 className="text-3xl font-bold">Shop.my</h2>
+              <h2 className="text-3xl font-bold">ECOMREZ</h2>
             </div>
           </div>
         </div>
@@ -83,16 +84,14 @@ const Details = () => {
         <div className="w-[85%] md:w-[80%] sm:w-[90%] lg:w-[90%] h-full mx-auto pb-16">
           <div className="grid grid-cols-2 md-lg:grid-cols-1 gap-8">
             <div>
-              <div className="p-5 border">
-                <img
-                  className="h-[500px] w-full"
-                  src={
-                    image
-                      ? `http://localhost:3000/images/products/${image}.webp`
-                      : `http://localhost:3000/images/products/${images[1]}.webp`
-                  }
-                  alt=""
-                />
+              <div className="p-5 border relative">
+                <div className="hover-zoom">
+                  <img
+                    className="h-[500px] w-full"
+                    src={image ? `http://localhost:3000/images/products/${image}.webp` : img}
+                    alt=""
+                  />
+                </div>
               </div>
               <div className="py-3">
                 {images && (
@@ -100,7 +99,7 @@ const Details = () => {
                     {images.map((img, i) => {
                       return (
                         <div onClick={() => setImage(img)}>
-                          <img src={`http://localhost:3000/images/products/${img}.webp`} alt="" />
+                          <img src={img} alt="" />
                         </div>
                       );
                     })}
@@ -163,46 +162,11 @@ const Details = () => {
               <div className="flex py-5 gap-5">
                 <div className="w-[150px] text-black font-bold text-xl flex flex-col gap-5">
                   <span>Availability</span>
-                  <span>Share on</span>
                 </div>
                 <div className="flex flex-col gap-5">
                   <span className={`text-${stock ? "green" : "red"}-500`}>
                     {stock ? `In Stock(${stock})` : "Out of Stock"}
                   </span>
-                  <ul className="flex justify-start items-center gap-3">
-                    <li>
-                      <a
-                        className="w-[38px] h-[38px] hover:bg-[#7fad39] hover:text-white flex justify-center items-center bg-indigo-500 rounded-full text-white"
-                        href="#"
-                      >
-                        <FaFacebookF />
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        className="w-[38px] h-[38px] hover:bg-[#7fad39] hover:text-white flex justify-center items-center bg-cyan-500 rounded-full text-white"
-                        href="#"
-                      >
-                        <AiOutlineTwitter />
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        className="w-[38px] h-[38px] hover:bg-[#7fad39] hover:text-white flex justify-center items-center bg-purple-500 rounded-full text-white"
-                        href="#"
-                      >
-                        <FaLinkedin />
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        className="w-[38px] h-[38px] hover:bg-[#7fad39] hover:text-white flex justify-center items-center bg-blue-500 rounded-full text-white"
-                        href="#"
-                      >
-                        <AiFillGithub />
-                      </a>
-                    </li>
-                  </ul>
                 </div>
               </div>
               <div className="flex gap-3">
@@ -213,9 +177,6 @@ const Details = () => {
                 ) : (
                   ""
                 )}
-                <button className="px-8 py-3 h-[50px] cursor-pointer hover:shadow-lg hover:shadow-lime-500/40 bg-lime-500 text-white">
-                  Chat Seller
-                </button>
               </div>
             </div>
           </div>
@@ -224,7 +185,7 @@ const Details = () => {
       <section>
         <div className="w-[85%] md:w-[80%] sm:w-[90%] lg:w-[90%] h-full mx-auto pb-16">
           <div className="flex flex-wrap">
-            <div className="w-[72%] md-lg:w-full">
+            <div className="w-full">
               <div className="pr-4 md-lg:pr-0">
                 <div className="grid grid-cols-2">
                   <button
@@ -257,34 +218,6 @@ const Details = () => {
                 </div>
               </div>
             </div>
-            <div className="w-[28%] md-lg:w-full">
-              <div className="pl-4 md-lg:pl-0">
-                <div className="px-3 py-2 text-slate-600 bg-slate-200">
-                  <h2> From Farid Fashion</h2>
-                </div>
-                <div className="flex flex-col gap-5 mt-3 border p-3">
-                  {[1, 2, 3].map((p, i) => {
-                    return (
-                      <Link className="block">
-                        <div className="relative h-[270px]">
-                          <img
-                            className="w-full h-full"
-                            src={`http://localhost:3000/images/products/${p}.webp`}
-                          />
-                          <div className="flex justify-center items-center absolute text-white w-[38px] h-[38px] rounded-full bg-red-500 font-semibold text-xs left-2 top-2">
-                            6%
-                          </div>
-                        </div>
-                        <h2 className="text-slate-600 py-1">tandard dummy text ever since the</h2>
-                        <div className="flex items-center gap-2">
-                          <Ratings ratings={4.5} />
-                        </div>
-                      </Link>
-                    );
-                  })}
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </section>
@@ -308,7 +241,6 @@ const Details = () => {
                 clickable: true,
                 el: ".custom_bullet",
               }}
-              modules={[Pagination]}
               className="mySwiper"
             >
               {[1, 2, 3, 4, 5, 6, 7].map((p, i) => {

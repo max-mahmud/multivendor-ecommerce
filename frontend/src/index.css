@@ -10,3 +10,15 @@
   .absolute-overlay{
     transition: all .3s ease-in-out;
   }
+
+  .hover-zoom {
+    overflow: hidden;
+  }
+  
+  .hover-zoom img {
+    transition: transform 0.3s ease;
+  }
+  
+  .hover-zoom:hover img {
+    transform: scale(1.1);
+  }
