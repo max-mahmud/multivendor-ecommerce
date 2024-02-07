@@ -1,3 +1,12 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+  .hoverEffect:hover img {
+    opacity: 0.7; 
+    transition: all .3s ease-in-out;
+  }
+  
+  .absolute-overlay{
+    transition: all .3s ease-in-out;
+  }
