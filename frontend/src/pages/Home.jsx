@@ -12,7 +12,7 @@ import roate2 from "../assets/rotate2.jpg";
 
 const Home = () => {
   return (
-    <div className="w-full">
+    <div className="w-full bg-slate-100">
       <Heders />
       <Banner />
       <div className="my-4">

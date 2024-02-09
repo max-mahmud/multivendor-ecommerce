@@ -30,19 +30,19 @@ const Banner = () => {
   return (
     <div className="w-full md-lg:mt-6">
       <div className="w-[85%] lg:w-[90%] mx-auto">
-        <div className="w-full flex flex-wrap md-lg:gap-2">
-          <div className="w-3/5">
+        <div className="w-full flex flex-wrap md-lg:gap-0">
+          <div className=" w-3/5 md-lg:w-full">
             <div className="my-8">
               <Carousel autoPlay={true} infinite={true} arrows={true} showDots={true} responsive={responsive}>
                 {[1, 2, 3, 4].map((img, i) => (
-                  <Link className="md-lg:h-[540px] h-auto block" key={i} to="#">
-                    <img src={img1} alt="banner" />
+                  <Link className=" h-[350px] block" key={i} to="#">
+                    <img src={img1} alt="banner" className="h-full w-full" />
                   </Link>
                 ))}
               </Carousel>
             </div>
           </div>
-          <div className="w-2/5 grid grid-cols-2 gap-2 py-8 pl-5">
+          <div className="w-2/5 md-lg:w-full grid grid-cols-2 gap-2 py-7 pl-4 md-lg:pl-0">
             <div className="w-full p-1 bg-slate-200 cursor-pointer hoverEffect">
               <img src={t1} alt="banner" className="w-full h-[166px] -z-20 absolute-overlay" />
             </div>

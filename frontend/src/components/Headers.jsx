@@ -27,6 +27,7 @@ const Headers = () => {
   ];
   const [searchValue, setSearchValue] = useState("");
   const [category, setCategory] = useState("");
+
   return (
     <div className="w-full bg-white">
       <div className="header-top bg-[#eeeeee] md-lg:hidden">
