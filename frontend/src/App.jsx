@@ -5,8 +5,16 @@ import Card from "./pages/Card";
 import Details from "./pages/Details";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
+import { useDispatch } from "react-redux";
+import { get_category } from "./store/reducers/homeReducer";
+import { useEffect } from "react";
 
 function App() {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(get_category());
+  }, []);
+
   return (
     <BrowserRouter>
       <Routes>

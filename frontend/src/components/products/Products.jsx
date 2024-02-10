@@ -64,9 +64,9 @@ const Products = ({ title }) => {
       >
         {products.map((p, i) => {
           return (
-            <div className="flex flex-col justify-start gap-4">
-              {p.map((pl) => (
-                <Link className="flex justify-start items-start" to="#">
+            <div className="flex flex-col justify-start gap-4" key={i}>
+              {p.map((pl, j) => (
+                <Link className="flex justify-start items-start" to="#" key={j}>
                   <img className="w-[104px] h-[104px]" src={img1} alt="images" />
                   <div className="px-3 flex justify-start items-start gap-1 flex-col text-slate-600">
                     <h2>Long Sleeve casua Shirt for Man</h2>

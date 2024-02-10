@@ -17,7 +17,7 @@ const FeatureProducts = () => {
       </div>
       <div className="w-full grid grid-cols-4 md-lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-6">
         {[1, 2, 3, 4, 5, 6, 7].map((p, i) => (
-          <div className="border group transition-all duration-500 hover:shadow-md ">
+          <div className="border group transition-all duration-500 hover:shadow-md " key={i}>
             <div className="relative overflow-hidden">
               <div className="flex justify-center items-center absolute text-white w-[38px] h-[38px] rounded-full bg-red-500 font-semibold text-xs right-2 top-2">
                 6%

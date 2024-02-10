@@ -6,7 +6,7 @@ import Ratings from "../Ratings";
 import img1 from "../../assets/46.jpg";
 import { FaArrowsSpin } from "react-icons/fa6";
 
-const ShopProducts = ({ styles }) => {
+const ShopProducts = ({ styles, products }) => {
   return (
     <div
       className={`w-full grid ${
@@ -15,7 +15,7 @@ const ShopProducts = ({ styles }) => {
           : "grid-cols-1 md-lg:grid-cols-2 md:grid-cols-2"
       } gap-3`}
     >
-      {[1, 2, 3, 4, 5, 6].map((p, i) => (
+      {products.map((p, i) => (
         <div
           className={`flex transition-all duration-1000 hover:shadow-md hover:-translate-y-3 ${
             styles === "grid"
@@ -32,7 +32,7 @@ const ShopProducts = ({ styles }) => {
           >
             <img
               className="h-[240px] rounded-md md:h-[270px] xs:h-[170px] w-full object-cover"
-              src={img1}
+              src={p.images[0]}
               alt="image"
             />
             <ul className="flex flex-col transition-all duration-500 justify-start items-start gap-2 ">
@@ -54,11 +54,11 @@ const ShopProducts = ({ styles }) => {
             </ul>
           </div>
           <div className="flex justify-start items-start flex-col gap-1">
-            <h2 className="text-md text-slate-700 font-medium">Long Sleeve casua Shirt for Man</h2>
+            <h2 className="text-md text-slate-700 font-medium">{p.name}</h2>
             <div className="flex justify-start items-center gap-2">
-              <span className="text-md  font-bold text-slate-700">$675</span>
+              <span className="text-md  font-bold text-slate-700">${p.price}</span>
               <div className="flex text-lg">
-                <Ratings ratings={4.5} />
+                <Ratings ratings={p.rating} />
               </div>
             </div>
           </div>
