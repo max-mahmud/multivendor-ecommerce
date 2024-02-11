@@ -4,29 +4,26 @@ import { IoIosCall } from "react-icons/io";
 import { MdOutlineKeyboardArrowDown } from "react-icons/md";
 import { FaLinkedinIn, FaFacebookF, FaUser, FaLock, FaList } from "react-icons/fa";
 import { AiOutlineTwitter, AiFillGithub, AiFillHeart, AiFillShopping } from "react-icons/ai";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import Logo from "./Logo";
 import { FaArrowsSpin } from "react-icons/fa6";
+import { useSelector } from "react-redux";
 
 const Headers = () => {
+  const navigate = useNavigate();
   const { pathname } = useLocation();
   const [showShidebar, setShowShidebar] = useState(true);
   const [categoryShow, setCategoryShow] = useState(true);
-  const user = true;
   const wishlist = 4;
-  const categorys = [
-    "Clothing",
-    "Sports",
-    "Phones",
-    "Laptops",
-    "Monitors",
-    "Tablets",
-    "Auido",
-    "Bags",
-    "Televisions",
-  ];
+  const { categorys } = useSelector((state) => state.home);
+  const { userInfo } = useSelector((state) => state.auth);
+
   const [searchValue, setSearchValue] = useState("");
   const [category, setCategory] = useState("");
+
+  const search = () => {
+    navigate(`/products/search?category=${category}&&value=${searchValue}`);
+  };
 
   return (
     <div className="w-full bg-white">
@@ -68,7 +65,7 @@ const Headers = () => {
                     <li>English</li>
                   </ul>
                 </div>
-                {user ? (
+                {userInfo ? (
                   <Link
                     className="flex cursor-pointer justify-center items-center gap-2 text-sm"
                     to="/dashboard"
@@ -76,15 +73,15 @@ const Headers = () => {
                     <span>
                       <FaUser />
                     </span>
-                    <span>Jakir</span>
+                    <span>{userInfo.name}</span>
                   </Link>
                 ) : (
-                  <div className="flex cursor-pointer justify-center items-center gap-2 text-sm">
+                  <Link to="/login" className="flex cursor-pointer justify-center items-center gap-2 text-sm">
                     <span>
                       <FaLock />
                     </span>
                     <span>Login</span>
-                  </div>
+                  </Link>
                 )}
               </div>
             </div>
@@ -113,14 +110,17 @@ const Headers = () => {
               <div className="flex justify-between md-lg:justify-center items-center flex-wrap pl-8">
                 <ul className="flex justify-start items-start gap-8 text-sm font-bold uppercase md-lg:hidden">
                   <li>
-                    <Link className={`p-2 block ${pathname === "/" ? "text-[#7fad39]" : "text-slate-600"}`}>
+                    <Link
+                      to="/"
+                      className={`p-2 block ${pathname === "/" ? "text-[#7fad39]" : "text-slate-600"}`}
+                    >
                       Home
                     </Link>
                   </li>
                   <li>
                     <Link
                       to="/shops"
-                      className={`p-2 block ${pathname === "/shop" ? "text-[#7fad39]" : "text-slate-600"}`}
+                      className={`p-2 block ${pathname === "/shops" ? "text-[#7fad39]" : "text-slate-600"}`}
                     >
                       Shop
                     </Link>
@@ -180,6 +180,7 @@ const Headers = () => {
           </div>
         </div>
       </div>
+      {/* Mobile */}
       <div className="hidden md-lg:block">
         <div
           onClick={() => setShowShidebar(true)}
@@ -207,7 +208,7 @@ const Headers = () => {
                   <li>English</li>
                 </ul>
               </div>
-              {user ? (
+              {userInfo ? (
                 <Link
                   className="flex cursor-pointer justify-center items-center gap-2 text-sm"
                   to="/dashboard"
@@ -215,7 +216,7 @@ const Headers = () => {
                   <span>
                     <FaUser />
                   </span>
-                  <span>Jakir</span>
+                  <span>{userInfo.name}</span>
                 </Link>
               ) : (
                 <div className="flex cursor-pointer justify-center items-center gap-2 text-sm">
@@ -318,8 +319,17 @@ const Headers = () => {
                 <ul className="py-2 text-slate-600 font-medium">
                   {categorys.map((c, i) => {
                     return (
-                      <li key={i} className="flex justify-start items-center gap-2 px-[24px] py-[6px]">
-                        <Link className="text-sm block">{c}</Link>
+                      <li
+                        onClick={() => navigate(`/products?category=${c.name}`)}
+                        key={i}
+                        className="flex cursor-pointer hover:bg-slate-300 justify-start items-center gap-2 px-6 py-[6px]"
+                      >
+                        <img
+                          src={c.image}
+                          className="w-[30px] h-[30px] rounded-full overflow-hidden"
+                          alt={c.name}
+                        />
+                        <span className="text-sm block">{c.name}</span>
                       </li>
                     );
                   })}
@@ -340,8 +350,8 @@ const Headers = () => {
                     >
                       <option value="">Select category</option>
                       {categorys.map((c, i) => (
-                        <option value={c} key={i}>
-                          {c}
+                        <option value={c.name} key={i}>
+                          {c.name}
                         </option>
                       ))}
                     </select>
@@ -354,7 +364,10 @@ const Headers = () => {
                     id=""
                     placeholder="what do you need"
                   />
-                  <button className="bg-orange-400 right-0 absolute px-8 h-full font-semibold uppercase text-white">
+                  <button
+                    onClick={search}
+                    className="bg-orange-400 right-0 absolute px-8 h-full font-semibold uppercase text-white"
+                  >
                     Search
                   </button>
                 </div>

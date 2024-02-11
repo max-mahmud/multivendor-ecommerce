@@ -31,6 +31,7 @@ class queryProducts {
         }
         return this
     }
+    sortByAtoZ = () => { }
 
     sortByOldTONew = () => {
         if (this.query.sortByDate) {

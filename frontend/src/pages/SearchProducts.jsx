@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { Range } from "react-range";
 import { MdOutlineKeyboardArrowRight } from "react-icons/md";
 import Headers from "../components/Headers";
@@ -11,26 +11,24 @@ import { BsFillGridFill } from "react-icons/bs";
 import { FaThList } from "react-icons/fa";
 import ShopProducts from "../components/products/ShopProducts";
 import Pagination from "../components/Pagination";
-import { useDispatch, useSelector } from "react-redux";
 import { price_range_product, query_products } from "../store/reducers/homeReducer";
+import { useDispatch, useSelector } from "react-redux";
 
-const Shops = () => {
-  const { products, totalProduct, latest_product, categorys, priceRange, parPage } = useSelector(
-    (state) => state.home
-  );
+const SearchProducts = () => {
+  let [searchParams, setSearchParams] = useSearchParams();
+  const category = searchParams.get("category");
+  const searchValue = searchParams.get("value");
+  const { products, totalProduct, latest_product, priceRange, parPage } = useSelector((state) => state.home);
 
   const dispatch = useDispatch();
   const [pageNumber, setPageNumber] = useState(1);
-  //.. const [perPage, setPerPage] = useState(3);
   const [styles, setStyles] = useState("grid");
   const [filter, setFilter] = useState(true);
-  const [category, setCategory] = useState("");
   const [state, setState] = useState({ values: [priceRange.low, priceRange.high] });
   const [rating, setRatingQ] = useState("");
   const [sortPrice, setSortPrice] = useState("");
   const [sortByDate, setSortByDate] = useState("");
   const [InStock, setInStock] = useState("");
-  const [searchValue, setSearchValue] = useState("");
 
   useEffect(() => {
     dispatch(price_range_product());
@@ -41,26 +39,18 @@ const Shops = () => {
     });
   }, [priceRange]);
 
-  const queryCategoey = (e, value) => {
-    if (e.target.checked) {
-      setCategory(value);
-    } else {
-      setCategory("");
-    }
-  };
-
   useEffect(() => {
     dispatch(
       query_products({
-        low: state.values[0],
-        high: state.values[1],
+        low: state.values[0] || "",
+        high: state.values[1] || "",
         category,
-        searchValue,
         rating,
         sortPrice,
         sortByDate,
         InStock,
         pageNumber,
+        searchValue,
       })
     );
   }, [
@@ -68,11 +58,11 @@ const Shops = () => {
     state.values[1],
     category,
     rating,
-    searchValue,
     pageNumber,
     sortPrice,
     sortByDate,
     InStock,
+    searchValue,
   ]);
 
   const resetRating = () => {
@@ -93,12 +83,10 @@ const Shops = () => {
 
   const Reset = () => {
     setRatingQ("");
-    setCategory("");
     setState({
       values: [priceRange.low, priceRange.high],
     });
     setInStock("");
-    setSearchValue("");
     setPageNumber(1);
     setSortPrice("");
     setSortByDate("");
@@ -116,26 +104,27 @@ const Shops = () => {
       })
     );
   };
+
   return (
     <div>
       <Headers />
-      <section className="h-[120px] mt-6 bg-white shadow bg-cover bg-no-repeat relative bg-left ">
-        <div className="absolute left-0 top-0 w-full h-full ">
+      <section className=" h-[120px] mt-6 bg-cover bg-no-repeat relative bg-left">
+        <div className="absolute left-0 top-0 w-full h-full bg-white shadow">
           <div className="w-[85%] md:w-[80%] sm:w-[90%] lg:w-[90%] h-full mx-auto">
             <div className="flex flex-col justify-center gap-1 items-center h-full w-full text-slate-700">
-              <h2 className="text-3xl font-bold">All Products</h2>
+              <h2 className="text-3xl font-bold">Search Products</h2>
               <div className="flex justify-center items-center gap-2 text-2xl w-full">
                 <Link to="/">Home</Link>
                 <span className="pt-1">
                   <MdOutlineKeyboardArrowRight />
                 </span>
-                <span>Shops</span>
+                <span>Search</span>
               </div>
             </div>
           </div>
         </div>
       </section>
-      <section className="py-12 bg-slate-100">
+      <section className="py-12 bg-slate-100 ">
         <div className="w-[85%] md:w-[90%%] sm:w-[90%] lg:w-[90%] h-full mx-auto">
           <div className={`md:block hidden ${!filter ? "mb-6" : "mb-0"}`}>
             <button
@@ -151,24 +140,8 @@ const Shops = () => {
                 filter ? "md:h-0 md:overflow-hidden md:mb-6" : "md:h-auto md:overflow-auto md:mb-0"
               }`}
             >
-              <div className="p-3 shadow bg-white">
-                <h2 className="text-xl font-bold  text-slate-600">Shop By Category</h2>
-                {categorys.map((c, i) => (
-                  <div className="flex justify-start items-center gap-2 py-1" key={i}>
-                    <input
-                      checked={category === c.name ? true : false}
-                      onChange={(e) => queryCategoey(e, c.name)}
-                      type="checkbox"
-                      id={c.name}
-                    />
-                    <label className="text-slate-600 block cursor-pointer" htmlFor={c.name}>
-                      {c.name}
-                    </label>
-                  </div>
-                ))}
-              </div>
-              <div className="p-3 shadow flex flex-col gap-5 bg-white my-2">
-                <h2 className="text-xl font-bold mb-1 text-slate-600">Price</h2>
+              <div className="py-2 flex flex-col gap-5 bg-white p-3 shadow">
+                <h2 className="text-3xl font-bold mb-3 text-slate-600">Price</h2>
                 <Range
                   step={5}
                   min={priceRange.low}
@@ -205,8 +178,8 @@ const Shops = () => {
                   Out Of Stock
                 </span>
               </div>
-              <div className="py-3 flex flex-col gap-4 bg-white shadow px-3">
-                <h2 className="text-xl font-bold mb-3 text-slate-600">Rating</h2>
+              <div className="py-3 flex flex-col gap-4 bg-white p-3 shadow">
+                <h2 className="text-3xl font-bold mb-3 text-slate-600">Rating</h2>
                 <div className="flex flex-col gap-3">
                   <div
                     onClick={() => setRatingQ(5)}
@@ -331,33 +304,18 @@ const Shops = () => {
                 </div>
               </div>
               <div className="p-2 flex flex-col gap-4 md:hidden bg-white shadow my-2">
-                <h3 className="text-xl font-bold text-slate-600">Product Tag</h3>
-                <div className="flex flex-wrap gap-3">
-                  {["Laptop", "Talevision", "T-sirt", "Watch", "Phone", "Jersey", "Apple", "Shoes"].map(
-                    (item, i) => (
-                      <span
-                        onClick={() => setSearchValue(item)}
-                        key={i}
-                        className="bg-orange-400 hover:bg-orange-500 transition-all duration-300 cursor-pointer text-white font-medium px-2 py-1 text-sm"
-                      >
-                        {item}
-                      </span>
-                    )
-                  )}
-                </div>
-              </div>
-              <div className="p-2 flex flex-col gap-4 md:hidden bg-white shadow my-2">
                 <button onClick={Reset} className="bg-red-400 text-white px-5 py-2 font-medium">
                   Reset
                 </button>
               </div>
-              {/* <div className="py-5 flex flex-col gap-4 md:hidden">
+              <div className="py-5 flex flex-col gap-4 md:hidden relative">
+                <h4 className="absolute top-5 text-xl left-1 font-medium text-slate-600">Latest Products</h4>
                 <Products title="Latest Products" products={latest_product} />
-              </div> */}
+              </div>
             </div>
             <div className="w-9/12 md-lg:w-8/12 md:w-full">
-              <div className="md:pl-0">
-                <div className="py-4 shadow bg-white mb-8 px-3 rounded-md flex justify-between items-start border">
+              <div className="">
+                <div className="py-4 bg-white p-3 shadow mb-8 px-3 rounded-md flex justify-between items-start border">
                   <h2 className="text-lg font-medium text-slate-600">{totalProduct} Products</h2>
                   <div className="flex justify-center items-center gap-3">
                     <select
@@ -384,7 +342,7 @@ const Shops = () => {
                       <div
                         onClick={() => setStyles("grid")}
                         className={`p-2 ${
-                          styles === "grid" && "bg-slate-300"
+                          styles === "grid" && "bg-slate-300 shadow-md"
                         } text-slate-600 shadow hover:bg-slate-300 cursor-pointer rounded-sm`}
                       >
                         <BsFillGridFill />
@@ -392,7 +350,7 @@ const Shops = () => {
                       <div
                         onClick={() => setStyles("list")}
                         className={`p-2 ${
-                          styles === "list" && "bg-slate-300"
+                          styles === "list" && "bg-slate-300 shadow-md"
                         } text-slate-600 shadow hover:bg-slate-300 cursor-pointer rounded-sm`}
                       >
                         <FaThList />
@@ -400,7 +358,6 @@ const Shops = () => {
                     </div>
                   </div>
                 </div>
-
                 <div className="pb-8">
                   <ShopProducts products={products} styles={styles} />
                 </div>
@@ -425,4 +382,4 @@ const Shops = () => {
   );
 };
 
-export default Shops;
+export default SearchProducts;
