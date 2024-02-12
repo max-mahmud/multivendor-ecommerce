@@ -3,7 +3,6 @@ import { AiFillHeart, AiOutlineShoppingCart } from "react-icons/ai";
 import { Link } from "react-router-dom";
 import { FaEye } from "react-icons/fa";
 import Ratings from "../Ratings";
-import img1 from "../../assets/46.jpg";
 import { FaArrowsSpin } from "react-icons/fa6";
 
 const ShopProducts = ({ styles, products }) => {

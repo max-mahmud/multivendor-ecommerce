@@ -17,12 +17,21 @@ const Headers = () => {
   const wishlist = 4;
   const { categorys } = useSelector((state) => state.home);
   const { userInfo } = useSelector((state) => state.auth);
+  const { card_product_count } = useSelector((state) => state.card);
 
   const [searchValue, setSearchValue] = useState("");
   const [category, setCategory] = useState("");
 
   const search = () => {
     navigate(`/products/search?category=${category}&&value=${searchValue}`);
+  };
+
+  const redirect_card_page = () => {
+    if (userInfo) {
+      navigate(`/card`);
+    } else {
+      navigate(`/login`);
+    }
   };
 
   return (
@@ -165,13 +174,18 @@ const Headers = () => {
                         {wishlist}
                       </div>
                     </div>
-                    <div className="relative flex justify-center items-center cursor-pointer w-[35px] h-[35px] rounded-full bg-[#e2e2e2]">
+                    <div
+                      onClick={redirect_card_page}
+                      className="relative flex justify-center items-center cursor-pointer w-[35px] h-[35px] rounded-full bg-[#e2e2e2]"
+                    >
                       <span className="text-xl text-orange-500">
                         <AiFillShopping />
                       </span>
-                      <div className="w-[20px] h-[20px] absolute bg-green-500 rounded-full text-white flex justify-center items-center -top-[3px] -right-[5px]">
-                        {wishlist}
-                      </div>
+                      {card_product_count !== 0 && (
+                        <div className="w-[20px] h-[20px] absolute bg-green-500 rounded-full text-white flex justify-center items-center -top-[3px] -right-[5px]">
+                          {card_product_count}
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>

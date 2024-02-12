@@ -11,8 +11,6 @@ import "swiper/css";
 import "swiper/css/pagination";
 import Ratings from "../components/Ratings";
 import { AiFillHeart } from "react-icons/ai";
-import { FaFacebookF, FaLinkedin } from "react-icons/fa";
-import { AiFillGithub, AiOutlineTwitter } from "react-icons/ai";
 import Reviews from "../components/Reviews";
 import img from "../assets/46.jpg";
 
