@@ -13,6 +13,7 @@ const AddProduct = () => {
   const dispatch = useDispatch();
   const { categorys } = useSelector((state) => state.category);
   const { successMessage, errorMessage, loader } = useSelector((state) => state.product);
+  const { userInfo } = useSelector((state) => state.auth);
   useEffect(() => {
     dispatch(
       get_category({
@@ -90,7 +91,7 @@ const AddProduct = () => {
   useEffect(() => {
     setAllCategory(categorys);
   }, [categorys]);
-
+  console.log(userInfo.shopInfo.shopName);
   const add = (e) => {
     e.preventDefault();
     const formData = new FormData();
@@ -100,7 +101,7 @@ const AddProduct = () => {
     formData.append("stock", state.stock);
     formData.append("category", category);
     formData.append("discount", state.discount);
-    formData.append("shopName", "Farid Fashoin");
+    formData.append("shopName", userInfo.shopInfo.shopName);
     formData.append("brand", state.brand);
     for (let i = 0; i < images.length; i++) {
       formData.append("images", images[i]);
@@ -147,7 +148,7 @@ const AddProduct = () => {
               <div className="flex flex-col w-full gap-1">
                 <label htmlFor="name">Product name</label>
                 <input
-                  className="px-4 py-2 focus:border-green-500 outline-none bg-slate-100 border bg-slate-300 rounded-md text-slate-600"
+                  className="px-4 py-2 focus:border-green-500 outline-none  border bg-slate-300 rounded-md text-slate-600"
                   onChange={inputHandle}
                   value={state.name}
                   type="text"
@@ -159,7 +160,7 @@ const AddProduct = () => {
               <div className="flex flex-col w-full gap-1">
                 <label htmlFor="brand">Product brand</label>
                 <input
-                  className="px-4 py-2 focus:border-green-500 outline-none bg-slate-100 border bg-slate-300 rounded-md text-slate-600"
+                  className="px-4 py-2 focus:border-green-500 outline-none  border bg-slate-300 rounded-md text-slate-600"
                   onChange={inputHandle}
                   value={state.brand}
                   type="text"
@@ -175,7 +176,7 @@ const AddProduct = () => {
                 <input
                   readOnly
                   onClick={() => setCateShow(!cateShow)}
-                  className="px-4 py-2 focus:border-green-500 outline-none bg-slate-100 border bg-slate-300 rounded-md text-slate-600"
+                  className="px-4 py-2 focus:border-green-500 outline-none  border bg-slate-300 rounded-md text-slate-600"
                   onChange={inputHandle}
                   value={category}
                   type="text"
@@ -219,7 +220,7 @@ const AddProduct = () => {
               <div className="flex flex-col w-full gap-1">
                 <label htmlFor="stock">Stock</label>
                 <input
-                  className="px-4 py-2 focus:border-green-500 outline-none bg-slate-100 border bg-slate-300 rounded-md text-slate-600"
+                  className="px-4 py-2 focus:border-green-500 outline-none  border bg-slate-300 rounded-md text-slate-600"
                   onChange={inputHandle}
                   value={state.stock}
                   type="number"
@@ -235,7 +236,7 @@ const AddProduct = () => {
               <div className="flex flex-col w-full gap-1">
                 <label htmlFor="price">Price</label>
                 <input
-                  className="px-4 py-2 focus:border-green-500 outline-none bg-slate-100 border bg-slate-300 rounded-md text-slate-600"
+                  className="px-4 py-2 focus:border-green-500 outline-none  border bg-slate-300 rounded-md text-slate-600"
                   onChange={inputHandle}
                   value={state.price}
                   type="number"
@@ -248,7 +249,7 @@ const AddProduct = () => {
                 <label htmlFor="discount">Discount</label>
                 <input
                   min="0"
-                  className="px-4 py-2 focus:border-green-500 outline-none bg-slate-100 border bg-slate-300 rounded-md text-slate-600"
+                  className="px-4 py-2 focus:border-green-500 outline-none  border bg-slate-300 rounded-md text-slate-600"
                   onChange={inputHandle}
                   value={state.discount}
                   type="number"

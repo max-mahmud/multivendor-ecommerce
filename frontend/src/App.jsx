@@ -25,7 +25,6 @@ function App() {
         <Route path="/shops" element={<Shops />} />
         <Route path="/card" element={<Card />} />
         <Route path="/products/search?" element={<SearchProducts />} />
-        {/* <Route path="/shipping" element={<Shipping />} /> */}
         <Route path="/product/details/:slug" element={<Details />} />
       </Routes>
     </BrowserRouter>

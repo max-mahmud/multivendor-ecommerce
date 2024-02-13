@@ -6,7 +6,13 @@ import Footer from "../components/Footer";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { get_card_products, messageClear } from "../store/reducers/cardReducer";
+import {
+  get_card_products,
+  delete_card_product,
+  messageClear,
+  quantity_inc,
+  quantity_dec,
+} from "../store/reducers/cardReducer";
 
 const Card = () => {
   const dispatch = useDispatch();
@@ -37,17 +43,27 @@ const Card = () => {
     }
   }, [successMessage]);
 
-  const inc = (quantity, stock, card_id) => {};
+  const inc = (quantity, stock, card_id) => {
+    const temp = quantity + 1;
+    if (temp <= stock) {
+      dispatch(quantity_inc(card_id));
+    }
+  };
 
-  const dec = (quantity, card_id) => {};
+  const dec = (quantity, card_id) => {
+    const temp = quantity - 1;
+    if (temp !== 0) {
+      dispatch(quantity_dec(card_id));
+    }
+  };
   return (
     <div>
       <Headers />
-      <section className='bg-[url("http://localhost:3000/images/banner/card.jpg")] h-[120px] mt-6 bg-cover bg-no-repeat relative bg-left'>
-        <div className="absolute left-0 top-0 w-full h-full bg-white shadow">
+      <section className='bg-[url("http://localhost:3000/images/banner/card.jpg")] h-[220px] mt-6 bg-cover bg-no-repeat relative bg-left'>
+        <div className="absolute left-0 top-0 w-full h-full bg-[#2422228a]">
           <div className="w-[85%] md:w-[80%] sm:w-[90%] lg:w-[90%] h-full mx-auto">
-            <div className="flex flex-col justify-center gap-1 items-center h-full w-full text-slate-700">
-              <h2 className="text-3xl font-bold">ECOMEREZ</h2>
+            <div className="flex flex-col justify-center gap-1 items-center h-full w-full text-white">
+              <h2 className="text-3xl font-bold">Shop.my</h2>
               <div className="flex justify-center items-center gap-2 text-2xl w-full">
                 <Link to="/">Home</Link>
                 <span className="pt-2">
@@ -72,21 +88,23 @@ const Card = () => {
                       </h2>
                     </div>
                     {card_products.map((p, i) => (
-                      <div className="flex bg-white p-4 flex-col gap-2">
+                      <div className="flex bg-white p-4 flex-col gap-2 ">
                         <div className="flex justify-start items-center">
-                          <h2 className="text-md text-slate-600">{p.shopName}</h2>
+                          <h2 className="text-md text-slate-600 font-medium">{p.shopName}</h2>
                         </div>
                         {p.products.map((pt, i) => (
-                          <div className="w-full flex flex-wrap">
+                          <div className="w-full flex flex-wrap  ">
                             <div className="flex sm:w-full gap-2 w-7/12">
                               <div className="flex gap-2 justify-start items-center">
                                 <img
-                                  className="w-[80px] h-[80px]"
+                                  className="w-[80px] h-[80px] shadow-md"
                                   src={pt.productInfo.images[0]}
                                   alt="product image"
                                 />
                                 <div className="pr-4 text-slate-600">
-                                  <h2 className="text-md">{pt.productInfo.name}</h2>
+                                  <h2 className="text-md text-slate-600 font-medium">
+                                    {pt.productInfo.name}
+                                  </h2>
                                   <span className="text-sm">Brand : {pt.productInfo.brand}</span>
                                 </div>
                               </div>
@@ -101,17 +119,28 @@ const Card = () => {
                                 <p className="line-through">{pt.productInfo.price}</p>
                                 <p>-{pt.productInfo.discount}%</p>
                               </div>
-                              <div className="flex gap-2 ">
-                                <div className="flex bg-orange-300 h-[30px] justify-center items-center text-xl">
-                                  <div onClick={() => dec()} className="px-3 cursor-pointer">
+                              <div className="flex gap-2 flex-col">
+                                <div className="flex bg-gray-500 h-[30px] text-white justify-center items-center text-xl">
+                                  <div
+                                    onClick={() => dec(pt.quantity, pt._id)}
+                                    className="px-3 cursor-pointer"
+                                  >
                                     -
                                   </div>
                                   <div className="px-3">{pt.quantity}</div>
-                                  <div onClick={() => inc()} className="px-3 cursor-pointer">
+                                  <div
+                                    onClick={() => inc(pt.quantity, pt.productInfo.stock, pt._id)}
+                                    className="px-3 cursor-pointer"
+                                  >
                                     +
                                   </div>
                                 </div>
-                                <button className="px-5 py-[3px] bg-red-500 text-white">Delete</button>
+                                <button
+                                  onClick={() => dispatch(delete_card_product(pt._id))}
+                                  className="px-5 py-[3px] bg-amber-500 text-white"
+                                >
+                                  Delete
+                                </button>
                               </div>
                             </div>
                           </div>
@@ -151,17 +180,28 @@ const Card = () => {
                                   <p className="line-through">{p.products[0].price}</p>
                                   <p>-{p.products[0].discount}%</p>
                                 </div>
-                                <div className="flex gap-2 ">
-                                  <div className="flex bg-orange-300 h-[30px] justify-center items-center text-xl">
-                                    <div onClick={() => dec()} className="px-3 cursor-pointer">
+                                <div className="flex gap-2 flex-col">
+                                  <div className="flex bg-gray-500 text-white h-[30px] justify-center items-center text-xl">
+                                    <div
+                                      onClick={() => dec(p.quantity, p._id)}
+                                      className="px-3 cursor-pointer"
+                                    >
                                       -
                                     </div>
                                     <div className="px-3">{p.quantity}</div>
-                                    <div onClick={() => dec()} className="px-3 cursor-pointer">
+                                    <div
+                                      onClick={() => dec(p.quantity, p.products[0].stock, p._id)}
+                                      className="px-3 cursor-pointer"
+                                    >
                                       +
                                     </div>
                                   </div>
-                                  <button className="px-5 py-[3px] bg-red-500 text-white">Delete</button>
+                                  <button
+                                    onClick={() => dispatch(delete_card_product(p._id))}
+                                    className="px-5 py-[3px] bg-amber-500 text-white"
+                                  >
+                                    Delete
+                                  </button>
                                 </div>
                               </div>
                             </div>
