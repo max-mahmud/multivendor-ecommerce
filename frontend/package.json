@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@reduxjs/toolkit": "^2.1.0",
+    "@stripe/react-stripe-js": "^2.5.0",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
@@ -22,6 +23,7 @@
     "react-scripts": "5.0.1",
     "react-spinners": "^0.13.8",
     "react-window": "^1.8.10",
+    "stripe": "^14.16.0",
     "swiper": "^11.0.6",
     "web-vitals": "^2.1.4"
   },
