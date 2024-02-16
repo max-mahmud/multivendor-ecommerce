@@ -151,6 +151,7 @@ const AddProduct = () => {
                   className="px-4 py-2 focus:border-green-500 outline-none  border bg-slate-300 rounded-md text-slate-600"
                   onChange={inputHandle}
                   value={state.name}
+                  required
                   type="text"
                   placeholder="product name"
                   name="name"
@@ -164,7 +165,8 @@ const AddProduct = () => {
                   onChange={inputHandle}
                   value={state.brand}
                   type="text"
-                  placeholder="product brand"
+                  required
+                  placeholder="Product brand"
                   name="brand"
                   id="brand"
                 />
@@ -179,12 +181,13 @@ const AddProduct = () => {
                   className="px-4 py-2 focus:border-green-500 outline-none  border bg-slate-300 rounded-md text-slate-600"
                   onChange={inputHandle}
                   value={category}
+                  required
                   type="text"
                   placeholder="--select category--"
                   id="category"
                 />
                 <div
-                  className={`absolute top-[101%] bg-slate-800 w-full transition-all ${
+                  className={`absolute top-[101%] bg-slate-200 shadow w-full transition-all ${
                     cateShow ? "scale-100" : "scale-0"
                   }`}
                 >
@@ -192,13 +195,13 @@ const AddProduct = () => {
                     <input
                       value={searchValue}
                       onChange={categorySearch}
-                      className="px-3 py-1 w-full focus:border-green-500 outline-none bg-transparent border bg-slate-300 rounded-md text-slate-600 overflow-hidden"
+                      className="px-3 py-1 w-full focus:border-green-500 outline-none bg-transparent border bg-slate-100 shadow rounded-md text-slate-800 font-medium overflow-hidden"
                       type="text"
-                      placeholder="search"
+                      placeholder="Search Here.."
                     />
                   </div>
                   <div className="pt-14"></div>
-                  <div className="flex justify-start items-start flex-col h-[200px] overflow-x-scrool">
+                  <div className="flex justify-start items-start flex-col h-[200px] overflow-y-scroll">
                     {allCategory.map((c, i) => (
                       <span
                         className={`px-4 py-2 hover:bg-green-500 hover:text-white hover:shadow-lg w-full cursor-pointer ${
@@ -225,6 +228,7 @@ const AddProduct = () => {
                   value={state.stock}
                   type="number"
                   min="0"
+                  required
                   placeholder="product stock"
                   name="stock"
                   id="stock"
@@ -241,6 +245,7 @@ const AddProduct = () => {
                   value={state.price}
                   type="number"
                   placeholder="price"
+                  required
                   name="price"
                   id="price"
                 />
@@ -254,6 +259,7 @@ const AddProduct = () => {
                   value={state.discount}
                   type="number"
                   placeholder="%discount%"
+                  required
                   name="discount"
                   id="discount"
                 />
@@ -267,6 +273,7 @@ const AddProduct = () => {
                 onChange={inputHandle}
                 value={state.description}
                 placeholder="description"
+                required
                 name="description"
                 id="description"
               ></textarea>
@@ -275,7 +282,7 @@ const AddProduct = () => {
               {imageShow.map((img, i) => (
                 <div className="h-[180px] relative">
                   <label htmlFor={i}>
-                    <img className="w-full h-full rounded-sm" src={img.url} alt="" />
+                    <img className="w-full h-full  rounded-sm" src={img.url} alt="" />
                   </label>
                   <input
                     onChange={(e) => changeImage(e.target.files[0], i)}
@@ -292,7 +299,7 @@ const AddProduct = () => {
                 </div>
               ))}
               <label
-                className="flex justify-center items-center flex-col h-[180px] cursor-pointer border border-dashed hover:border-green-500 w-full text-slate-600"
+                className="flex justify-center items-center flex-col h-[180px] cursor-pointer border border-gray-500 border-dashed hover:border-green-500 w-full text-slate-600"
                 htmlFor="image"
               >
                 <span>

@@ -3,6 +3,10 @@ import { FaEdit, FaEye, FaTrash } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import Pagination from "../Pagination";
 import Search from "../components/Search";
+import img1 from "../../assets/image/44.jpg";
+import img2 from "../../assets/image/45.jpg";
+import img3 from "../../assets/image/46.jpg";
+import img4 from "../../assets/image/47.jpg";
 
 const DiscountProducts = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -46,17 +50,13 @@ const DiscountProducts = () => {
               </tr>
             </thead>
             <tbody>
-              {[1, 2, 3, 4, 5].map((d, i) => (
+              {[img1, img3, img2, img4, img1].map((d, i) => (
                 <tr key={i}>
                   <td scope="row" className="py-1 px-4 font-medium whitespace-nowrap">
-                    {d}
+                    {i + 1}
                   </td>
                   <td scope="row" className="py-1 px-4 font-medium whitespace-nowrap">
-                    <img
-                      className="w-[45px] h-[45px]"
-                      src={`http://localhost:3000/images/category/${d}.jpg`}
-                      alt=""
-                    />
+                    <img className="w-[45px] h-[45px]" src={d} alt="" />
                   </td>
                   <td scope="row" className="py-1 px-4 font-medium whitespace-nowrap">
                     <span>Men's Premium soft..</span>

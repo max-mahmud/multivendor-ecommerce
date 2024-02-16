@@ -118,7 +118,7 @@ const EditProduct = () => {
   };
   return (
     <div className="px-2 lg:px-7 pt-5 ">
-      <div className="w-full p-4  bg-slate-100 rounded-md">
+      <div className="w-full p-4   rounded-md">
         <div className="flex justify-between items-center pb-4">
           <h1 className="text-slate-600 text-xl font-semibold">Edit Product</h1>
           <Link
@@ -134,7 +134,7 @@ const EditProduct = () => {
               <div className="flex flex-col w-full gap-1">
                 <label htmlFor="name">Product name</label>
                 <input
-                  className="px-4 py-2 focus:border-green-500 outline-none bg-slate-100 border bg-slate-300 rounded-md text-slate-600"
+                  className="px-4 py-2 focus:border-green-500 outline-none  border bg-slate-300 rounded-md text-slate-600"
                   onChange={inputHandle}
                   value={state.name}
                   type="text"
@@ -146,7 +146,7 @@ const EditProduct = () => {
               <div className="flex flex-col w-full gap-1">
                 <label htmlFor="brand">Product brand</label>
                 <input
-                  className="px-4 py-2 focus:border-green-500 outline-none bg-slate-100 border bg-slate-300 rounded-md text-slate-600"
+                  className="px-4 py-2 focus:border-green-500 outline-none  border bg-slate-300 rounded-md text-slate-600"
                   onChange={inputHandle}
                   value={state.brand}
                   type="text"
@@ -162,7 +162,7 @@ const EditProduct = () => {
                 <input
                   readOnly
                   onClick={() => setCateShow(!cateShow)}
-                  className="px-4 py-2 focus:border-green-500 outline-none bg-slate-100 border bg-slate-300 rounded-md text-slate-600"
+                  className="px-4 py-2 focus:border-green-500 outline-none bg-slate-300 border rounded-md text-slate-700"
                   onChange={inputHandle}
                   value={category}
                   type="text"
@@ -170,7 +170,7 @@ const EditProduct = () => {
                   id="category"
                 />
                 <div
-                  className={`absolute top-[101%] bg-slate-800 w-full transition-all ${
+                  className={`absolute top-[101%] bg-slate-300 w-full transition-all ${
                     cateShow ? "scale-100" : "scale-0"
                   }`}
                 >
@@ -178,13 +178,13 @@ const EditProduct = () => {
                     <input
                       value={searchValue}
                       onChange={categorySearch}
-                      className="px-3 py-1 w-full focus:border-green-500 outline-none bg-transparent border bg-slate-300 rounded-md text-slate-600 overflow-hidden"
+                      className="px-3 py-1 w-full focus:border-green-500 outline-none bg-transparent border bg-slate-200 shadow font-medium rounded-md text-slate-700 overflow-hidden"
                       type="text"
-                      placeholder="search"
+                      placeholder="Search Here"
                     />
                   </div>
                   <div className="pt-14"></div>
-                  <div className="flex justify-start items-start flex-col h-[200px] overflow-x-scrool">
+                  <div className="flex justify-start items-start flex-col h-[200px] overflow-y-scroll">
                     {allCategory.length > 0 &&
                       allCategory.map((c, i) => (
                         <span
@@ -207,7 +207,7 @@ const EditProduct = () => {
               <div className="flex flex-col w-full gap-1">
                 <label htmlFor="stock">Stock</label>
                 <input
-                  className="px-4 py-2 focus:border-green-500 outline-none bg-slate-100 border bg-slate-300 rounded-md text-slate-600"
+                  className="px-4 py-2 focus:border-green-500 outline-none  border bg-slate-300 rounded-md text-slate-600"
                   onChange={inputHandle}
                   value={state.stock}
                   type="number"
@@ -223,7 +223,7 @@ const EditProduct = () => {
               <div className="flex flex-col w-full gap-1">
                 <label htmlFor="price">Price</label>
                 <input
-                  className="px-4 py-2 focus:border-green-500 outline-none bg-slate-100 border bg-slate-300 rounded-md text-slate-600"
+                  className="px-4 py-2 focus:border-green-500 outline-none  border bg-slate-300 rounded-md text-slate-600"
                   onChange={inputHandle}
                   value={state.price}
                   type="number"
@@ -235,7 +235,7 @@ const EditProduct = () => {
               <div className="flex flex-col w-full gap-1">
                 <label htmlFor="discount">Discount</label>
                 <input
-                  className="px-4 py-2 focus:border-green-500 outline-none bg-slate-100 border bg-slate-300 rounded-md text-slate-600"
+                  className="px-4 py-2 focus:border-green-500 outline-none  border bg-slate-300 rounded-md text-slate-600"
                   onChange={inputHandle}
                   value={state.discount}
                   type="number"
@@ -249,7 +249,7 @@ const EditProduct = () => {
               <label htmlFor="description">Description</label>
               <textarea
                 rows={4}
-                className="px-4 py-2 focus:border-green-500 outline-none bg-slate-100 border bg-slate-300 rounded-md text-slate-600"
+                className="px-4 py-2 focus:border-green-500 outline-none  border bg-slate-300 rounded-md text-slate-600"
                 onChange={inputHandle}
                 value={state.description}
                 placeholder="description"

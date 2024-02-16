@@ -10,7 +10,6 @@ const stripe = require("stripe")(
     "sk_test_51N8amPIt63Wcx3eVr72l77kfPTDgInVEaTT9d4G1JgngM0YEgAIwocli1hC0sKidMuzPiUNimOpqxXtIKeFkhnQo00EQgFUaDA"
 );
 
-
 class orderController {
 
     paymentCheck = async (id) => {
@@ -122,6 +121,63 @@ class orderController {
             console.log(error.message)
         }
     }
+
+    get_seller_orders = async (req, res) => {
+
+        const { sellerId } = req.params
+        let { page, parPage, searchValue } = req.query
+        page = parseInt(page)
+        parPage = parseInt(parPage)
+
+        const skipPage = parPage * (page - 1)
+
+
+        try {
+            if (searchValue) {
+
+            } else {
+                const orders = await authOrderModel.find({
+                    sellerId,
+                }).skip(skipPage).limit(parPage).sort({ createdAt: -1 })
+                const totalOrder = await authOrderModel.find({
+                    sellerId,
+                }).countDocuments()
+                responseReturn(res, 200, { orders, totalOrder })
+            }
+        } catch (error) {
+            console.log('get seller order error ' + error.message)
+            responseReturn(res, 500, { message: 'internal server error' })
+        }
+    }
+
+    get_seller_order = async (req, res) => {
+
+        const { orderId } = req.params
+
+        try {
+            const order = await authOrderModel.findById(orderId)
+
+            responseReturn(res, 200, { order })
+        } catch (error) {
+            console.log('get admin order ' + error.message)
+        }
+    }
+
+    seller_order_status_update = async (req, res) => {
+        const { orderId } = req.params
+        const { status } = req.body
+
+        try {
+            await authOrderModel.findByIdAndUpdate(orderId, {
+                delivery_status: status
+            })
+            responseReturn(res, 200, { message: 'order status change success' })
+        } catch (error) {
+            console.log('get admin order status error ' + error.message)
+            responseReturn(res, 500, { message: 'internal server error' })
+        }
+    }
+
 }
 
 module.exports = new orderController()

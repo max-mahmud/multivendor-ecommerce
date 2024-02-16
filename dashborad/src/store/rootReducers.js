@@ -1,11 +1,14 @@
 import authReducer from './Reducers/authReducer'
 import categoryReducer from './Reducers/categoryReducer'
+import OrderReducer from './Reducers/orderReducer'
 import productReducer from './Reducers/productReducer'
 import sellerReducer from './Reducers/sellerReducer'
+
 const rootReducer = {
     auth: authReducer,
     category: categoryReducer,
     product: productReducer,
-    seller: sellerReducer
+    seller: sellerReducer,
+    order: OrderReducer
 }
 export default rootReducer

@@ -62,7 +62,7 @@ class categoryController {
                 responseReturn(res, 200, { totalCategory, categorys })
             }
             else {
-                const categorys = await categoryModel.find({}).sort({ createdAt: -1 })
+                const categorys = await categoryModel.find({})
                 const totalCategory = await categoryModel.find({}).countDocuments()
                 responseReturn(res, 200, { totalCategory, categorys })
             }
