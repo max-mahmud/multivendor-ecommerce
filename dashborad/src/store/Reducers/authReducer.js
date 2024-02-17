@@ -82,6 +82,25 @@ export const profile_info_add = createAsyncThunk(
     }
 )
 
+export const logout = createAsyncThunk(
+    'auth/logout',
+    async ({ navigate, role }, { rejectWithValue, fulfillWithValue }) => {
+        try {
+            const { data } = await api.get('/logout', { withCredentials: true })
+            localStorage.removeItem('accessToken')
+            if (role === 'admin') {
+                navigate('/admin/login')
+            } else {
+                navigate('/login')
+            }
+
+            return fulfillWithValue(data)
+        } catch (error) {
+            return rejectWithValue(error.response.data)
+        }
+    }
+)
+
 const returnRole = (token) => {
     if (token) {
         const decodeToken = jwtDecode(token)

@@ -22,6 +22,7 @@ app.use('/api/home', require('./routes/home/homeRoutes'))
 app.use('/api', require('./routes/home/cardRoutes'))
 app.use('/api', require('./routes/paymentRoutes'))
 app.use('/api', require('./routes/order/orderRoutes'))
+app.use('/api', require('./routes/dashboard/dashboardIndexRoutes'))
 
 
 app.get('/', (req, res) => res.send('Hello World!'))

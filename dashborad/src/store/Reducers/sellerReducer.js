@@ -63,6 +63,31 @@ export const active_stripe_connect_account = createAsyncThunk(
     }
 )
 
+export const get_deactive_sellers = createAsyncThunk(
+    'seller/get_active_sellers',
+    async ({ parPage, page, searchValue }, { rejectWithValue, fulfillWithValue }) => {
+        try {
+            const { data } = await api.get(`/get-deactive-sellers?page=${page}&&searchValue=${searchValue}&&parPage=${parPage}`, { withCredentials: true })
+            return fulfillWithValue(data)
+        } catch (error) {
+            return rejectWithValue(error.response.data)
+        }
+    }
+)
+
+export const get_active_sellers = createAsyncThunk(
+    'seller/get_active_sellers',
+    async ({ parPage, page, searchValue }, { rejectWithValue, fulfillWithValue }) => {
+        try {
+            const { data } = await api.get(`/get-active-sellers?page=${page}&&searchValue=${searchValue}&&parPage=${parPage}`, { withCredentials: true })
+            return fulfillWithValue(data)
+        } catch (error) {
+            return rejectWithValue(error.response.data)
+        }
+    }
+)
+
+
 
 export const sellerReducer = createSlice({
     name: 'seller',
@@ -103,7 +128,11 @@ export const sellerReducer = createSlice({
             .addCase(active_stripe_connect_account.rejected, (state, { payload }) => {
                 state.errorMessage = payload.message;
                 state.loader = false;
-            });
+            })
+            .addCase(get_active_sellers.fulfilled, (state, { payload }) => {
+                state.sellers = payload.sellers;
+                state.totalSeller = payload.totalSeller;
+            })
     },
 
 })

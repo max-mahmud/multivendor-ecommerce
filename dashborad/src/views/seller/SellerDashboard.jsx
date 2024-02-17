@@ -5,6 +5,7 @@ import Chart from "react-apexcharts";
 import { MdAttachMoney, MdLocalMall, MdShoppingCart } from "react-icons/md";
 
 const SellerDashboard = () => {
+
   const state = {
     series: [
       {

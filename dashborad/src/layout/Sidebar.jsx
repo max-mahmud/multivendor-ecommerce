@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import { getNavs } from "../navigation/index";
 import { BiLogInCircle } from "react-icons/bi";
 import Logo from "../components/Logo";
+import { logout } from "../store/Reducers/authReducer";
 
 const Sidebar = ({ showSidebar, setShowSidebar }) => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { role } = useSelector((state) => state.auth);
   const { pathname } = useLocation();
   const [allNav, setAllNav] = useState([]);
@@ -49,7 +52,10 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
               </li>
             ))}
             <li>
-              <button className="text-slate-500 font-normal duration-200 px-[12px] py-[9px] rounded-sm flex justify-start items-center gap-[12px] hover:pl-4 transition-all w-full mb-1 ">
+              <button
+                onClick={() => dispatch(logout({ navigate, role }))}
+                className="text-slate-500 font-medium absolute bottom-5 left-5 duration-200 px-[12px] py-[9px] rounded-sm flex justify-start items-center gap-[12px] hover:bg-slate-300 hover:pl-4 transition-all w-[85%] mb-1 "
+              >
                 <span>
                   <BiLogInCircle />
                 </span>

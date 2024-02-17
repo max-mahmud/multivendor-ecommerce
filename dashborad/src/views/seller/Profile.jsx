@@ -18,7 +18,6 @@ const Profile = () => {
   });
   const dispatch = useDispatch();
   const { userInfo, loader, successMessage } = useSelector((state) => state.auth);
-  const status = "active";
 
   const add_image = (e) => {
     if (e.target.files.length > 0) {
