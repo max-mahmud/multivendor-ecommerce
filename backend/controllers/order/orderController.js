@@ -134,7 +134,7 @@ class orderController {
 
         try {
             if (searchValue) {
-
+                //td search value
             } else {
                 const orders = await authOrderModel.find({
                     sellerId,
@@ -175,6 +175,84 @@ class orderController {
         } catch (error) {
             console.log('get admin order status error ' + error.message)
             responseReturn(res, 500, { message: 'internal server error' })
+        }
+    }
+
+
+    get_admin_orders = async (req, res) => {
+        let { page, parPage, searchValue } = req.query
+        page = parseInt(page)
+        parPage = parseInt(parPage)
+
+        const skipPage = parPage * (page - 1)
+
+        try {
+            if (searchValue) {
+                //td search value
+            } else {
+                const orders = await customerOrder.aggregate([
+                    {
+                        $lookup: {
+                            from: 'authororders',
+                            localField: "_id",
+                            foreignField: 'orderId',
+                            as: 'suborder'
+                        }
+                    }
+                ]).skip(skipPage).limit(parPage).sort({ createdAt: -1 })
+
+                const totalOrder = await customerOrder.aggregate([
+                    {
+                        $lookup: {
+                            from: 'authororders',
+                            localField: "_id",
+                            foreignField: 'orderId',
+                            as: 'suborder'
+                        }
+                    }
+                ])
+
+                responseReturn(res, 200, { orders, totalOrder: totalOrder.length })
+            }
+        } catch (error) {
+            console.log(error.message)
+        }
+    }
+
+    get_admin_order = async (req, res) => {
+        const { orderId } = req.params
+
+        try {
+            const order = await customerOrder.aggregate([
+                {
+                    $match: { _id: new ObjectId(orderId) }
+                }, {
+                    $lookup: {
+                        from: 'authororders',
+                        localField: '_id',
+                        foreignField: 'orderId',
+                        as: 'suborder'
+                    }
+                }
+            ])
+            responseReturn(res, 200, { order: order[0] })
+        } catch (error) {
+            console.log('get admin order ' + error.message)
+        }
+    }
+
+    admin_order_status_update = async (req, res) => {
+        const { orderId } = req.params
+        const { status } = req.body
+
+        try {
+            await customerOrder.findByIdAndUpdate(orderId, {
+                delivery_status: status
+            })
+            responseReturn(res, 200, { message: 'Order Status Change Success' })
+        } catch (error) {
+            // console.log('get admin order status error ' + error.message)
+            responseReturn(res, 500, { message: 'Internal server error' })
         }
     }
 
