@@ -52,7 +52,7 @@ const SellerRequest = () => {
             </thead>
             <tbody className="text-sm font-normal">
               {sellers.map((d, i) => (
-                <tr className="border-b bg-slate-300" key={i}>
+                <tr className="border-b bg-slate-200 border-slate-300" key={i}>
                   <td scope="row" className="py-2 px-4 font-normal whitespace-nowrap">
                     {i + 1}
                   </td>
