@@ -4,6 +4,7 @@ import OrderReducer from './Reducers/orderReducer'
 import productReducer from './Reducers/productReducer'
 import sellerReducer from './Reducers/sellerReducer'
 import dashboardIndexReducer from './Reducers/dashboardIndexReducer';
+import paymentReducer from './Reducers/paymentReducer'
 
 const rootReducer = {
     auth: authReducer,
@@ -11,6 +12,7 @@ const rootReducer = {
     product: productReducer,
     seller: sellerReducer,
     order: OrderReducer,
-    dashboardIndex: dashboardIndexReducer
+    dashboardIndex: dashboardIndexReducer,
+    payment: paymentReducer
 }
 export default rootReducer
