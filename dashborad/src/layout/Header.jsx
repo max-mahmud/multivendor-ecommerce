@@ -1,7 +1,11 @@
 import React from "react";
 import { FaList } from "react-icons/fa";
 import { MdMessage, MdNotifications, MdSearch } from "react-icons/md";
+import { useSelector } from "react-redux";
+import img1 from "../assets/image/45.jpg";
+
 const Header = ({ showSidebar, setShowSidebar }) => {
+  const { userInfo } = useSelector((state) => state.auth);
   return (
     <div className="fixed top-0 left-0 w-full py-5 px-2 lg:px-7 z-40 ">
       <div className="ml-0 lg:ml-[260px] rounded-md h-[65px] flex justify-between items-center shadow-md bg-slate-100 text-slate-600 px-5 transition-all">
@@ -27,13 +31,13 @@ const Header = ({ showSidebar, setShowSidebar }) => {
         <div className="hidden md:flex gap-5">
           <span className="text-xl bg-slate-200 cursor-pointer text-slate-500 font-bold p-2 rounded-full flex justify-center items-center relative">
             <MdMessage size={26} />
-            <span className="absolute -top-1 -right-1 bg-blue-400 rounded-full p-1 px-2 text-xs text-white">
+            <span className="absolute -top-1 -right-1 bg-sky-400 rounded-full p-1 px-2 text-xs text-white">
               5
             </span>
           </span>
           <span className="text-xl bg-slate-200 cursor-pointer text-slate-500 font-bold p-2 rounded-full flex justify-center items-center relative">
             <MdNotifications size={26} />
-            <span className="absolute -top-1 -right-1 bg-blue-400 rounded-full p-1 px-2 text-xs text-white">
+            <span className="absolute -top-1 -right-1 bg-sky-400 rounded-full p-1 px-2 text-xs text-white">
               5
             </span>
           </span>
@@ -42,10 +46,18 @@ const Header = ({ showSidebar, setShowSidebar }) => {
           <div className="flex justify-center items-center">
             <div className="flex justify-center items-center gap-3">
               <div className="flex justify-center items-center flex-col text-end">
-                <h2 className="text-sm font-bold">jakir Hasan</h2>
-                <span className="text-[14px] w-full font-normal">Admin</span>
+                <h2 className="text-sm font-bold">{userInfo.name}</h2>
+                <span className="text-[14px] w-full font-normal">{userInfo.role}</span>
               </div>
-              <img className="w-[45px] h-[45px] rounded-full overflow-hidden" src="" alt="" />
+              {userInfo.role === "admin" ? (
+                <img className="w-[45px] h-[45px] rounded-full overflow-hidden" src={img1} alt="logo" />
+              ) : (
+                <img
+                  className="w-[45px] h-[45px] rounded-full overflow-hidden"
+                  src={userInfo.image}
+                  alt="img"
+                />
+              )}
             </div>
           </div>
         </div>

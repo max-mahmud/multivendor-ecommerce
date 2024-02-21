@@ -54,7 +54,7 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
             <li>
               <button
                 onClick={() => dispatch(logout({ navigate, role }))}
-                className="text-slate-500 font-medium absolute bottom-5 left-5 duration-200 px-[12px] py-[9px] rounded-sm flex justify-start items-center gap-[12px] hover:bg-slate-300 hover:pl-4 transition-all w-[85%] mb-1 "
+                className="text-slate-500 font-medium absolute bottom-5 left-5 duration-200 px-[12px] py-[9px] rounded-sm flex justify-start items-center gap-[12px] hover:bg-red-300 hover:pl-4 transition-all w-[85%] mb-1 "
               >
                 <span>
                   <BiLogInCircle />

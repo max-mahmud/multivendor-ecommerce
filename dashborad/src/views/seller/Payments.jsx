@@ -1,6 +1,9 @@
 import React, { forwardRef, useEffect, useState } from "react";
-import { BsCurrencyDollar } from "react-icons/bs";
+import { RiMoneyCnyBoxFill } from "react-icons/ri";
+import { FaMoneyBill } from "react-icons/fa";
+import { RiMoneyPoundBoxFill } from "react-icons/ri";
 import { LuLoader2 } from "react-icons/lu";
+import { RiMoneyDollarBoxFill } from "react-icons/ri";
 import toast from "react-hot-toast";
 import moment from "moment";
 import { FixedSizeList as List } from "react-window";
@@ -51,7 +54,6 @@ const Payments = () => {
 
   const sendRequest = (e) => {
     e.preventDefault();
-    // console.log(availableAmount - amount);
     if (availableAmount - amount > 10) {
       dispatch(send_withdrowal_request({ amount, sellerId: userInfo._id }));
       setAmount(0);
@@ -96,33 +98,33 @@ const Payments = () => {
 
   return (
     <div className="px-2 md:px-7 py-5">
-      <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-3 mb-5">
+      <div className="w-full grid grid-cols-1 sm:grid-cols-2  md:grid-cols-2 lg:grid-cols-4 gap-3 mb-5">
         <PaymentCard
-          Icon={BsCurrencyDollar}
+          Icon={RiMoneyCnyBoxFill}
           text="Total Sales"
-          color="green"
-          bgColor="bg-green-700/20"
+          bgColor="bg-yellow-500/50"
+          bgColor2="bg-yellow-500"
           amount={totalAmount}
         />
         <PaymentCard
-          Icon={BsCurrencyDollar}
+          Icon={FaMoneyBill}
           text="Avaiable Amount"
-          color="blue"
-          bgColor="bg-blue-700/20"
+          bgColor="bg-green-500/50"
+          bgColor2="bg-green-500"
           amount={availableAmount}
         />
         <PaymentCard
-          Icon={BsCurrencyDollar}
+          Icon={RiMoneyDollarBoxFill}
           text="Withdrawal Amount"
-          color="purple"
-          bgColor="bg-purple-700/20"
+          bgColor="bg-sky-500/50"
+          bgColor2="bg-sky-500"
           amount={withdrowAmount}
         />
         <PaymentCard
-          Icon={BsCurrencyDollar}
+          Icon={RiMoneyPoundBoxFill}
           text="Pending amount"
-          color="orange"
-          bgColor="bg-orange-700/20"
+          bgColor="bg-orange-500/50"
+          bgColor2="bg-orange-500"
           amount={pendingAmount}
         />
       </div>

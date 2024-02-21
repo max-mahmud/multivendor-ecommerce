@@ -1,10 +1,21 @@
-import React from "react";
-import { RiProductHuntLine } from "react-icons/ri";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import Chart from "react-apexcharts";
-import { MdAttachMoney, MdLocalMall, MdShoppingCart } from "react-icons/md";
+import { MdAttachMoney, MdLocalMall, MdForest, MdShoppingCart, MdGeneratingTokens } from "react-icons/md";
+import { RiMoneyDollarBoxFill } from "react-icons/ri";
+import { useDispatch, useSelector } from "react-redux";
+import { get_seller_dashboard_index_data } from "../../store/Reducers/dashboardIndexReducer";
+import DashboardCard from "../components/DashboardCard";
 
 const SellerDashboard = () => {
+  const { totalSale, totalOrder, totalProduct, totalPendingOrder, totalSeller, recentOrders, recentMessage } =
+    useSelector((state) => state.dashboardIndex);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(get_seller_dashboard_index_data());
+  }, []);
 
   const state = {
     series: [
@@ -81,17 +92,38 @@ const SellerDashboard = () => {
   return (
     <div className="px-2 md:px-7 py-5">
       <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-7">
-        {[1, 2, 3, 4].map((item, i) => (
-          <div className="bg-slate-50 shadow-md border-l-4 border-green-500 rounded-md p-4 flex justify-between items-center text-center">
-            <div>
-              <h2 className="text-3xl font-bold text-slate-600">$6566</h2>
-              <span className="text-md font-medium text-gray-600">Total Sales</span>
-            </div>
-            <div className="bg-[#28c76f1f] rounded-full p-3 ">
-              <MdAttachMoney className="text-[#28c76f] text-4xl" />
-            </div>
-          </div>
-        ))}
+        <DashboardCard
+          Bordercolor={"border-yellow-500"}
+          textColor="text-yellow-500"
+          bgColor="bg-yellow-600/20"
+          ICON={RiMoneyDollarBoxFill}
+          amount={totalSale}
+          title="Total Sales"
+        />
+        <DashboardCard
+          Bordercolor={"border-sky-500"}
+          textColor="text-sky-500"
+          bgColor="bg-sky-600/20"
+          ICON={MdGeneratingTokens}
+          amount={totalOrder}
+          title="Total Order"
+        />
+        <DashboardCard
+          Bordercolor={"border-green-500"}
+          textColor="text-green-500"
+          bgColor="bg-green-600/20"
+          ICON={MdForest}
+          amount={totalProduct}
+          title="Products"
+        />
+        <DashboardCard
+          Bordercolor={"border-violet-500"}
+          textColor="text-violet-500"
+          bgColor="bg-violet-600/20"
+          ICON={MdShoppingCart}
+          amount={totalPendingOrder}
+          title="Pending Orders"
+        />
       </div>
 
       <div className="w-full flex flex-wrap mt-7">
