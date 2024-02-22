@@ -8,6 +8,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import Logo from "./Logo";
 import { FaArrowsSpin } from "react-icons/fa6";
 import { useSelector } from "react-redux";
+import { RiFolderUserFill } from "react-icons/ri";
 
 const Headers = () => {
   const navigate = useNavigate();
@@ -18,6 +19,7 @@ const Headers = () => {
   const { categorys } = useSelector((state) => state.home);
   const { userInfo } = useSelector((state) => state.auth);
   const { card_product_count } = useSelector((state) => state.card);
+  const [showDashboard, setShowDashboard] = useState(false);
 
   const [searchValue, setSearchValue] = useState("");
   const [category, setCategory] = useState("");
@@ -35,7 +37,7 @@ const Headers = () => {
   };
 
   return (
-    <div className="w-full bg-white">
+    <div className="w-full bg-white pb-2">
       <div className="header-top bg-[#eeeeee] md-lg:hidden">
         <div className="w-[85%] lg:w-[90%] mx-auto">
           <div className="flex w-full justify-between items-center h-[50px] text-slate-500">
@@ -64,26 +66,30 @@ const Headers = () => {
                     <AiFillGithub />
                   </a>
                 </div>
-                <div className="flex group cursor-pointer text-slate-800 text-sm justify-center items-center gap-1 relative after:h-[18px] after:w-[1px] after:bg-[#afafaf] after:-right-[16px] after:absolute before:absolute before:h-[18px] before:bg-[#afafaf] before:w-[1px] before:-left-[20px]">
-                  <img src="http://localhost:3000/images/language.png" alt="" />
-                  <span>
-                    <MdOutlineKeyboardArrowDown />
-                  </span>
-                  <ul className="absolute invisible transition-all to-12 rounded-sm duration-200 text-white p-2 w-[100px] flex flex-col gap-3 group-hover:visible group-hover:top-6 group-hover:bg-black z-10">
-                    <li>Bangla</li>
-                    <li>English</li>
-                  </ul>
-                </div>
+                <div className="h-[18px] w-[1px] bg-slate-400"></div>
                 {userInfo ? (
-                  <Link
-                    className="flex cursor-pointer justify-center items-center gap-2 text-sm"
-                    to="/dashboard"
-                  >
-                    <span>
-                      <FaUser />
-                    </span>
-                    <span>{userInfo.name}</span>
-                  </Link>
+                  <div className="relative">
+                    <div
+                      className="flex cursor-pointer justify-center items-center gap-1 "
+                      onClick={() => setShowDashboard(!showDashboard)}
+                    >
+                      <span className="font-medium uppercase">{userInfo.name}</span>
+                      <span>
+                        <RiFolderUserFill size={20} />
+                      </span>
+                      {showDashboard && (
+                        <div className="absolute top-6 right-2 flex flex-col gap-1 p-3 bg-slate-100 shadow-md z-50 ">
+                          <Link className="hover:bg-slate-300 px-7 py-2" to={"/dashboard"}>
+                            Dashboard
+                          </Link>
+                          <Link className="hover:bg-slate-300 px-7 py-2" to={"/setting"}>
+                            Settings
+                          </Link>
+                          <span className="hover:bg-slate-300 px-7 py-2">LogOut</span>
+                        </div>
+                      )}
+                    </div>
+                  </div>
                 ) : (
                   <Link to="/login" className="flex cursor-pointer justify-center items-center gap-2 text-sm">
                     <span>

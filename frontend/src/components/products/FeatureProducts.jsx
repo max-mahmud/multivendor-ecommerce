@@ -12,7 +12,6 @@ const FeatureProducts = ({ products }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { userInfo } = useSelector((state) => state.auth);
-
   const { successMessage, errorMessage } = useSelector((state) => state.card);
 
   const add_card = (id) => {
@@ -74,7 +73,7 @@ const FeatureProducts = ({ products }) => {
                   <FaArrowsSpin />
                 </li>
                 <Link
-                  to="/product/details/dsfdsf"
+                  to={`/product/details/${p.slug}`}
                   className="w-[38px] h-[38px] cursor-pointer bg-white flex justify-center items-center rounded shadow hover:bg-orange-500 hover:text-white  absolute -left-10 top-[184px]  group-hover:left-5  transition-all duration-1000"
                 >
                   <FaEye />

@@ -12,6 +12,14 @@ import SearchProducts from "./pages/SearchProducts";
 import Shipping from "./pages/Shipping";
 import Payment from "./pages/Payment";
 import ConfirmOrder from "./pages/ConfirmOrder";
+import Dashboard from "./pages/Dashboard";
+import Orders from "./components/dashboard/Orders";
+import Wishlist from "./components/dashboard/Wishlist";
+import Order from "./components/dashboard/Order";
+import ChangePassword from "./components/dashboard/ChangePassword";
+import Index from "./components/dashboard/Index";
+import EditProfile from "./components/dashboard/EditProfile";
+import CompareProduct from "./components/dashboard/CompareProduct";
 
 function App() {
   const dispatch = useDispatch();
@@ -32,6 +40,17 @@ function App() {
         <Route path="/payment" element={<Payment />} />
         <Route path="/order/confirm?" element={<ConfirmOrder />} />
         <Route path="/product/details/:slug" element={<Details />} />
+
+        {/*Dashboard  */}
+        <Route path="/dashboard" element={<Dashboard />}>
+          <Route path="" element={<Index />} />
+          <Route path="my-orders" element={<Orders />} />
+          <Route path="my-wishlist" element={<Wishlist />} />
+          <Route path="edit-profile" element={<EditProfile />} />
+          <Route path="my-compare" element={<CompareProduct />} />
+          <Route path="order/details/:orderId" element={<Order />} />
+          <Route path="chage-password" element={<ChangePassword />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   );

@@ -1,11 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Headers from "../components/Headers";
 import Footer from "../components/Footer";
-import { Link } from "react-router-dom";
-import { MdOutlineKeyboardArrowRight } from "react-icons/md";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { MdCompare, MdOutlineKeyboardArrowRight } from "react-icons/md";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import { Swiper, SwiperSlide } from "swiper/react";
+import { FiMinus } from "react-icons/fi";
+import { FaArrowsSpin, FaPlus } from "react-icons/fa6";
 import Pagination from "swiper";
 import "swiper/css";
 import "swiper/css/pagination";
@@ -13,8 +15,16 @@ import Ratings from "../components/Ratings";
 import { AiFillHeart } from "react-icons/ai";
 import Reviews from "../components/Reviews";
 import img from "../assets/46.jpg";
+import { useDispatch, useSelector } from "react-redux";
+import { add_to_card, messageClear } from "./../store/reducers/cardReducer";
+import { toast } from "react-hot-toast";
+import { get_product } from "../store/reducers/homeReducer";
 
 const Details = () => {
+  const navigate = useNavigate();
+  const { slug } = useParams();
+  const dispatch = useDispatch();
+
   const [image, setImage] = useState("");
   const [state, setState] = useState("reviews");
   const responsive = {
@@ -48,133 +58,206 @@ const Details = () => {
     },
   };
 
-  const images = [1, 2, 3, 4, 5, 6, 7];
-  const discount = 15;
-  const stock = 5;
+  const { product, relatedProducts, moreProducts } = useSelector((state) => state.home);
+  const { userInfo } = useSelector((state) => state.auth);
+  const { errorMessage, successMessage } = useSelector((state) => state.card);
+
+  const [quantity, setQuantity] = useState(1);
+
+  const inc = () => {
+    if (quantity >= product.stock) {
+      toast.error("Out of stock");
+    } else {
+      setQuantity(quantity + 1);
+    }
+  };
+
+  const dec = () => {
+    if (quantity > 1) {
+      setQuantity(quantity - 1);
+    }
+  };
+
+  const add_card = () => {
+    if (userInfo) {
+      dispatch(
+        add_to_card({
+          userId: userInfo.id,
+          quantity,
+          productId: product._id,
+        })
+      );
+    } else {
+      navigate("/login");
+    }
+  };
+
+  useEffect(() => {
+    dispatch(get_product(slug));
+  }, [slug]);
+  useEffect(() => {
+    if (errorMessage) {
+      toast.error(errorMessage);
+      dispatch(messageClear());
+    }
+    if (successMessage) {
+      toast.success(successMessage);
+      dispatch(messageClear());
+    }
+  }, [errorMessage, successMessage]);
+
+  const buy = () => {
+    let price = 0;
+    if (product.discount !== 0) {
+      price = product.price - Math.floor((product.price * product.discount) / 100);
+    } else {
+      price = product.price;
+    }
+    const obj = [
+      {
+        sellerId: product.sellerId,
+        shopName: product.shopName,
+        price: quantity * (price - Math.floor((price * 5) / 100)),
+        products: [
+          {
+            quantity,
+            productInfo: product,
+          },
+        ],
+      },
+    ];
+    navigate("/shipping", {
+      state: {
+        products: obj,
+        price: price * quantity,
+        shipping_fee: 85,
+        items: 1,
+      },
+    });
+  };
+
   return (
     <div>
       <Headers />
-      <div className='bg-[url("http://localhost:3000/images/banner/order.jpg")] h-[220px] mt-6 bg-cover bg-no-repeat relative bg-left'>
-        <div className="absolute left-0 top-0 w-full h-full bg-[#2422228a]">
-          <div className="w-[85%] md:w-[80%] sm:w-[90%] lg:w-[90%] h-full mx-auto">
-            <div className="flex flex-col justify-center gap-1 items-center h-full w-full text-white">
-              <h2 className="text-3xl font-bold">ECOMREZ</h2>
-            </div>
-          </div>
-        </div>
-      </div>
       <div className="bg-slate-100 py-5 mb-5">
         <div className="w-[85%] md:w-[80%] sm:w-[90%] lg:w-[90%] h-full mx-auto">
-          <div className="flex justify-start items-center text-md text-slate-600 w-full">
+          <div className="flex justify-start items-center text-md text-orange-500 py-4 font-medium w-full">
             <Link to="/">Home</Link>
             <span className="pt-1">
               <MdOutlineKeyboardArrowRight />
             </span>
-            <Link to="/">Sports</Link>
+            <Link to="/">{product.category}</Link>
             <span className="pt-1">
               <MdOutlineKeyboardArrowRight />
             </span>
-            <span>Long Sleeve casua Shirt for Man</span>
+            <span>{product.name}</span>
           </div>
         </div>
       </div>
       <section>
         <div className="w-[85%] md:w-[80%] sm:w-[90%] lg:w-[90%] h-full mx-auto pb-16">
           <div className="grid grid-cols-2 md-lg:grid-cols-1 gap-8">
-            <div>
-              <div className="p-5 border relative">
+            <div className="flex gap-3 flex-row-reverse items-center justify-between">
+              <div className="p-2 border relative">
                 <div className="hover-zoom">
-                  <img
-                    className="h-[500px] w-full"
-                    src={image ? `http://localhost:3000/images/products/${image}.webp` : img}
-                    alt=""
-                  />
+                  <img className="h-[360px] w-[350px]" src={image ? image : product.images?.[0]} alt="" />
                 </div>
               </div>
-              <div className="py-3">
-                {images && (
-                  <Carousel autoPlay={true} infinite={true} responsive={responsive} transitionDuration={500}>
-                    {images.map((img, i) => {
-                      return (
-                        <div onClick={() => setImage(img)}>
-                          <img src={img} alt="" />
-                        </div>
-                      );
-                    })}
-                  </Carousel>
-                )}
+              <div className="py-3 flex flex-col gap-2">
+                {product.images &&
+                  product.images.map((img, i) => {
+                    return (
+                      <div key={i} onClick={() => setImage(img)} className="shadow-md">
+                        <img className="h-[110px] w-[120px] cursor-pointer " src={img} alt="" />
+                      </div>
+                    );
+                  })}
               </div>
             </div>
-            <div className="flex flex-col gap-5">
+            <div className="flex flex-col gap-4">
               <div className="text-3xl text-slate-600 font-bold">
-                <h2>Long Sleeve casua Shirt for Man</h2>
+                <h2>{product.name}</h2>
               </div>
               <div className="flex justify-start items-center gap-4">
                 <div className="flex text-xl">
-                  <Ratings ratings={4.5} />
+                  <Ratings ratings={product.rating} />
                 </div>
-                <span className="text-green-500">(23 reviews)</span>
+                <span className="text-green-500">(23 reviews)</span> {/* //td  */}
               </div>
               <div className="text-2xl text-red-500 font-bold flex gap-3">
-                {discount ? (
+                {product.discount !== 0 ? (
                   <>
-                    <h2 className="line-through">$500</h2>
+                    <h2 className="line-through">${product.price}</h2>
                     <h2>
-                      ${500 - Math.floor((500 * discount) / 100)} (-{discount}%)
+                      ${product.price - Math.floor((product.price * product.discount) / 100)} (-
+                      {product.discount}%)
                     </h2>
                   </>
                 ) : (
-                  <h2>Price : $500</h2>
+                  <h2>Price : ${product.price}</h2>
                 )}
               </div>
-              <div className="text-slate-600">
-                <p>
-                  Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has
-                  been the industry's standard dummy text ever since the 1500s, when an unknown printer took a
-                  galley of type and scrambled it to make a type specimen book. It has
-                </p>
-              </div>
-              <div className="flex gap-3 pb-10 border-b">
-                {stock ? (
+              <div className="flex gap-7 pb-4 ">
+                {product.stock ? (
                   <>
-                    <div className="flex bg-slate-200 h-[50px] justify-center items-center text-xl">
-                      <div className="px-6 cursor-pointer">-</div>
-                      <div className="px-5">5</div>
-                      <div className="px-6 cursor-pointer">+</div>
-                    </div>
-                    <div>
-                      <button className="px-8 py-3 h-[50px] cursor-pointer hover:shadow-lg hover:shadow-purple-500/40 bg-purple-500 text-white">
-                        Add To Card
-                      </button>
+                    <div className="flex justify-center items-center text-xl">
+                      <div className=" cursor-pointer p-4 bg-slate-300 hover:bg-slate-400     ">
+                        <FiMinus />
+                      </div>
+                      <div className="p-3 px-4  bg-slate-300 ">5</div>
+                      <div className=" cursor-pointer  p-4  bg-slate-300  hover:bg-slate-400">
+                        <FaPlus />
+                      </div>
                     </div>
                   </>
                 ) : (
                   ""
                 )}
-                <div>
-                  <div className="h-[50px] w-[50px] flex justify-center items-center cursor-pointer hover:shadow-lg hover:shadow-cyan-500/40 bg-cyan-500 text-white">
+                <div className="flex gap-3">
+                  <div className="h-[50px] w-[50px] flex justify-center items-center cursor-pointer hover:shadow-lg hover:shadow-orange-500/40 bg-orange-500 text-white">
                     <AiFillHeart />
+                  </div>
+                  <div className="h-[50px] w-[50px] flex justify-center items-center cursor-pointer hover:shadow-lg hover:shadow-orange-500/40 bg-orange-500 text-white">
+                    <FaArrowsSpin />
                   </div>
                 </div>
               </div>
-              <div className="flex py-5 gap-5">
-                <div className="w-[150px] text-black font-bold text-xl flex flex-col gap-5">
-                  <span>Availability</span>
-                </div>
-                <div className="flex flex-col gap-5">
-                  <span className={`text-${stock ? "green" : "red"}-500`}>
-                    {stock ? `In Stock(${stock})` : "Out of Stock"}
-                  </span>
-                </div>
-              </div>
-              <div className="flex gap-3">
-                {stock ? (
-                  <button className="px-8 py-3 h-[50px] cursor-pointer hover:shadow-lg hover:shadow-emerald-500/40 bg-emerald-500 text-white">
+              <div className="flex gap-3 font-medium">
+                <button
+                  onClick={add_card}
+                  className="px-8 w-full py-3 cursor-pointer hover:shadow-lg border-2 hover:bg-emerald-500 border-emerald-500 bg-white-500 text-emerald-500 hover:text-white"
+                >
+                  Add To Card
+                </button>
+                {product.stock ? (
+                  <button
+                    onClick={buy}
+                    className="px-8 w-full py-3 cursor-pointer hover:shadow-lg hover:shadow-emerald-500/40 bg-emerald-500 text-white"
+                  >
                     Buy Now
                   </button>
                 ) : (
                   ""
                 )}
+              </div>
+              <div className="flex ">
+                <div className="w-[150px] text-black font-bold text-xl ">
+                  <span>Availability :</span>
+                </div>
+                <div className="flex">
+                  <span className={`text-${product.stock ? "green" : "red"}-500`}>
+                    {product.stock ? `In Stock(${product.stock})` : "Out of Stock"}
+                  </span>
+                </div>
+              </div>
+              <div className="">
+                <div className="flex gap-3 font-bold">
+                  <h4>Tags :</h4>
+                  <div className="flex gap-3 font-normal">
+                    <span>Modern</span>
+                    <span>Latest</span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -185,29 +268,43 @@ const Details = () => {
           <div className="flex flex-wrap">
             <div className="w-full">
               <div className="pr-4 md-lg:pr-0">
-                <div className="grid grid-cols-2">
+                <div className="grid grid-cols-4 gap-5 font-medium">
                   <button
                     onClick={() => setState("reviews")}
-                    className={`py-1 hover:text-white px-5 hover:bg-green-500 ${
-                      state === "reviews" ? "bg-green-500 text-white" : "bg-slate-200 text-slate-700"
-                    } rounded-sm`}
+                    className={`py-3 hover:text-white px-7 hover:bg-green-500 ${
+                      state === "reviews" ? "bg-green-500 text-white " : "bg-slate-100  text-slate-700 "
+                    } rounded-sm border-2 border-green-500`}
                   >
                     Reviews
                   </button>
                   <button
                     onClick={() => setState("description")}
-                    className={`py-1 px-5 hover:text-white hover:bg-green-500 ${
-                      state === "description" ? "bg-green-500 text-white" : "bg-slate-200 text-slate-700"
-                    } rounded-sm`}
+                    className={`py-2 px-7  hover:text-white hover:bg-green-500 ${
+                      state === "description" ? "bg-green-500 text-white" : "bg-slate-100 text-slate-700"
+                    } rounded-sm border-green-500 border-2`}
                   >
                     Description
+                  </button>
+                  <button
+                    onClick={() => setState("care-guide")}
+                    className={`py-2 px-7  hover:text-white hover:bg-green-500 ${
+                      state === "care-guide" ? "bg-green-500 text-white" : "bg-slate-100 text-slate-700"
+                    } rounded-sm border-green-500 border-2`}
+                  >
+                    Care Guide
                   </button>
                 </div>
                 <div>
                   {state === "reviews" ? (
                     <Reviews />
-                  ) : (
+                  ) : state === "description" ? (
                     <p className="py-5 text-slate-600">
+                      Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum
+                      has been the industry's standard dummy text ever since the 1500s, when an unknown
+                      printer took a galley of type and scrambled it to make a type specimen book. It has
+                    </p>
+                  ) : (
+                    <p className="py-5 text-orange-600">
                       Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum
                       has been the industry's standard dummy text ever since the 1500s, when an unknown
                       printer took a galley of type and scrambled it to make a type specimen book. It has
@@ -227,7 +324,7 @@ const Details = () => {
               slidesPerView="auto"
               breakpoints={{
                 1280: {
-                  slidesPerView: 3,
+                  slidesPerView: 4,
                 },
                 565: {
                   slidesPerView: 2,
@@ -241,30 +338,27 @@ const Details = () => {
               }}
               className="mySwiper"
             >
-              {[1, 2, 3, 4, 5, 6, 7].map((p, i) => {
+              {relatedProducts.map((p, i) => {
                 return (
-                  <SwiperSlide>
+                  <SwiperSlide key={i}>
                     <Link className="block">
-                      <div className="relative h-[270px]">
+                      <div className="relative h-[240px]">
                         <div className="w-full h-full">
-                          <img
-                            className="w-full h-full"
-                            src={`http://localhost:3000/images/products/${p}.webp`}
-                          />
+                          <img className="w-full h-full" src={p.images[0]} />
                           <div className="absolute h-full w-full top-0 left-0 bg-[#000] opacity-25 hover:opacity-50 transition-all duration-500"></div>
                         </div>
-                        <div className="flex justify-center items-center absolute text-white w-[38px] h-[38px] rounded-full bg-red-500 font-semibold text-xs left-2 top-2">
-                          6%
-                        </div>
+                        {p.discount !== 0 && (
+                          <div className="flex justify-center items-center absolute text-white w-[38px] h-[38px] rounded-full bg-red-500 font-semibold text-xs left-2 top-2">
+                            {p.discount}%
+                          </div>
+                        )}
                       </div>
                       <div className="p-4 flex flex-col gap-1">
-                        <h2 className="text-slate-600 text-lg font-semibold">
-                          tandard dummy text ever since the
-                        </h2>
+                        <h2 className="text-slate-600 text-lg font-semibold">{p.name}</h2>
                         <div className="flex justify-start items-center gap-3">
-                          <h2 className="text-[#6699ff] text-lg font-bold">$565</h2>
+                          <h2 className="text-orange-500 text-lg font-bold">${p.price}</h2>
                           <div className="flex">
-                            <Ratings ratings={4.5} />
+                            <Ratings ratings={p.rating} />
                           </div>
                         </div>
                       </div>

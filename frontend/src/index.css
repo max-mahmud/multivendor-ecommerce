@@ -22,3 +22,9 @@
   .hover-zoom:hover img {
     transform: scale(1.1);
   }
+
+  @layer  {
+    .dashboard-link {
+      @apply flex justify-start items-center gap-2 py-3.5 px-2 cursor-pointer hover:bg-slate-200;
+    }
+  }
