@@ -38,7 +38,6 @@ export const delete_card_product = createAsyncThunk(
     }
 )
 
-
 export const quantity_inc = createAsyncThunk(
     'card/quantity_inc',
     async (card_id, { rejectWithValue, fulfillWithValue }) => {
@@ -63,6 +62,106 @@ export const quantity_dec = createAsyncThunk(
     }
 )
 
+export const add_to_wishlist = createAsyncThunk(
+    'wishlist/add_to_wishlist',
+    async (info, {
+        rejectWithValue,
+        fulfillWithValue
+    }) => {
+        try {
+            const {
+                data
+            } = await api.post('/home/product/add-to-wishlist', info)
+            return fulfillWithValue(data)
+        } catch (error) {
+            return rejectWithValue(error.response.data)
+        }
+    }
+)
+
+export const get_wishlist_products = createAsyncThunk(
+    'wishlist/get_wishlist_products',
+    async (userId, {
+        rejectWithValue,
+        fulfillWithValue
+    }) => {
+        try {
+            const {
+                data
+            } = await api.get(`/home/product/get-wishlist-products/${userId}`)
+            return fulfillWithValue(data)
+        } catch (error) {
+            return rejectWithValue(error.response.data)
+        }
+    }
+)
+
+export const remove_wishlist = createAsyncThunk(
+    'wishlist/remove_wishlist',
+    async (wishlistId, {
+        rejectWithValue,
+        fulfillWithValue
+    }) => {
+        try {
+            const {
+                data
+            } = await api.delete(`/home/product/delete-wishlist-product/${wishlistId}`)
+            return fulfillWithValue(data)
+        } catch (error) {
+            return rejectWithValue(error.response.data)
+        }
+    }
+)
+export const add_to_compare = createAsyncThunk(
+    'compare/add_to_compare',
+    async (info, {
+        rejectWithValue,
+        fulfillWithValue
+    }) => {
+        try {
+            const {
+                data
+            } = await api.post('/home/product/add-to-compare', info)
+            return fulfillWithValue(data)
+        } catch (error) {
+            return rejectWithValue(error.response.data)
+        }
+    }
+)
+
+export const get_compare_products = createAsyncThunk(
+    'compare/get_compare_products',
+    async (userId, {
+        rejectWithValue,
+        fulfillWithValue
+    }) => {
+        try {
+            const {
+                data
+            } = await api.get(`/home/product/get-compare-products/${userId}`)
+            return fulfillWithValue(data)
+        } catch (error) {
+            return rejectWithValue(error.response.data)
+        }
+    }
+)
+
+export const remove_compare = createAsyncThunk(
+    'compare/remove_compare',
+    async (compareId, {
+        rejectWithValue,
+        fulfillWithValue
+    }) => {
+        try {
+            const {
+                data
+            } = await api.delete(`/home/product/delete-compare-product/${compareId}`)
+            return fulfillWithValue(data)
+        } catch (error) {
+            return rejectWithValue(error.response.data)
+        }
+    }
+)
 
 export const cardReducer = createSlice({
     name: 'card',
@@ -72,6 +171,8 @@ export const cardReducer = createSlice({
         buy_product_item: 0,
         wishlist_count: 0,
         wishlist: [],
+        comparelist_count: 0,
+        comparelist: [],
         price: 0,
         errorMessage: '',
         successMessage: '',
@@ -110,8 +211,40 @@ export const cardReducer = createSlice({
             })
             .addCase(quantity_dec.fulfilled, (state, action) => {
                 state.successMessage = action.payload.message;
+            })
+            .addCase(add_to_wishlist.rejected, (state, action) => {
+                state.errorMessage = action.payload.error;
+            })
+            .addCase(add_to_wishlist.fulfilled, (state, action) => {
+                state.successMessage = action.payload.message;
+                state.wishlist_count = state.wishlist_count > 0 ? state.wishlist_count + 1 : 1;
+            })
+            .addCase(get_wishlist_products.fulfilled, (state, action) => {
+                state.wishlist = action.payload.wishlists;
+                state.wishlist_count = action.payload.wishlistCount;
+            })
+            .addCase(remove_wishlist.fulfilled, (state, action) => {
+                state.successMessage = action.payload.message;
+                state.wishlist = state.wishlist.filter(p => p._id !== action.payload.wishlistId);
+                state.wishlist_count -= 1;
+            })
+            .addCase(add_to_compare.rejected, (state, action) => {
+                state.errorMessage = action.payload.error;
+            })
+            .addCase(add_to_compare.fulfilled, (state, action) => {
+                state.successMessage = action.payload.message;
+                state.comparelist_count = state.comparelist_count > 0 ? state.comparelist_count + 1 : 1;
+            })
+            .addCase(get_compare_products.fulfilled, (state, action) => {
+                state.comparelist = action.payload.comparelist;
+                state.comparelist_count = action.payload.compareCount;
+            })
+            .addCase(remove_compare.fulfilled, (state, action) => {
+                state.successMessage = action.payload.message;
+                state.comparelist = state.comparelist.filter(p => p._id !== action.payload.compareId);
+                state.comparelist_count -= 1;
             });
-    },
+    }
 })
 
 export const { messageClear } = cardReducer.actions

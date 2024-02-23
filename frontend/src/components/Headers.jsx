@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { GrMail } from "react-icons/gr";
 import { IoIosCall } from "react-icons/io";
 import { MdOutlineKeyboardArrowDown } from "react-icons/md";
@@ -7,18 +7,22 @@ import { AiOutlineTwitter, AiFillGithub, AiFillHeart, AiFillShopping } from "rea
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import Logo from "./Logo";
 import { FaArrowsSpin } from "react-icons/fa6";
-import { useSelector } from "react-redux";
-import { RiFolderUserFill } from "react-icons/ri";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  get_card_products,
+  get_compare_products,
+  get_wishlist_products,
+} from "../store/reducers/cardReducer";
 
 const Headers = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const { pathname } = useLocation();
   const [showShidebar, setShowShidebar] = useState(true);
   const [categoryShow, setCategoryShow] = useState(true);
-  const wishlist = 4;
   const { categorys } = useSelector((state) => state.home);
   const { userInfo } = useSelector((state) => state.auth);
-  const { card_product_count } = useSelector((state) => state.card);
+  const { card_product_count, wishlist_count, comparelist_count } = useSelector((state) => state.card);
   const [showDashboard, setShowDashboard] = useState(false);
 
   const [searchValue, setSearchValue] = useState("");
@@ -35,6 +39,14 @@ const Headers = () => {
       navigate(`/login`);
     }
   };
+
+  useEffect(() => {
+    if (userInfo) {
+      dispatch(get_card_products(userInfo.id));
+      dispatch(get_wishlist_products(userInfo.id));
+      dispatch(get_compare_products(userInfo.id));
+    }
+  }, [userInfo]);
 
   return (
     <div className="w-full bg-white pb-2">
@@ -74,8 +86,8 @@ const Headers = () => {
                       onClick={() => setShowDashboard(!showDashboard)}
                     >
                       <span className="font-medium uppercase">{userInfo.name}</span>
-                      <span>
-                        <RiFolderUserFill size={20} />
+                      <span className="bg-emerald-600 text-white font-bold text-xl px-2.5 py-1 rounded-full ">
+                        {userInfo.name.toString()[0].toUpperCase()}
                       </span>
                       {showDashboard && (
                         <div className="absolute top-6 right-2 flex flex-col gap-1 p-3 bg-slate-100 shadow-md z-50 ">
@@ -142,6 +154,7 @@ const Headers = () => {
                   </li>
                   <li>
                     <Link
+                      to={"/blog"}
                       className={`p-2 block ${pathname === "/blog" ? "text-[#7fad39]" : "text-slate-600"}`}
                     >
                       Blog
@@ -149,6 +162,7 @@ const Headers = () => {
                   </li>
                   <li>
                     <Link
+                      to={"/about"}
                       className={`p-2 block ${pathname === "/about" ? "text-[#7fad39]" : "text-slate-600"}`}
                     >
                       About
@@ -156,6 +170,7 @@ const Headers = () => {
                   </li>
                   <li>
                     <Link
+                      to={"/contact"}
                       className={`p-2 block ${pathname === "/contact" ? "text-[#7fad39]" : "text-slate-600"}`}
                     >
                       Contact
@@ -164,20 +179,26 @@ const Headers = () => {
                 </ul>
                 <div className="flex md-lg:hidden justify-center items-center gap-5">
                   <div className="flex justify-center gap-5">
-                    <div className="relative flex justify-center items-center cursor-pointer w-[35px] h-[35px] rounded-full bg-[#e2e2e2]">
+                    <div
+                      onClick={() => navigate("/dashboard/my-compare")}
+                      className="relative flex justify-center items-center cursor-pointer w-[35px] h-[35px] rounded-full bg-[#e2e2e2]"
+                    >
                       <span className="text-xl text-orange-500">
                         <FaArrowsSpin />
                       </span>
                       <div className="w-[20px] h-[20px] absolute bg-green-500 rounded-full text-white flex justify-center items-center -top-[3px] -right-[5px]">
-                        {wishlist}
+                        {comparelist_count}
                       </div>
                     </div>
-                    <div className="relative flex justify-center items-center cursor-pointer w-[35px] h-[35px] rounded-full bg-[#e2e2e2]">
+                    <div
+                      onClick={() => navigate("/dashboard/my-wishlist")}
+                      className="relative flex justify-center items-center cursor-pointer w-[35px] h-[35px] rounded-full bg-[#e2e2e2]"
+                    >
                       <span className="text-xl text-red-500">
                         <AiFillHeart />
                       </span>
                       <div className="w-[20px] h-[20px] absolute bg-green-500 rounded-full text-white flex justify-center items-center -top-[3px] -right-[5px]">
-                        {wishlist}
+                        {wishlist_count}
                       </div>
                     </div>
                     <div

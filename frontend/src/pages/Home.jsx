@@ -55,10 +55,6 @@ const Home = () => {
                 <Products title="Latest Product" products={topRated_product} />
               </div>
             </div>
-            {/* 
-            <div className="overflow-hidden">
-              <Products title="Discount Product" />
-            </div> */}
           </div>
         </div>
       </div>

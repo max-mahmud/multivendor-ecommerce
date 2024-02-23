@@ -39,7 +39,7 @@ const Dashboard = () => {
                 <Link
                   to="/dashboard"
                   className={`dashboard-link ${
-                    pathname === "/dashboard" ? "border-r-2 bg-slate-200 border-gray-600" : ""
+                    pathname === "/dashboard" ? "border-r-2 bg-orange-100 border-orange-600" : ""
                   }`}
                 >
                   <span className="text-xl">
@@ -50,7 +50,7 @@ const Dashboard = () => {
                 <Link
                   to="/dashboard/my-orders"
                   className={`dashboard-link ${
-                    pathname === "/dashboard/my-orders" ? "border-r-2 bg-slate-200 border-gray-600" : ""
+                    pathname === "/dashboard/my-orders" ? "border-r-2 bg-orange-100 border-orange-600" : ""
                   }`}
                 >
                   <span className="text-xl">
@@ -61,7 +61,7 @@ const Dashboard = () => {
                 <Link
                   to="/dashboard/my-compare"
                   className={`dashboard-link ${
-                    pathname === "/dashboard/my-compare" ? "border-r-2 bg-slate-200 border-gray-600" : ""
+                    pathname === "/dashboard/my-compare" ? "border-r-2 bg-orange-100 border-orange-600" : ""
                   }`}
                 >
                   <span className="text-xl">
@@ -72,7 +72,7 @@ const Dashboard = () => {
                 <Link
                   to="/dashboard/my-wishlist"
                   className={`dashboard-link ${
-                    pathname === "/dashboard/my-wishlist" ? "border-r-2 bg-slate-200 border-gray-600" : ""
+                    pathname === "/dashboard/my-wishlist" ? "border-r-2 bg-orange-100 border-orange-600" : ""
                   }`}
                 >
                   <span className="text-xl">
@@ -85,26 +85,28 @@ const Dashboard = () => {
                   <span className="block pl-3 text-xl pt-7 pb-2">Setting</span>
                 </span>
                 <Link
-                  to="/dashboard/chage-password"
-                  className={`dashboard-link  ${
-                    pathname === "/dashboard/chage-password" ? "border-r-2 bg-slate-200 border-gray-600" : ""
-                  }`}
-                >
-                  <span className="text-xl">
-                    <Si1Password />
-                  </span>
-                  <span className="block">Change Password</span>
-                </Link>
-                <Link
                   to="/dashboard/edit-profile"
                   className={`dashboard-link  ${
-                    pathname === "/dashboard/edit-profile" ? "border-r-2 bg-slate-200 border-gray-600" : ""
+                    pathname === "/dashboard/edit-profile" ? "border-r-2 bg-orange-100 border-orange-600" : ""
                   }`}
                 >
                   <span className="text-xl">
                     <FaUserPen />
                   </span>
                   <span className="block">Edit Profile</span>
+                </Link>
+                <Link
+                  to="/dashboard/chage-password"
+                  className={`dashboard-link  ${
+                    pathname === "/dashboard/chage-password"
+                      ? "border-r-2 bg-orange-100 border-orange-600"
+                      : ""
+                  }`}
+                >
+                  <span className="text-xl">
+                    <Si1Password />
+                  </span>
+                  <span className="block">Change Password</span>
                 </Link>
                 {/* <span className="dashboard-link">
                   <span className="text-xl">

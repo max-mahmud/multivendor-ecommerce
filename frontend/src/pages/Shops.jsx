@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Range } from "react-range";
-import { MdOutlineKeyboardArrowRight } from "react-icons/md";
 import Headers from "../components/Headers";
 import Footer from "../components/Footer";
 import Products from "../components/products/Products";
@@ -13,6 +12,7 @@ import ShopProducts from "../components/products/ShopProducts";
 import Pagination from "../components/Pagination";
 import { useDispatch, useSelector } from "react-redux";
 import { price_range_product, query_products } from "../store/reducers/homeReducer";
+import PageHeader from "./PageHeader";
 
 const Shops = () => {
   const { products, totalProduct, latest_product, categorys, priceRange, parPage } = useSelector(
@@ -119,22 +119,7 @@ const Shops = () => {
   return (
     <div>
       <Headers />
-      <section className="h-[120px] mt-6 bg-white shadow bg-cover bg-no-repeat relative bg-left ">
-        <div className="absolute left-0 top-0 w-full h-full ">
-          <div className="w-[85%] md:w-[80%] sm:w-[90%] lg:w-[90%] h-full mx-auto">
-            <div className="flex flex-col justify-center gap-1 items-center h-full w-full text-slate-700">
-              <h2 className="text-3xl font-bold">All Products</h2>
-              <div className="flex justify-center items-center gap-2 text-2xl w-full">
-                <Link to="/">Home</Link>
-                <span className="pt-1">
-                  <MdOutlineKeyboardArrowRight />
-                </span>
-                <span>Shops</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      <PageHeader title="All Products" category="Shops" />
       <section className="py-12 bg-slate-100">
         <div className="w-[85%] md:w-[90%%] sm:w-[90%] lg:w-[90%] h-full mx-auto">
           <div className={`md:block hidden ${!filter ? "mb-6" : "mb-0"}`}>

@@ -20,6 +20,9 @@ import ChangePassword from "./components/dashboard/ChangePassword";
 import Index from "./components/dashboard/Index";
 import EditProfile from "./components/dashboard/EditProfile";
 import CompareProduct from "./components/dashboard/CompareProduct";
+import About from "./pages/About";
+import Contact from "./pages/Contact";
+import Blog from "./pages/Blog";
 
 function App() {
   const dispatch = useDispatch();
@@ -34,6 +37,9 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/" element={<Home />} />
         <Route path="/shops" element={<Shops />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/blog" element={<Blog />} />
         <Route path="/card" element={<Card />} />
         <Route path="/products/search?" element={<SearchProducts />} />
         <Route path="/shipping" element={<Shipping />} />

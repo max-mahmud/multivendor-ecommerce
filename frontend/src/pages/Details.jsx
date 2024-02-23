@@ -19,6 +19,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { add_to_card, messageClear } from "./../store/reducers/cardReducer";
 import { toast } from "react-hot-toast";
 import { get_product } from "../store/reducers/homeReducer";
+import PageHeader from "./PageHeader";
 
 const Details = () => {
   const navigate = useNavigate();
@@ -27,38 +28,8 @@ const Details = () => {
 
   const [image, setImage] = useState("");
   const [state, setState] = useState("reviews");
-  const responsive = {
-    superLargeDesktop: {
-      breakpoint: { max: 4000, min: 3000 },
-      items: 5,
-    },
-    desktop: {
-      breakpoint: { max: 3000, min: 1024 },
-      items: 5,
-    },
-    tablet: {
-      breakpoint: { max: 1024, min: 464 },
-      items: 4,
-    },
-    mdtablet: {
-      breakpoint: { max: 991, min: 464 },
-      items: 4,
-    },
-    mobile: {
-      breakpoint: { max: 768, min: 0 },
-      items: 3,
-    },
-    smmobile: {
-      breakpoint: { max: 640, min: 0 },
-      items: 2,
-    },
-    xsmobile: {
-      breakpoint: { max: 440, min: 0 },
-      items: 1,
-    },
-  };
 
-  const { product, relatedProducts, moreProducts } = useSelector((state) => state.home);
+  const { product, relatedProducts } = useSelector((state) => state.home);
   const { userInfo } = useSelector((state) => state.auth);
   const { errorMessage, successMessage } = useSelector((state) => state.card);
 
@@ -139,9 +110,10 @@ const Details = () => {
   return (
     <div>
       <Headers />
-      <div className="bg-slate-100 py-5 mb-5">
+      <PageHeader title="" category={product.category} slug={product.name} />
+      <div className="bg-slate-100 py-7 ">
         <div className="w-[85%] md:w-[80%] sm:w-[90%] lg:w-[90%] h-full mx-auto">
-          <div className="flex justify-start items-center text-md text-orange-500 py-4 font-medium w-full">
+          <div className="flex justify-start items-center text-md text-orange-500 font-medium w-full">
             <Link to="/">Home</Link>
             <span className="pt-1">
               <MdOutlineKeyboardArrowRight />
@@ -201,11 +173,11 @@ const Details = () => {
                 {product.stock ? (
                   <>
                     <div className="flex justify-center items-center text-xl">
-                      <div className=" cursor-pointer p-4 bg-slate-300 hover:bg-slate-400     ">
+                      <div onClick={dec} className=" cursor-pointer p-4 bg-slate-300 hover:bg-slate-400     ">
                         <FiMinus />
                       </div>
-                      <div className="p-3 px-4  bg-slate-300 ">5</div>
-                      <div className=" cursor-pointer  p-4  bg-slate-300  hover:bg-slate-400">
+                      <div className="p-3 px-4  bg-slate-300 ">{quantity}</div>
+                      <div onClick={inc} className=" cursor-pointer  p-4  bg-slate-300  hover:bg-slate-400">
                         <FaPlus />
                       </div>
                     </div>
