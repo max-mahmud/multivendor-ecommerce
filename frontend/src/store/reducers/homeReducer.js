@@ -59,7 +59,6 @@ export const get_product = createAsyncThunk(
             const {
                 data
             } = await api.get(`/home/get-product/${slug}`)
-            console.log(data)
             return fulfillWithValue(data)
         } catch (error) {
             console.log(error.response)
@@ -67,6 +66,41 @@ export const get_product = createAsyncThunk(
     }
 )
 
+export const customer_review = createAsyncThunk(
+    'review/customer_review',
+    async (info, {
+        fulfillWithValue
+    }) => {
+        try {
+            const {
+                data
+            } = await api.post('/home/customer/submit-review', info)
+            return fulfillWithValue(data)
+        } catch (error) {
+
+        }
+    }
+)
+
+export const get_reviews = createAsyncThunk(
+    'review/get_reviews',
+    async ({
+        productId,
+        perPage
+    }, {
+        fulfillWithValue
+    }) => {
+        try {
+            const {
+                data
+            } = await api.get(`/home/customer/get-reviews/${productId}?perPage=${perPage}`)
+            // console.log(data)
+            return fulfillWithValue(data)
+        } catch (error) {
+
+        }
+    }
+)
 
 
 export const homeReducer = createSlice({
@@ -85,9 +119,17 @@ export const homeReducer = createSlice({
         },
         product: {},
         relatedProducts: [],
+        totalReview: 0,
+        rating_review: [],
+        reviews: [],
+        successMessage: '',
+        errorMessage: '',
     },
     reducers: {
-
+        messageClear: (state, _) => {
+            state.successMessage = ""
+            state.errorMessage = ""
+        }
     },
     extraReducers: (builder) => {
         builder
@@ -115,7 +157,16 @@ export const homeReducer = createSlice({
             .addCase(get_product.fulfilled, (state, { payload }) => {
                 state.product = payload.product
                 state.relatedProducts = payload.relatedProducts
-            });
+            })
+            .addCase(customer_review.fulfilled, (state, { payload }) => {
+                state.successMessage = payload.message
+            })
+            .addCase(get_reviews.fulfilled, (state, { payload }) => {
+                state.reviews = payload.reviews
+                state.totalReview = payload.totalReview
+                state.rating_review = payload.rating_review
+            })
     }
 })
-export default homeReducer.reducer
+export const { messageClear } = homeReducer.actions;
+export default homeReducer.reducer;

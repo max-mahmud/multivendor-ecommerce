@@ -107,27 +107,16 @@ const Details = () => {
     });
   };
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
-    <div>
+    <div className="bg-slate-100">
       <Headers />
       <PageHeader title="" category={product.category} slug={product.name} />
-      <div className="bg-slate-100 py-7 ">
-        <div className="w-[85%] md:w-[80%] sm:w-[90%] lg:w-[90%] h-full mx-auto">
-          <div className="flex justify-start items-center text-md text-orange-500 font-medium w-full">
-            <Link to="/">Home</Link>
-            <span className="pt-1">
-              <MdOutlineKeyboardArrowRight />
-            </span>
-            <Link to="/">{product.category}</Link>
-            <span className="pt-1">
-              <MdOutlineKeyboardArrowRight />
-            </span>
-            <span>{product.name}</span>
-          </div>
-        </div>
-      </div>
       <section>
-        <div className="w-[85%] md:w-[80%] sm:w-[90%] lg:w-[90%] h-full mx-auto pb-16">
+        <div className="w-[85%] md:w-[80%] sm:w-[90%] lg:w-[90%] h-full  mt-6 mx-auto pb-16">
           <div className="grid grid-cols-2 md-lg:grid-cols-1 gap-8">
             <div className="flex gap-3 flex-row-reverse items-center justify-between">
               <div className="p-2 border relative">
@@ -268,19 +257,55 @@ const Details = () => {
                 </div>
                 <div>
                   {state === "reviews" ? (
-                    <Reviews />
+                    <Reviews product={product} />
                   ) : state === "description" ? (
-                    <p className="py-5 text-slate-600">
-                      Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum
-                      has been the industry's standard dummy text ever since the 1500s, when an unknown
-                      printer took a galley of type and scrambled it to make a type specimen book. It has
-                    </p>
+                    <p className="py-5 text-slate-600">{product.description}</p>
                   ) : (
-                    <p className="py-5 text-orange-600">
-                      Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum
-                      has been the industry's standard dummy text ever since the 1500s, when an unknown
-                      printer took a galley of type and scrambled it to make a type specimen book. It has
-                    </p>
+                    <div className="py-5 text-slate-600">
+                      <div className=" mx-auto mt-4 rounded-lg">
+                        <h1 className="text-xl font-bold mb-4 text-center">Product Care Guide</h1>
+                        <p className="mb-4">
+                          Thank you for choosing our product! Proper care and maintenance will ensure its
+                          longevity and optimal performance. Please follow these simple guidelines:
+                        </p>
+                        <ul className="list-disc pl-6 mb-4">
+                          <li>
+                            <strong>Cleaning:</strong> Regularly clean the product with a soft, damp cloth to
+                            remove dust and debris. Avoid abrasive cleaners that may scratch the surface.
+                          </li>
+                          <li>
+                            <strong>Storage:</strong> Store the product in a cool, dry place away from direct
+                            sunlight to prevent discoloration or warping.
+                          </li>
+                          <li>
+                            <strong>Avoid Moisture:</strong> Keep the product away from moisture and humidity
+                            to prevent damage such as mold or rust.
+                          </li>
+                          <li>
+                            <strong>Handling:</strong> Handle the product with care to avoid accidental
+                            damage. Use caution when moving or transporting it to prevent breakage.
+                          </li>
+                          <li>
+                            <strong>Avoid Harsh Chemicals:</strong> Do not use harsh chemicals or solvents on
+                            the product, as they may cause damage to the finish or material.
+                          </li>
+                          <li>
+                            <strong>Regular Inspection:</strong> Periodically inspect the product for any
+                            signs of wear or damage. Address any issues promptly to prevent further
+                            deterioration.
+                          </li>
+                          <li>
+                            <strong>Follow Manufacturer's Instructions:</strong> Always follow any specific
+                            care instructions provided by the manufacturer for the best results.
+                          </li>
+                        </ul>
+                        <p className="mb-4">
+                          By following these care guidelines, you can ensure that your product remains in
+                          excellent condition for years to come. If you have any further questions or
+                          concerns, please don't hesitate to contact us.
+                        </p>
+                      </div>
+                    </div>
                   )}
                 </div>
               </div>

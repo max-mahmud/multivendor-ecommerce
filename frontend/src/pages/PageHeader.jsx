@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 const PageHeader = ({ title = "All Products", slug = "", category = "shops" }) => {
   return (
-    <section className=" bg-slate-200  shadow-md bg-cover bg-no-repeat ">
+    <section className=" bg-slate-200  shadow bg-cover bg-no-repeat ">
       <div className="w-[85%] md:w-[80%] sm:w-[90%] lg:w-[90%] h-full mx-auto">
         <div className="flex bg-slate-200 text-slate-700 py-5 px-2">
           <div className="flex justify-center items-center gap-2 text-2xl ">

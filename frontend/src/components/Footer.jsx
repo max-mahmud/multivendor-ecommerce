@@ -6,7 +6,7 @@ import Logo from "./Logo";
 
 const Footer = () => {
   return (
-    <footer className="shadow-md shadow-slate-600">
+    <footer className="shadow-md shadow-slate-600 bg-slate-50">
       <div className="w-[85%] flex flex-wrap mx-auto border-b py-8 md-lg:pb-10 sm:pb-6">
         <div className="w-3/12 lg:w-4/12 sm:w-full">
           <div className="flex flex-col gap-3">

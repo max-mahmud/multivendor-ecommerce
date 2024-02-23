@@ -2,72 +2,37 @@ import React from 'react'
 import { AiFillStar } from 'react-icons/ai'
 import { CiStar } from 'react-icons/ci'
 const RatingTemp = ({ rating }) => {
-    if (rating === 5) {
-        return (
-            <>
-                <span className='text-[#EDBB0E]'><AiFillStar /></span>
-                <span className='text-[#EDBB0E]'><AiFillStar /></span>
-                <span className='text-[#EDBB0E]'><AiFillStar /></span>
-                <span className='text-[#EDBB0E]'><AiFillStar /></span>
-                <span className='text-[#EDBB0E]'><AiFillStar /></span>
-            </>
-        )
-    }
-    else if (rating === 4) {
-        return (
-            <>
-                <span className='text-[#EDBB0E]'><AiFillStar /></span>
-                <span className='text-[#EDBB0E]'><AiFillStar /></span>
-                <span className='text-[#EDBB0E]'><AiFillStar /></span>
-                <span className='text-[#EDBB0E]'><AiFillStar /></span>
-                <span className='text-slate-600'><CiStar /></span>
-            </>
-        )
-    }
-    else if (rating === 3) {
-        return (
-            <>
-                <span className='text-[#EDBB0E]'><AiFillStar /></span>
-                <span className='text-[#EDBB0E]'><AiFillStar /></span>
-                <span className='text-[#EDBB0E]'><AiFillStar /></span>
-                <span className='text-slate-600'><CiStar /></span>
-                <span className='text-slate-600'><CiStar /></span>
-            </>
-        )
-    }
-    else if (rating === 2) {
-        return (
-            <>
-                <span className='text-[#EDBB0E]'><AiFillStar /></span>
-                <span className='text-[#EDBB0E]'><AiFillStar /></span>
-                <span className='text-slate-600'><CiStar /></span>
-                <span className='text-slate-600'><CiStar /></span>
-                <span className='text-slate-600'><CiStar /></span>
-            </>
-        )
-    }
-    else if (rating === 1) {
-        return (
-            <>
-                <span className='text-[#EDBB0E]'><AiFillStar /></span>
-                <span className='text-slate-600'><CiStar /></span>
-                <span className='text-slate-600'><CiStar /></span>
-                <span className='text-slate-600'><CiStar /></span>
-                <span className='text-slate-600'><CiStar /></span>
-            </>
-        )
-    }
-    else {
-        return (
-            <>
-                <span className='text-slate-600'><CiStar /></span>
-                <span className='text-slate-600'><CiStar /></span>
-                <span className='text-slate-600'><CiStar /></span>
-                <span className='text-slate-600'><CiStar /></span>
-                <span className='text-slate-600'><CiStar /></span>
-            </>
-        )
-    }
-}
+  const filledStar = (
+    <span className="text-[#EDBB0E]">
+      <AiFillStar />
+    </span>
+  );
+  const emptyStar = (
+    <span className="text-slate-600">
+      <CiStar />
+    </span>
+  );
 
-export default RatingTemp
+  const generateStars = (count, starType) => {
+    const stars = [];
+    for (let i = 0; i < count; i++) {
+      stars.push(starType);
+    }
+    return stars;
+  };
+
+  const filledStarsCount = rating > 0 ? rating : 0;
+  const emptyStarsCount = 5 - filledStarsCount;
+
+  const filledStars = generateStars(filledStarsCount, filledStar);
+  const emptyStars = generateStars(emptyStarsCount, emptyStar);
+
+  return (
+    <>
+      {filledStars}
+      {emptyStars}
+    </>
+  );
+};
+
+export default RatingTemp;
