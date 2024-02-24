@@ -83,11 +83,13 @@ class homeControllers {
     query_products = async (req, res) => {
         const parPage = 12
         req.query.parPage = parPage
+        // const abc = JSON.stringify(req.query.color)
+        // console.log(req.query)
         try {
             const products = await productModel.find({}).sort({ createdAt: -1 })
-            const totalProduct = new queryProducts(products, req.query).categoryQuery().searchQuery().priceQuery().ratingQuery().Availability().countProducts();
+            const totalProduct = new queryProducts(products, req.query).categoryQuery().searchQuery().priceQuery().ratingQuery().Availability().colorQuery().tagQuery().countProducts();
 
-            const result = new queryProducts(products, req.query).categoryQuery().searchQuery().ratingQuery().priceQuery().sortByPrice().Availability().sortByOldTONew().skip().limit().getProducts();
+            const result = new queryProducts(products, req.query).categoryQuery().searchQuery().ratingQuery().priceQuery().sortByPrice().Availability().sortByOldTONew().colorQuery().tagQuery().skip().limit().getProducts();
 
             responseReturn(res, 200, { products: result, totalProduct, parPage })
 
@@ -135,6 +137,7 @@ class homeControllers {
             userId
         } = req.body
         try {
+            //td   
             // const totalOrder = await customerOrder.find({
             //     customerId: new ObjectId(userId)
             // })
@@ -213,27 +216,8 @@ class homeControllers {
                 }
             }
             ])
-            let rating_review = [{
-                rating: 5,
-                sum: 0
-            },
-            {
-                rating: 4,
-                sum: 0
-            },
-            {
-                rating: 3,
-                sum: 0
-            },
-            {
-                rating: 2,
-                sum: 0
-            },
-            {
-                rating: 1,
-                sum: 0
-            }
-            ]
+            const rating_review = Array.from({ length: 5 }, (_, i) => ({ rating: 5 - i, sum: 0 }));
+
             for (let i = 0; i < rating_review.length; i++) {
                 for (let j = 0; j < getRating.length; j++) {
                     if (rating_review[i].rating === getRating[j]._id) {

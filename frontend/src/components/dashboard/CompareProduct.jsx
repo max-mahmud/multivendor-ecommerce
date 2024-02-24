@@ -33,7 +33,7 @@ const CompareProduct = () => {
           <div className="  min-w-[75vw] ">
             <table className="border-collapse border border-gray-100">
               <thead>
-                <tr className="bg-slate-50 border-b border-gray-300 ">
+                <tr className="bg-slate-200 border-b border-gray-300 ">
                   <th className="p-3 border-r w-32 border-gray-200"></th>
                   {comparelist.map((product) => (
                     <th key={product._id} className="p-3 relative border-r  border-gray-200 ">

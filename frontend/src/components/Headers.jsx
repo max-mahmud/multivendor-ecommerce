@@ -12,7 +12,11 @@ import {
   get_card_products,
   get_compare_products,
   get_wishlist_products,
+  reset_count,
 } from "../store/reducers/cardReducer";
+
+import { user_reset } from "../store/reducers/authReducer";
+import api from "../api/api";
 
 const Headers = () => {
   const navigate = useNavigate();
@@ -47,6 +51,18 @@ const Headers = () => {
       dispatch(get_compare_products(userInfo.id));
     }
   }, [userInfo]);
+
+  const logout = async () => {
+    try {
+      const { data } = await api.get("/customer/logout");
+      localStorage.removeItem("customerToken");
+      dispatch(user_reset());
+      dispatch(reset_count());
+      navigate("/login");
+    } catch (error) {
+      console.log(error.response.data);
+    }
+  };
 
   return (
     <div className="w-full bg-white pb-2">
@@ -87,17 +103,19 @@ const Headers = () => {
                     >
                       <span className="font-medium uppercase">{userInfo.name}</span>
                       <span className="bg-emerald-600 text-white font-bold text-xl px-2.5 py-1 rounded-full ">
-                        {userInfo.name.toString()[0].toUpperCase()}
+                        {userInfo?.name && userInfo?.name?.toString()[0].toUpperCase()}
                       </span>
                       {showDashboard && (
                         <div className="absolute top-6 right-2 flex flex-col gap-1 p-3 bg-slate-100 shadow-md z-50 ">
                           <Link className="hover:bg-slate-300 px-7 py-2" to={"/dashboard"}>
                             Dashboard
                           </Link>
-                          <Link className="hover:bg-slate-300 px-7 py-2" to={"/setting"}>
-                            Settings
+                          <Link className="hover:bg-slate-300 px-7 py-2" to={"/dashboard/edit-profile"}>
+                            Profile
                           </Link>
-                          <span className="hover:bg-slate-300 px-7 py-2">LogOut</span>
+                          <span onClick={logout} className="hover:bg-slate-300 px-7 py-2">
+                            LogOut
+                          </span>
                         </div>
                       )}
                     </div>
@@ -208,11 +226,10 @@ const Headers = () => {
                       <span className="text-xl text-orange-500">
                         <AiFillShopping />
                       </span>
-                      {card_product_count !== 0 && (
-                        <div className="w-[20px] h-[20px] absolute bg-green-500 rounded-full text-white flex justify-center items-center -top-[3px] -right-[5px]">
-                          {card_product_count}
-                        </div>
-                      )}
+
+                      <div className="w-[20px] h-[20px] absolute bg-green-500 rounded-full text-white flex justify-center items-center -top-[3px] -right-[5px]">
+                        {card_product_count}
+                      </div>
                     </div>
                   </div>
                 </div>

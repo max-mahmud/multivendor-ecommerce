@@ -14,6 +14,22 @@ const customerSchema = new Schema({
         required: true,
         select: false
     },
+    website: {
+        type: String,
+        default: ""
+    },
+    occupation: {
+        type: String,
+        default: ""
+    },
+    bio: {
+        type: String,
+        default: ""
+    },
+    photo: {
+        type: String,
+        default: ""
+    },
 }, { timestamps: true })
 
 module.exports = model('customers', customerSchema)

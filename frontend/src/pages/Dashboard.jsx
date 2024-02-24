@@ -96,9 +96,9 @@ const Dashboard = () => {
                   <span className="block">Edit Profile</span>
                 </Link>
                 <Link
-                  to="/dashboard/chage-password"
+                  to="/dashboard/change-password"
                   className={`dashboard-link  ${
-                    pathname === "/dashboard/chage-password"
+                    pathname === "/dashboard/change-password"
                       ? "border-r-2 bg-orange-100 border-orange-600"
                       : ""
                   }`}

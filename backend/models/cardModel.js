@@ -12,6 +12,9 @@ const cardSchema = new Schema({
     quantity: {
         type: Number,
         required: true
+    },
+    color: {
+        type: String,
     }
 }, { timestamps: true })
 

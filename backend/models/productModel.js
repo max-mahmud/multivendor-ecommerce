@@ -50,6 +50,12 @@ const productSchema = new Schema({
         type: Number,
         default: 0,
     },
+    colorArray: [{
+        type: String
+    }],
+    tagArray: [{
+        type: String
+    }]
 }, { timestamps: true })
 
 productSchema.index({

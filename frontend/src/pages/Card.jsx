@@ -87,11 +87,17 @@ const Card = () => {
                                   src={pt.productInfo.images[0]}
                                   alt="product image"
                                 />
-                                <div className="pr-4 text-slate-600">
+                                <div className="pr-4 text-slate-600 flex-1">
                                   <h2 className="text-md text-slate-600 font-medium">
                                     {pt.productInfo.name}
                                   </h2>
                                   <span className="text-sm">Brand : {pt.productInfo.brand}</span>
+                                </div>
+                                <div className="flex ">
+                                  <span
+                                    style={{ backgroundColor: pt?.color }}
+                                    className="w-10 h-10 border shadow rounded-full"
+                                  ></span>
                                 </div>
                               </div>
                             </div>
@@ -105,6 +111,7 @@ const Card = () => {
                                 <p className="line-through">{pt.productInfo.price}</p>
                                 <p>-{pt.productInfo.discount}%</p>
                               </div>
+
                               <div className="flex gap-2 flex-col">
                                 <div className="flex bg-gray-500 h-[30px] text-white justify-center items-center text-xl">
                                   <div

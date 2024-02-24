@@ -14,7 +14,6 @@ import "swiper/css/pagination";
 import Ratings from "../components/Ratings";
 import { AiFillHeart } from "react-icons/ai";
 import Reviews from "../components/Reviews";
-import img from "../assets/46.jpg";
 import { useDispatch, useSelector } from "react-redux";
 import { add_to_card, messageClear } from "./../store/reducers/cardReducer";
 import { toast } from "react-hot-toast";
@@ -28,8 +27,8 @@ const Details = () => {
 
   const [image, setImage] = useState("");
   const [state, setState] = useState("reviews");
-
-  const { product, relatedProducts } = useSelector((state) => state.home);
+  const [color, setColor] = useState("");
+  const { product, relatedProducts, totalReview } = useSelector((state) => state.home);
   const { userInfo } = useSelector((state) => state.auth);
   const { errorMessage, successMessage } = useSelector((state) => state.card);
 
@@ -56,6 +55,7 @@ const Details = () => {
           userId: userInfo.id,
           quantity,
           productId: product._id,
+          color,
         })
       );
     } else {
@@ -143,7 +143,7 @@ const Details = () => {
                 <div className="flex text-xl">
                   <Ratings ratings={product.rating} />
                 </div>
-                <span className="text-green-500">(23 reviews)</span> {/* //td  */}
+                <span className="text-green-500">({totalReview} reviews)</span>
               </div>
               <div className="text-2xl text-red-500 font-bold flex gap-3">
                 {product.discount !== 0 ? (
@@ -158,7 +158,7 @@ const Details = () => {
                   <h2>Price : ${product.price}</h2>
                 )}
               </div>
-              <div className="flex gap-7 pb-4 ">
+              <div className="flex gap-7 pb-2 ">
                 {product.stock ? (
                   <>
                     <div className="flex justify-center items-center text-xl">
@@ -182,6 +182,19 @@ const Details = () => {
                     <FaArrowsSpin />
                   </div>
                 </div>
+              </div>
+              <div className="flex gap-3 pb-2 font-medium">
+                {product.colorArray &&
+                  product.colorArray.map((item, i) => {
+                    return (
+                      <span
+                        key={i}
+                        onClick={() => setColor(item)}
+                        style={{ backgroundColor: item }}
+                        className="w-10 h-10 rounded-full"
+                      ></span>
+                    );
+                  })}
               </div>
               <div className="flex gap-3 font-medium">
                 <button
@@ -212,11 +225,17 @@ const Details = () => {
                 </div>
               </div>
               <div className="">
-                <div className="flex gap-3 font-bold">
+                <div className="flex items-center gap-3 font-bold">
                   <h4>Tags :</h4>
-                  <div className="flex gap-3 font-normal">
-                    <span>Modern</span>
-                    <span>Latest</span>
+                  <div className="flex gap-1 flex-wrap">
+                    {product.tagArray &&
+                      product.tagArray.map((item, i) => {
+                        return (
+                          <span key={i} className="bg-slate-300 text-sm font-medium px-2 py-1">
+                            {item}
+                          </span>
+                        );
+                      })}
                   </div>
                 </div>
               </div>

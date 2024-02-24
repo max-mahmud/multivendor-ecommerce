@@ -16,6 +16,7 @@ const ShopProducts = ({ styles, products }) => {
     >
       {products.map((p, i) => (
         <div
+          key={i}
           className={`flex transition-all duration-1000 hover:shadow-md hover:-translate-y-3 ${
             styles === "grid"
               ? "flex-col justify-start items-start"

@@ -86,16 +86,19 @@ class productController {
         }
     }
     product_update = async (req, res) => {
-        let { name, description, discount, price, brand, productId, stock } = req.body;
+        let { name, description, discount, price, brand, productId, stock, colors, tags } = req.body;
         name = name.trim()
         const slug = name.split(' ').join('-')
+        const colorValues = colors.map(color => color.value);
+        const tagValues = tags.map(tag => tag.label);
         try {
             await productModel.findByIdAndUpdate(productId, {
-                name, description, discount, price, brand, productId, stock, slug
+                name, description, discount, price, brand, productId, stock, slug, colorArray: colorValues, tagArray: tagValues
             })
             const product = await productModel.findById(productId)
             responseReturn(res, 200, { product, message: 'product update success' })
         } catch (error) {
+            console.log(error.message)
             responseReturn(res, 500, { error: error.message })
         }
     }

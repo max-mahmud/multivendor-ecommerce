@@ -6,7 +6,10 @@ class queryProducts {
         this.query = query
     }
     categoryQuery = () => {
-        this.products = this.query.category ? this.products.filter(c => c.category === this.query.category) : this.products
+        if (this.query.category != false) {
+            this.query.pageNumber = 1
+            this.products = this.query.category ? this.products.filter(c => c.category === this.query.category) : this.products
+        }
         return this
     }
     ratingQuery = () => {
@@ -80,6 +83,26 @@ class queryProducts {
 
         return this
     }
+
+    colorQuery = () => {
+        if (this.query.color == "") {
+            return this;
+        }
+        if (this.query.color != false) {
+            this.query.pageNumber = 1
+            const colorHash = "#" + this.query.color
+            this.products = this.products.filter(product => product.colorArray.includes(colorHash));
+        }
+        return this;
+    }
+    tagQuery = () => {
+        if (this.query.tag != false) {
+            this.query.pageNumber = 1
+            this.products = this.products.filter(product => product.tagArray.includes(this.query.tag));
+        }
+        return this;
+    }
+
     getProducts = () => {
         return this.products
     }

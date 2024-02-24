@@ -6,7 +6,7 @@ const { mongo: { ObjectId } } = require('mongoose');
 
 class cardController {
     add_to_card = async (req, res) => {
-        const { userId, productId, quantity } = req.body
+        const { userId, productId, quantity, color } = req.body
         try {
             const product = await cardModel.findOne({
                 $and: [
@@ -28,7 +28,8 @@ class cardController {
                 const product = await cardModel.create({
                     userId,
                     productId,
-                    quantity
+                    quantity,
+                    color
                 })
                 responseReturn(res, 201, { message: 'Add to card success', product })
             }
@@ -57,7 +58,8 @@ class cardController {
                     }
                 }
             ]);
-
+            // let color = card_products?.color
+            // console.log(card_products)
             let calculatePrice = 0;
             let card_product_count = 0;
             const outOfStockProduct = card_products.filter(p => p.products[0].stock < p.quantity);
@@ -83,6 +85,7 @@ class cardController {
                         products.push({
                             _id: prod._id,
                             quantity: prod.quantity,
+                            color: prod.color,
                             productInfo: tempProduct
                         });
                     }

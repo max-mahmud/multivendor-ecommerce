@@ -11,6 +11,9 @@ import {
   product_image_update,
 } from "../../store/Reducers/productReducer";
 import { overrideStyle } from "../../utils/utils";
+import MultiSelect from "../components/MultiSelect";
+import { colourOptions, tagOptions } from "../components/data";
+import MultiTagSelect from "../components/MultiTagSelect";
 
 const EditProduct = () => {
   const { productId } = useParams();
@@ -49,6 +52,9 @@ const EditProduct = () => {
   const [category, setCategory] = useState("");
   const [allCategory, setAllCategory] = useState([]);
   const [searchValue, setSearchValue] = useState("");
+  const [selectColor, setselectColor] = useState([]);
+  const [selectTag, setselectTag] = useState([]);
+  // console.log(selectTag);
   const categorySearch = (e) => {
     const value = e.target.value;
     setSearchValue(value);
@@ -112,10 +118,12 @@ const EditProduct = () => {
       brand: state.brand,
       stock: state.stock,
       productId: productId,
+      colors: selectColor,
+      tags: selectTag,
     };
-    console.log(obj);
     dispatch(update_product(obj));
   };
+
   return (
     <div className="px-2 lg:px-7 pt-5 ">
       <div className="w-full p-4   rounded-md">
@@ -134,7 +142,7 @@ const EditProduct = () => {
               <div className="flex flex-col w-full gap-1">
                 <label htmlFor="name">Product name</label>
                 <input
-                  className="px-4 py-2 focus:border-green-500 outline-none  border bg-slate-300 rounded-md text-slate-600"
+                  className="px-4 py-2 focus:border-green-500 outline-none  border bg-slate-200 border-slate-300 rounded-md text-slate-600"
                   onChange={inputHandle}
                   value={state.name}
                   type="text"
@@ -146,7 +154,7 @@ const EditProduct = () => {
               <div className="flex flex-col w-full gap-1">
                 <label htmlFor="brand">Product brand</label>
                 <input
-                  className="px-4 py-2 focus:border-green-500 outline-none  border bg-slate-300 rounded-md text-slate-600"
+                  className="px-4 py-2 focus:border-green-500 outline-none  border bg-slate-200 border-slate-300 rounded-md text-slate-600"
                   onChange={inputHandle}
                   value={state.brand}
                   type="text"
@@ -162,7 +170,7 @@ const EditProduct = () => {
                 <input
                   readOnly
                   onClick={() => setCateShow(!cateShow)}
-                  className="px-4 py-2 focus:border-green-500 outline-none bg-slate-300 border rounded-md text-slate-700"
+                  className="px-4 py-2 focus:border-green-500 outline-none bg-slate-200 border-slate-300 border rounded-md text-slate-700"
                   onChange={inputHandle}
                   value={category}
                   type="text"
@@ -170,7 +178,7 @@ const EditProduct = () => {
                   id="category"
                 />
                 <div
-                  className={`absolute top-[101%] bg-slate-300 w-full transition-all ${
+                  className={`absolute z-50 top-[101%] bg-slate-200 border-slate-300 w-full transition-all ${
                     cateShow ? "scale-100" : "scale-0"
                   }`}
                 >
@@ -207,7 +215,7 @@ const EditProduct = () => {
               <div className="flex flex-col w-full gap-1">
                 <label htmlFor="stock">Stock</label>
                 <input
-                  className="px-4 py-2 focus:border-green-500 outline-none  border bg-slate-300 rounded-md text-slate-600"
+                  className="px-4 py-2 focus:border-green-500 outline-none  border bg-slate-200 border-slate-300 rounded-md text-slate-600"
                   onChange={inputHandle}
                   value={state.stock}
                   type="number"
@@ -223,7 +231,7 @@ const EditProduct = () => {
               <div className="flex flex-col w-full gap-1">
                 <label htmlFor="price">Price</label>
                 <input
-                  className="px-4 py-2 focus:border-green-500 outline-none  border bg-slate-300 rounded-md text-slate-600"
+                  className="px-4 py-2 focus:border-green-500 outline-none  border bg-slate-200 border-slate-300 rounded-md text-slate-600"
                   onChange={inputHandle}
                   value={state.price}
                   type="number"
@@ -235,7 +243,7 @@ const EditProduct = () => {
               <div className="flex flex-col w-full gap-1">
                 <label htmlFor="discount">Discount</label>
                 <input
-                  className="px-4 py-2 focus:border-green-500 outline-none  border bg-slate-300 rounded-md text-slate-600"
+                  className="px-4 py-2 focus:border-green-500 outline-none  border bg-slate-200 border-slate-300 rounded-md text-slate-600"
                   onChange={inputHandle}
                   value={state.discount}
                   type="number"
@@ -245,11 +253,33 @@ const EditProduct = () => {
                 />
               </div>
             </div>
+            <div className="flex flex-col mb-3 md:flex-row gap-4 w-full text-slate-600">
+              <div className="flex flex-col w-full gap-1 relative">
+                {/* Add here */}
+                <label htmlFor="color">Color</label>
+                <MultiSelect
+                  selectOptions={colourOptions}
+                  setselectColor={setselectColor}
+                  colorArray={product.colorArray}
+                />
+              </div>
+            </div>
+            <div className="flex flex-col mb-3 md:flex-row gap-4 w-full text-slate-600">
+              <div className="flex flex-col w-full gap-1 relative">
+                {/* Add here */}
+                <label htmlFor="tag">Tag</label>
+                <MultiTagSelect
+                  tagOptions={tagOptions}
+                  setselectTag={setselectTag}
+                  tagsArray={product.tagArray}
+                />
+              </div>
+            </div>
             <div className="flex flex-col w-full gap-1 text-slate-600 mb-5">
               <label htmlFor="description">Description</label>
               <textarea
                 rows={4}
-                className="px-4 py-2 focus:border-green-500 outline-none  border bg-slate-300 rounded-md text-slate-600"
+                className="px-4 py-2 focus:border-green-500 outline-none  border bg-slate-200 border-slate-300 rounded-md text-slate-600"
                 onChange={inputHandle}
                 value={state.description}
                 placeholder="description"
