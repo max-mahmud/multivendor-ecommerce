@@ -2,6 +2,7 @@ import React, { useEffect, lazy, Suspense } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { get_category } from "./store/reducers/homeReducer";
+import "react-multi-carousel/lib/styles.css";
 import Loading from "./components/Loading";
 
 const Home = lazy(() => import("./pages/Home"));

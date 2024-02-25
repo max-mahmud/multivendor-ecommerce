@@ -8,6 +8,9 @@ import { PropagateLoader } from "react-spinners";
 import { overrideStyle } from "../../utils/utils";
 import { get_category } from "../../store/Reducers/categoryReducer";
 import { add_product, messageClear } from "../../store/Reducers/productReducer";
+import MultiSelect from "../components/MultiSelect";
+import { colourOptions, tagOptions } from "../components/data";
+import MultiTagSelect from "../components/MultiTagSelect";
 
 const AddProduct = () => {
   const dispatch = useDispatch();
@@ -42,6 +45,9 @@ const AddProduct = () => {
   const [category, setCategory] = useState("");
   const [allCategory, setAllCategory] = useState([]);
   const [searchValue, setSearchValue] = useState("");
+  const [selectColor, setselectColor] = useState([]);
+  const [selectTag, setselectTag] = useState([]);
+
   const categorySearch = (e) => {
     const value = e.target.value;
     setSearchValue(value);
@@ -91,7 +97,7 @@ const AddProduct = () => {
   useEffect(() => {
     setAllCategory(categorys);
   }, [categorys]);
-  console.log(userInfo.shopInfo.shopName);
+  // console.log(userInfo.shopInfo.shopName);
   const add = (e) => {
     e.preventDefault();
     const formData = new FormData();
@@ -99,6 +105,8 @@ const AddProduct = () => {
     formData.append("description", state.description);
     formData.append("price", state.price);
     formData.append("stock", state.stock);
+    formData.append("selectColor", JSON.stringify(selectColor));
+    formData.append("selectTag", JSON.stringify(selectTag));
     formData.append("category", category);
     formData.append("discount", state.discount);
     formData.append("shopName", userInfo.shopInfo.shopName);
@@ -148,7 +156,7 @@ const AddProduct = () => {
               <div className="flex flex-col w-full gap-1">
                 <label htmlFor="name">Product name</label>
                 <input
-                  className="px-4 py-2 focus:border-green-500 outline-none  border bg-slate-300 rounded-md text-slate-600"
+                  className="px-4 py-2 focus:border-green-500 outline-none  border bg-slate-200 rounded-md text-slate-600"
                   onChange={inputHandle}
                   value={state.name}
                   required
@@ -161,7 +169,7 @@ const AddProduct = () => {
               <div className="flex flex-col w-full gap-1">
                 <label htmlFor="brand">Product brand</label>
                 <input
-                  className="px-4 py-2 focus:border-green-500 outline-none  border bg-slate-300 rounded-md text-slate-600"
+                  className="px-4 py-2 focus:border-green-500 outline-none  border bg-slate-200 rounded-md text-slate-600"
                   onChange={inputHandle}
                   value={state.brand}
                   type="text"
@@ -178,7 +186,7 @@ const AddProduct = () => {
                 <input
                   readOnly
                   onClick={() => setCateShow(!cateShow)}
-                  className="px-4 py-2 focus:border-green-500 outline-none  border bg-slate-300 rounded-md text-slate-600"
+                  className="px-4 py-2 focus:border-green-500 outline-none  border bg-slate-200 rounded-md text-slate-600"
                   onChange={inputHandle}
                   value={category}
                   required
@@ -187,11 +195,11 @@ const AddProduct = () => {
                   id="category"
                 />
                 <div
-                  className={`absolute top-[101%] bg-slate-200 shadow w-full transition-all ${
+                  className={`absolute z-50 top-[101%] bg-slate-200 shadow w-full transition-all ${
                     cateShow ? "scale-100" : "scale-0"
                   }`}
                 >
-                  <div className="w-full px-4 py-2 fixed">
+                  <div className="w-full px-4 py-2 fixed ">
                     <input
                       value={searchValue}
                       onChange={categorySearch}
@@ -201,7 +209,7 @@ const AddProduct = () => {
                     />
                   </div>
                   <div className="pt-14"></div>
-                  <div className="flex justify-start items-start flex-col h-[200px] overflow-y-scroll">
+                  <div className="flex justify-start z-50 items-start flex-col h-[200px] overflow-y-scroll">
                     {allCategory.map((c, i) => (
                       <span
                         className={`px-4 py-2 hover:bg-green-500 hover:text-white hover:shadow-lg w-full cursor-pointer ${
@@ -223,7 +231,7 @@ const AddProduct = () => {
               <div className="flex flex-col w-full gap-1">
                 <label htmlFor="stock">Stock</label>
                 <input
-                  className="px-4 py-2 focus:border-green-500 outline-none  border bg-slate-300 rounded-md text-slate-600"
+                  className="px-4 py-2 focus:border-green-500 outline-none  border bg-slate-200 rounded-md text-slate-600"
                   onChange={inputHandle}
                   value={state.stock}
                   type="number"
@@ -240,7 +248,7 @@ const AddProduct = () => {
               <div className="flex flex-col w-full gap-1">
                 <label htmlFor="price">Price</label>
                 <input
-                  className="px-4 py-2 focus:border-green-500 outline-none  border bg-slate-300 rounded-md text-slate-600"
+                  className="px-4 py-2 focus:border-green-500 outline-none  border bg-slate-200 rounded-md text-slate-600"
                   onChange={inputHandle}
                   value={state.price}
                   type="number"
@@ -254,7 +262,7 @@ const AddProduct = () => {
                 <label htmlFor="discount">Discount</label>
                 <input
                   min="0"
-                  className="px-4 py-2 focus:border-green-500 outline-none  border bg-slate-300 rounded-md text-slate-600"
+                  className="px-4 py-2 focus:border-green-500 outline-none  border bg-slate-200 rounded-md text-slate-600"
                   onChange={inputHandle}
                   value={state.discount}
                   type="number"
@@ -265,11 +273,35 @@ const AddProduct = () => {
                 />
               </div>
             </div>
+            <div className="flex flex-col mb-3 md:flex-row gap-4 w-full text-slate-600">
+              <div className="flex flex-col w-full gap-1 relative">
+                {/* Add here */}
+                <label htmlFor="color">Color</label>
+                <MultiSelect
+                  selectOptions={colourOptions}
+                  setselectColor={setselectColor}
+                  successMessage={successMessage}
+                  // colorArray={product.colorArray}
+                />
+              </div>
+            </div>
+            <div className="flex flex-col mb-3 md:flex-row gap-4 w-full text-slate-600">
+              <div className="flex flex-col w-full gap-1 relative">
+                {/* Add here */}
+                <label htmlFor="tag">Tag</label>
+                <MultiTagSelect
+                  tagOptions={tagOptions}
+                  setselectTag={setselectTag}
+                  successMessage={successMessage}
+                  // tagsArray={product.tagArray}
+                />
+              </div>
+            </div>
             <div className="flex flex-col w-full gap-1 text-slate-600 mb-5">
               <label htmlFor="description">Description</label>
               <textarea
                 rows={4}
-                className="px-4 py-2 focus:border-green-500 outline-none bg-slate-100 border bg-slate-300 rounded-md text-slate-600"
+                className="px-4 py-2 focus:border-green-500 outline-none bg-slate-100 border bg-slate-200 rounded-md text-slate-600"
                 onChange={inputHandle}
                 value={state.description}
                 placeholder="description"
@@ -292,7 +324,7 @@ const AddProduct = () => {
                   />
                   <span
                     onClick={() => removeImage(i)}
-                    className="p-2 z-10 cursor-pointer bg-slate-700 hover:shadow-lg hover:shadow-slate-400/50 text-white absolute top-1 right-1 rounded-full"
+                    className="p-2 z-0 cursor-pointer bg-slate-700 hover:shadow-lg hover:shadow-slate-400/50 text-white absolute top-1 right-1 rounded-full"
                   >
                     <IoCloseSharp />
                   </span>

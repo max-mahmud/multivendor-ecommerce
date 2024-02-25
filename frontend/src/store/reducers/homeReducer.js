@@ -50,6 +50,21 @@ export const query_products = createAsyncThunk(
     }
 )
 
+export const advanced_search = createAsyncThunk(
+    'search/advanced_search',
+    async (info, {
+        fulfillWithValue
+    }) => {
+        try {
+            const {
+                data
+            } = await api.get(`/home/advanced-search?searchValue=${info}`)
+            return fulfillWithValue(data)
+        } catch (error) {
+            console.log(error.response)
+        }
+    }
+)
 export const get_product = createAsyncThunk(
     'product/get_product',
     async (slug, {
@@ -102,6 +117,14 @@ export const get_reviews = createAsyncThunk(
     }
 )
 
+export const all_banners = createAsyncThunk("banners/all_banners", async (_, { fulfillWithValue }) => {
+    try {
+        const { data } = await api.get("/banners");
+        return fulfillWithValue(data);
+    } catch (error) {
+        console.log(error);
+    }
+});
 
 export const homeReducer = createSlice({
     name: 'home',
@@ -124,11 +147,16 @@ export const homeReducer = createSlice({
         reviews: [],
         successMessage: '',
         errorMessage: '',
+        banners: [],
+        advanced_search_prd: [],
     },
     reducers: {
         messageClear: (state, _) => {
             state.successMessage = ""
             state.errorMessage = ""
+        },
+        emptyAdvancedSearch: (state, _) => {
+            state.advanced_search_prd = []
         }
     },
     extraReducers: (builder) => {
@@ -166,7 +194,13 @@ export const homeReducer = createSlice({
                 state.totalReview = payload.totalReview
                 state.rating_review = payload.rating_review
             })
+            .addCase(all_banners.fulfilled, (state, { payload }) => {
+                state.banners = payload.banners
+            })
+            .addCase(advanced_search.fulfilled, (state, { payload }) => {
+                state.advanced_search_prd = payload.totalProduct
+            })
     }
 })
-export const { messageClear } = homeReducer.actions;
+export const { messageClear, emptyAdvancedSearch } = homeReducer.actions;
 export default homeReducer.reducer;

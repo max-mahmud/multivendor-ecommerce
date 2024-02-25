@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { FaEdit, FaEye, FaTrash } from "react-icons/fa";
+import { GiKnightBanner } from "react-icons/gi";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import Pagination from "../Pagination";
 import Search from "../components/Search";
-import { get_products } from "../../store/Reducers/productReducer";
+import { delete_product, get_products, messageClear } from "../../store/Reducers/productReducer";
+import { toast } from "react-hot-toast";
 
 const Products = () => {
   const dispatch = useDispatch();
-  const { products, totalProduct } = useSelector((state) => state.product);
+  const { products, totalProduct, successMessage, errorMessage } = useSelector((state) => state.product);
 
   const [currentPage, setCurrentPage] = useState(1);
   const [searchValue, setSearchValue] = useState("");
@@ -21,7 +23,18 @@ const Products = () => {
       searchValue,
     };
     dispatch(get_products(obj));
-  }, [searchValue, currentPage, parPage]);
+  }, [searchValue, currentPage, parPage, successMessage]);
+
+  useEffect(() => {
+    if (successMessage) {
+      toast.success(successMessage);
+      dispatch(messageClear());
+    }
+    if (errorMessage) {
+      toast.success(errorMessage);
+      dispatch(messageClear());
+    }
+  }, [successMessage, errorMessage]);
 
   return (
     <div className="px-2 lg:px-7 pt-5 ">
@@ -87,8 +100,8 @@ const Products = () => {
                   <td scope="row" className="py-1 px-4 font-medium whitespace-nowrap">
                     <span>{d.stock}</span>
                   </td>
-                  <td scope="row" className="py-1 px-4 font-medium whitespace-nowrap">
-                    <div className="flex justify-start items-center gap-4">
+                  <td scope="row" className="py-1 px-4 font-medium whitespace-nowrap text-white">
+                    <div className="flex justify-start items-center gap-2">
                       <Link
                         to={`/seller/dashboard/edit-product/${d._id}`}
                         className="p-[6px] bg-yellow-500 rounded hover:shadow-lg hover:shadow-yellow-500/50"
@@ -98,9 +111,18 @@ const Products = () => {
                       <Link className="p-[6px] bg-green-500 rounded hover:shadow-lg hover:shadow-green-500/50">
                         <FaEye />
                       </Link>
-                      <button className="p-[6px] bg-red-500 rounded hover:shadow-lg hover:shadow-red-500/50">
+                      <button
+                        onClick={() => dispatch(delete_product(d._id))}
+                        className="p-[6px] bg-red-500 rounded hover:shadow-lg hover:shadow-red-500/50"
+                      >
                         <FaTrash />
                       </button>
+                      <Link
+                        to={`/seller/dashboard/add-banner/${d._id}`}
+                        className="p-[6px] bg-cyan-500 rounded hover:shadow-lg hover:shadow-cyan-500/50"
+                      >
+                        <GiKnightBanner />
+                      </Link>
                     </div>
                   </td>
                 </tr>
@@ -115,9 +137,9 @@ const Products = () => {
             <Pagination
               pageNumber={currentPage}
               setPageNumber={setCurrentPage}
-              totalItem={50}
+              totalItem={totalProduct}
               parPage={parPage}
-              showItem={4}
+              showItems={3}
             />
           </div>
         )}

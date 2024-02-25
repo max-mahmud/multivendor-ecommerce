@@ -6,8 +6,8 @@ const PageHeader = ({ title = "All Products", slug = "", category = "shops" }) =
   return (
     <section className=" bg-slate-200  shadow bg-cover bg-no-repeat ">
       <div className="w-[85%] md:w-[80%] sm:w-[90%] lg:w-[90%] h-full mx-auto">
-        <div className="flex bg-slate-200 text-slate-700 py-5 px-2">
-          <div className="flex justify-center items-center gap-2 text-2xl ">
+        <div className="flex bg-slate-200 text-slate-700 py-5 sm:py-3 px-2">
+          <div className="flex justify-center flex-wrap items-center gap-2 text-2xl sm:text-lg font-medium ">
             <Link to="/">Home</Link>
             <span className="pt-1">
               <MdOutlineKeyboardArrowRight />

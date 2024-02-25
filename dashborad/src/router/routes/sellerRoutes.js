@@ -1,5 +1,6 @@
 import { lazy } from 'react'
 const SellerDashboard = lazy(() => import("../../views/seller/SellerDashboard"))
+const AddBanner = lazy(() => import("../../views/seller/AddBanner"))
 const AddProduct = lazy(() => import("../../views/seller/AddProduct"))
 const Products = lazy(() => import("../../views/seller/Products"))
 const DiscountProducts = lazy(() => import("../../views/seller/DiscountProducts"))
@@ -45,6 +46,12 @@ export const sellerRoutes = [
     {
         path: '/seller/dashboard/products',
         element: <Products />,
+        role: 'seller',
+        status: 'active'
+    },
+    {
+        path: '/seller/dashboard/add-banner/:id',
+        element: <AddBanner />,
         role: 'seller',
         status: 'active'
     },

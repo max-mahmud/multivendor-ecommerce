@@ -65,6 +65,30 @@ export const get_product = createAsyncThunk(
     }
 )
 
+export const delete_product = createAsyncThunk(
+    'product/delete_product',
+    async (productId, { rejectWithValue, fulfillWithValue }) => {
+        try {
+            const { data } = await api.delete(`/delete-product/${productId}`, { withCredentials: true })
+            return fulfillWithValue(data)
+        } catch (error) {
+            return rejectWithValue(error.response.data)
+        }
+    }
+)
+
+export const discount_product_get = createAsyncThunk(
+    'product/discount_product_get',
+    async (sellerId, { rejectWithValue, fulfillWithValue }) => {
+        try {
+            const { data } = await api.get(`/discount-product-get/${sellerId}`, { withCredentials: true })
+            return fulfillWithValue(data)
+        } catch (error) {
+            return rejectWithValue(error.response.data)
+        }
+    }
+)
+
 
 
 export const productReducer = createSlice({
@@ -116,13 +140,27 @@ export const productReducer = createSlice({
                 state.product = payload.product;
                 state.successMessage = payload.message;
             })
+            .addCase(delete_product.pending, (state, { payload }) => {
+                state.loader = true;
+            })
+            .addCase(delete_product.fulfilled, (state, { payload }) => {
+                state.successMessage = payload.message;
+                state.loader = false;
+            })
+            .addCase(delete_product.rejected, (state, { payload }) => {
+                state.errorMessage = payload.error;
+                state.loader = false;
+            })
             .addCase(get_products.fulfilled, (state, { payload }) => {
                 state.totalProduct = payload.totalProduct;
                 state.products = payload.products;
             })
             .addCase(get_product.fulfilled, (state, { payload }) => {
                 state.product = payload.product;
-            });
+            })
+            .addCase(discount_product_get.fulfilled, (state, { payload }) => {
+                state.products = payload.product;
+            })
     }
 })
 export const { messageClear } = productReducer.actions

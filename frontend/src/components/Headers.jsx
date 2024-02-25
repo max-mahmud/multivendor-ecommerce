@@ -17,6 +17,7 @@ import {
 
 import { user_reset } from "../store/reducers/authReducer";
 import api from "../api/api";
+import { advanced_search, emptyAdvancedSearch } from "../store/reducers/homeReducer";
 
 const Headers = () => {
   const navigate = useNavigate();
@@ -24,7 +25,7 @@ const Headers = () => {
   const { pathname } = useLocation();
   const [showShidebar, setShowShidebar] = useState(true);
   const [categoryShow, setCategoryShow] = useState(true);
-  const { categorys } = useSelector((state) => state.home);
+  const { categorys, advanced_search_prd } = useSelector((state) => state.home);
   const { userInfo } = useSelector((state) => state.auth);
   const { card_product_count, wishlist_count, comparelist_count } = useSelector((state) => state.card);
   const [showDashboard, setShowDashboard] = useState(false);
@@ -35,6 +36,19 @@ const Headers = () => {
   const search = () => {
     navigate(`/products/search?category=${category}&&value=${searchValue}`);
   };
+  const searchAdvabced = (value) => {
+    navigate(`/products/search?category=${category}&&value=${value}`);
+    dispatch(emptyAdvancedSearch());
+  };
+
+  useEffect(() => {
+    if (searchValue.trim().length > 0) {
+      dispatch(advanced_search(searchValue.trim()));
+    }
+    if (searchValue.trim().length === 0) {
+      dispatch(emptyAdvancedSearch());
+    }
+  }, [searchValue]);
 
   const redirect_card_page = () => {
     if (userInfo) {
@@ -63,7 +77,6 @@ const Headers = () => {
       console.log(error.response.data);
     }
   };
-
   return (
     <div className="w-full bg-white pb-2">
       <div className="header-top bg-[#eeeeee] md-lg:hidden">
@@ -256,16 +269,6 @@ const Headers = () => {
               <img src="http://localhost:3000/images/logo.png" alt="logo" />
             </Link>
             <div className="flex justify-star items-center gap-10">
-              <div className="flex group cursor-pointer text-slate-800 text-sm justify-center items-center gap-1 relative after:h-[18px] after:w-[1px] after:bg-[#afafaf] after:-right-[16px] after:absolute">
-                <img src="http://localhost:3000/images/language.png" alt="" />
-                <span>
-                  <MdOutlineKeyboardArrowDown />
-                </span>
-                <ul className="absolute invisible transition-all to-12 rounded-sm duration-200 text-white p-2 w-[100px] flex flex-col gap-3 group-hover:visible group-hover:top-6 group-hover:bg-black z-10">
-                  <li>Bangla</li>
-                  <li>English</li>
-                </ul>
-              </div>
               {userInfo ? (
                 <Link
                   className="flex cursor-pointer justify-center items-center gap-2 text-sm"
@@ -335,8 +338,8 @@ const Headers = () => {
                 </span>
               </div>
               <div className="flex justify-end flex-col gap-1">
-                <h2 className="text-sm font-medium text-slate-700">+8803242343243</h2>
-                <span className="text-xs">support 33/45 time</span>
+                <h2 className="text-sm font-medium text-slate-700">+880174141414</h2>
+                <span className="text-xs">Support 7/24 Time</span>
               </div>
             </div>
             <ul className="flex flex-col justify-start items-start gap-3 text-[#1c1c1c]">
@@ -428,6 +431,30 @@ const Headers = () => {
                   >
                     Search
                   </button>
+                  <div
+                    className="bg-slate-100 border border-slate-200 absolute top-[48px] z-50 left-0 max-h-[350px] overflow-y-auto w-full"
+                    style={{
+                      scrollbarWidth: "thin",
+                      scrollbarColor: "rgba(251, 146, 60, 0.7) rgba(251, 146, 60, 0.3)",
+                    }}
+                  >
+                    <div className="flex gap-0 flex-col ">
+                      {advanced_search_prd !== [] && // Check if the array is not empty
+                        advanced_search_prd.map((item, i) => {
+                          return (
+                            <div
+                              key={i}
+                              onClick={() => searchAdvabced(item.name)}
+                              className="flex items-center font-medium capitalize w-full bg-slate-100 hover:bg-orange-100 cursor-pointer  border gap-2 py-1 px-4"
+                            >
+                              {/* Assuming item.images is an array, you can select the first image */}
+                              <img src={item.images} alt="img" className="w-16 h-16" />
+                              <span className="">{item.name}</span>
+                            </div>
+                          );
+                        })}
+                    </div>
+                  </div>
                 </div>
               </div>
               <div className="w-4/12 block md-lg:hidden pl-2 md-lg:w-full md-lg:pl-0">
@@ -438,8 +465,8 @@ const Headers = () => {
                     </span>
                   </div>
                   <div className="flex justify-end flex-col gap-1">
-                    <h2 className="text-md font-medium text-slate-700">+8803242343243</h2>
-                    <span className="text-sm">support 33/45 time</span>
+                    <h2 className="text-md font-medium text-slate-700">+8801710114141</h2>
+                    <span className="text-sm">Support 7/24 Time</span>
                   </div>
                 </div>
               </div>

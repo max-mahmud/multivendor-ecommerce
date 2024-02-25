@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaEdit, FaEye, FaTrash } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import Pagination from "../Pagination";
@@ -7,11 +7,22 @@ import img1 from "../../assets/image/44.jpg";
 import img2 from "../../assets/image/45.jpg";
 import img3 from "../../assets/image/46.jpg";
 import img4 from "../../assets/image/47.jpg";
+import { useDispatch, useSelector } from "react-redux";
+import { discount_product_get } from "../../store/Reducers/productReducer";
 
 const DiscountProducts = () => {
+  const dispatch = useDispatch();
+  const { userInfo } = useSelector((state) => state.auth);
+  const { products } = useSelector((state) => state.product);
+
   const [currentPage, setCurrentPage] = useState(1);
   const [searchValue, setSearchValue] = useState("");
   const [parPage, setParPage] = useState(5);
+
+  useEffect(() => {
+    dispatch(discount_product_get(userInfo?._id));
+  }, []);
+  // console.log(userInfo?._id);
   return (
     <div className="px-2 lg:px-7 pt-5 ">
       <div className="w-full p-4  bg-slate-100 rounded-md">
@@ -50,31 +61,31 @@ const DiscountProducts = () => {
               </tr>
             </thead>
             <tbody>
-              {[img1, img3, img2, img4, img1].map((d, i) => (
+              {products?.map((p, i) => (
                 <tr key={i}>
                   <td scope="row" className="py-1 px-4 font-medium whitespace-nowrap">
                     {i + 1}
                   </td>
                   <td scope="row" className="py-1 px-4 font-medium whitespace-nowrap">
-                    <img className="w-[45px] h-[45px]" src={d} alt="" />
+                    <img className="w-[45px] h-[45px]" src={p.images[0]} alt="" />
                   </td>
                   <td scope="row" className="py-1 px-4 font-medium whitespace-nowrap">
-                    <span>Men's Premium soft..</span>
+                    <span>{p.name}</span>
                   </td>
                   <td scope="row" className="py-1 px-4 font-medium whitespace-nowrap">
-                    <span>Sports</span>
+                    <span>{p.category}</span>
                   </td>
                   <td scope="row" className="py-1 px-4 font-medium whitespace-nowrap">
-                    <span>Easy</span>
+                    <span>{p.brand}</span>
                   </td>
                   <td scope="row" className="py-1 px-4 font-medium whitespace-nowrap">
-                    <span>$565</span>
+                    <span>${p.price}</span>
                   </td>
                   <td scope="row" className="py-1 px-4 font-medium whitespace-nowrap">
-                    <span>5%</span>
+                    <span>{p.discount}%</span>
                   </td>
                   <td scope="row" className="py-1 px-4 font-medium whitespace-nowrap">
-                    <span>10</span>
+                    <span>{p.stock}</span>
                   </td>
                   <td scope="row" className="py-1 px-4 font-medium whitespace-nowrap">
                     <div className="flex justify-start items-center gap-4">

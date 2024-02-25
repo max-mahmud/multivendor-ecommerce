@@ -100,9 +100,9 @@ const Reviews = ({ product }) => {
         </div>
       </div>
       <h2 className="text-slate-600 text-xl font-bold py-5">Products Reviews {totalReview}</h2>
-      <div className="flex flex-col gap-8 pb-10 pt-4">
+      <div className="flex flex-col gap-5 pb-10 pt-4">
         {reviews.map((r, i) => (
-          <div key={i} className="flex flex-col gap-1 bg-slate-100 p-1">
+          <div key={i} className="flex flex-col gap-1 bg-slate-100 border py-2 px-2">
             <div className="flex justify-between items-center">
               <span className="text-slate-600 text-xl font-bold uppercase">{r.name}</span>
               <span className="text-slate-600">{r.date}</span>

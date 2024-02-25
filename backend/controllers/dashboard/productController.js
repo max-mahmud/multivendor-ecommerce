@@ -9,7 +9,7 @@ class productController {
         const form = new formidable.IncomingForm({ multiples: true })
 
         form.parse(req, async (err, field, files) => {
-            let { name, category, description, stock, price, discount, shopName, brand } = field;
+            let { name, category, description, stock, price, discount, shopName, brand, selectTag, selectColor } = field;
             const { images } = files;
             name = name[0].trim()
             const slug = name.split(' ').join('-')
@@ -20,6 +20,9 @@ class productController {
                 api_secret: process.env.api_secret,
                 secure: true
             })
+
+            const colorValues = JSON.parse(selectColor).map((item) => item.value)
+            const tagValues = JSON.parse(selectTag).map((item) => item.label)
 
             try {
                 let allImageUrl = [];
@@ -39,7 +42,8 @@ class productController {
                     price: parseInt(price[0]),
                     discount: parseInt(discount[0]),
                     images: allImageUrl,
-                    brand: brand[0].trim()
+                    brand: brand[0].trim(),
+                    colorArray: colorValues, tagArray: tagValues
                 })
                 res.status(201).json({ message: "Created successfully" });
             } catch (error) {
@@ -61,11 +65,16 @@ class productController {
                     $text: { $search: searchValue },
                     sellerId: id
                 }).skip(skipPage).limit(parPage).sort({ createdAt: -1 })
+
                 const totalProduct = await productModel.find({
                     $text: { $search: searchValue },
                     sellerId: id
                 }).countDocuments()
-                responseReturn(res, 200, { totalProduct, products })
+                if (products.length === 0) {
+                    responseReturn(res, 404, { message: "No products found matching the search criteria." });
+                } else {
+                    responseReturn(res, 200, { totalProduct, products });
+                }
             } else {
                 const products = await productModel.find({ sellerId: id }).skip(skipPage).limit(parPage).sort({ createdAt: -1 })
                 const totalProduct = await productModel.find({ sellerId: id }).countDocuments()
@@ -85,6 +94,18 @@ class productController {
             console.log(error.message)
         }
     }
+    discount_product_get = async (req, res) => {
+        const { sellerId } = req.params;
+        try {
+            let product = await productModel.find({ sellerId: sellerId })
+            product = product.filter((p) => p.discount > 0)
+
+            responseReturn(res, 200, { product })
+        } catch (error) {
+            console.log(error.message)
+        }
+    }
+
     product_update = async (req, res) => {
         let { name, description, discount, price, brand, productId, stock, colors, tags } = req.body;
         name = name.trim()
@@ -141,6 +162,43 @@ class productController {
             }
         })
     }
+
+    delete_product = async (req, res) => {
+        const { productId } = req.params;
+
+        try {
+            const product = await productModel.findById(productId);
+
+            cloudinary.config({
+                cloud_name: process.env.cloud_name,
+                api_key: process.env.api_key,
+                api_secret: process.env.api_secret,
+                secure: true
+            })
+
+            if (!product) {
+                return res.status(404).json({ error: "Product not found." });
+            }
+            const images = product.images;
+            for (let i = 0; i < images.length; i++) {
+                const publicId = images[i].split("/").pop().split(".")[0];
+                try {
+                    const result = await cloudinary.uploader.destroy(publicId)
+                } catch (error) {
+                    console.error('Error deleting image:', error);
+                }
+            }
+            // Delete the product from the database
+            await productModel.findByIdAndDelete(productId);
+
+            res.status(200).json({ message: "Product and associated images deleted successfully." });
+        } catch (error) {
+            console.error("Error deleting product:", error);
+            res.status(500).json({ error: "Internal server error." });
+        }
+    }
+
+
 }
 
 module.exports = new productController()

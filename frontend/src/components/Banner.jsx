@@ -2,13 +2,9 @@ import React from "react";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import { Link } from "react-router-dom";
-import img1 from "../assets/s2.jpg";
-import t1 from "../assets/t1.jpg";
-import t2 from "../assets/t2.jpg";
-import t3 from "../assets/t3.jpg";
-import t4 from "../assets/t4.jpg";
+import Skeleton from "./Skeleton";
 
-const Banner = () => {
+const Banner = ({ banners }) => {
   const responsive = {
     superLargeDesktop: {
       breakpoint: { max: 4000, min: 3000 },
@@ -27,34 +23,55 @@ const Banner = () => {
       items: 1,
     },
   };
+
+  const filterBanner = [...banners]?.filter((item) => item.type === "small");
   return (
     <div className="w-full md-lg:mt-6">
       <div className="w-[85%] lg:w-[90%] mx-auto">
         <div className="w-full flex flex-wrap md-lg:gap-0">
           <div className=" w-3/5 md-lg:w-full">
             <div className="my-8">
-              <Carousel autoPlay={true} infinite={true} arrows={true} showDots={true} responsive={responsive}>
-                {[1, 2, 3, 4].map((img, i) => (
-                  <Link className=" h-[350px] block" key={i} to="#">
-                    <img src={img1} alt="banner" className="h-full w-full" />
-                  </Link>
-                ))}
-              </Carousel>
+              {banners ? (
+                <Carousel
+                  autoPlay={true}
+                  infinite={true}
+                  arrows={true}
+                  showDots={true}
+                  responsive={responsive}
+                >
+                  {banners.map((prd, i) => {
+                    if (prd.type === "big") {
+                      return (
+                        <Link className=" h-[350px] block" key={i} to={`/product/details/${prd.link}`}>
+                          <img src={prd.banner} alt="banner" className="h-full w-full" />
+                        </Link>
+                      );
+                    }
+                  })}
+                </Carousel>
+              ) : (
+                // Use Skeleton loading effect
+                <Skeleton styles={"h-[350px]"} />
+              )}
             </div>
           </div>
           <div className="w-2/5 md-lg:w-full grid grid-cols-2 gap-2 py-7 pl-4 md-lg:pl-0">
-            <div className="w-full p-1 bg-slate-200 cursor-pointer hoverEffect">
-              <img src={t1} alt="banner" className="w-full h-[166px] -z-20 absolute-overlay" />
-            </div>
-            <div className="w-full p-1 bg-slate-200 cursor-pointer hoverEffect">
-              <img src={t2} alt="banner" className="w-full h-[166px] -z-20 absolute-overlay" />
-            </div>
-            <div className="w-full p-1 bg-slate-200 cursor-pointer hoverEffect">
-              <img src={t3} alt="banner" className="w-full h-[166px] -z-20 absolute-overlay" />
-            </div>
-            <div className="w-full p-1 bg-slate-200 cursor-pointer hoverEffect">
-              <img src={t4} alt="banner" className="w-full h-[166px] -z-20 absolute-overlay" />
-            </div>
+            {filterBanner
+              ? filterBanner.slice(0, 4).map((prd, i) => {
+                  return (
+                    <Link
+                      to={`/product/details/${prd.link}`}
+                      className="w-full p-1 bg-slate-200 cursor-pointer hoverEffect"
+                    >
+                      <img
+                        src={prd.banner}
+                        alt="banner"
+                        className="w-full h-[166px] -z-20 absolute-overlay"
+                      />
+                    </Link>
+                  );
+                })
+              : [1, 2, 3, 4].map((_, i) => <Skeleton styles={"h-[167px] mt-1"} key={i} />)}
           </div>
         </div>
       </div>

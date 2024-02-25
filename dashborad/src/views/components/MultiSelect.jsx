@@ -3,7 +3,7 @@ import chroma from "chroma-js";
 
 import Select from "react-select";
 
-const MultiSelect = ({ selectOptions, setselectColor, colorArray }) => {
+const MultiSelect = ({ selectOptions, setselectColor, colorArray, successMessage }) => {
   const [selectedValues, setSelectedValues] = useState([]);
 
   const colourStyles = {
@@ -70,7 +70,11 @@ const MultiSelect = ({ selectOptions, setselectColor, colorArray }) => {
       setSelectedValues([selectOptions[1], selectOptions[5]]);
       setselectColor([selectOptions[1], selectOptions[5]]);
     }
-  }, [colorArray, selectOptions, setselectColor]);
+    if (successMessage) {
+      setSelectedValues([selectOptions[1], selectOptions[5]]);
+      setselectColor([selectOptions[1], selectOptions[5]]);
+    }
+  }, [colorArray, selectOptions, setselectColor, successMessage]);
 
   return (
     <Select

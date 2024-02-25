@@ -97,7 +97,6 @@ class homeControllers {
             console.log(error.message)
         }
     }
-
     get_product = async (req, res) => {
         const {
             slug
@@ -127,7 +126,23 @@ class homeControllers {
             console.log(error.message)
         }
     }
-
+    advanced_search = async (req, res) => {
+        const parPage = 7
+        req.query.parPage = parPage
+        try {
+            const products = await productModel.find({}).sort({ createdAt: -1 })
+            const totalProduct = new queryProducts(products, req.query).searchQuery().limit().getProducts()
+            const simplifiedProducts = totalProduct.map(product => ({
+                name: product.name,
+                images: product.images[1]
+            }));
+            responseReturn(res, 200, {
+                totalProduct: simplifiedProducts,
+            })
+        } catch (error) {
+            console.log(error.message)
+        }
+    }
     submit_review = async (req, res) => {
         const {
             name,

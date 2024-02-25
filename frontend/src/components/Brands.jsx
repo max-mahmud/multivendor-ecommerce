@@ -11,7 +11,7 @@ const Brands = () => {
   return (
     <div className="w-full md-lg:mt-6">
       <div className="w-[85%] lg:w-[90%] mx-auto">
-        <div className="grid grid-cols-6 bg-white shadow">
+        <div className="grid grid-cols-6 md-lg:grid-cols-3 sm:grid-cols-2 bg-white shadow">
           {[brand1, brand2, brand4, brand5, brand3, brand7].map((item, i) => (
             <div key={i} className="border py-2">
               <img src={`${item}`} alt="brand" />

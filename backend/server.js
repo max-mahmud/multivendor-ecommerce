@@ -24,7 +24,7 @@ app.use('/api', require('./routes/paymentRoutes'))
 app.use('/api', require('./routes/order/orderRoutes'))
 app.use('/api', require('./routes/dashboard/dashboardIndexRoutes'))
 app.use('/api', require('./routes/home/dashboardIndexRoutes'))
-
+app.use("/api", require("./routes/bannerRoutes"));
 
 app.get('/', (req, res) => res.send('Hello World!'))
 

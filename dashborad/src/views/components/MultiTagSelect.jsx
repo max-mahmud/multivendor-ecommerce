@@ -41,7 +41,7 @@ const colourStyles = {
   }),
 };
 
-const MultiTagSelect = ({ tagOptions, setselectTag, tagsArray }) => {
+const MultiTagSelect = ({ tagOptions, setselectTag, tagsArray, successMessage }) => {
   const [selectedValues, setSelectedValues] = useState([]);
 
   const handleOnChange = (selectedOptions) => {
@@ -52,14 +52,18 @@ const MultiTagSelect = ({ tagOptions, setselectTag, tagsArray }) => {
   useEffect(() => {
     if (tagsArray && tagsArray.length > 0) {
       const initialSelectedOptions = tagOptions.filter((option) => tagsArray.includes(option.label));
-      console.log(initialSelectedOptions);
+      // console.log(initialSelectedOptions);
       setSelectedValues(initialSelectedOptions);
       setselectTag(initialSelectedOptions);
     } else {
       setSelectedValues([tagOptions[1], tagOptions[5]]);
       setselectTag([tagOptions[1], tagOptions[5]]);
     }
-  }, [tagsArray, tagOptions, setselectTag]);
+    if (successMessage) {
+      setSelectedValues([tagOptions[1], tagOptions[5]]);
+      setselectTag([tagOptions[1], tagOptions[5]]);
+    }
+  }, [tagsArray, tagOptions, setselectTag, successMessage]);
 
   const DropdownIndicator = (props) => {
     return (
@@ -85,8 +89,6 @@ const MultiTagSelect = ({ tagOptions, setselectTag, tagsArray }) => {
       options={tagOptions}
       components={{ DropdownIndicator }}
       styles={colourStyles}
-      isClearable
-      isCreatable // Enable users to create new tags
     />
   );
 };

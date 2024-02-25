@@ -169,10 +169,10 @@ const SearchProducts = () => {
                     return (
                       <span
                         key={i}
-                        onClick={() => setColor(value)}
+                        onClick={() => setColor(value == color ? "" : value)}
                         style={{ backgroundColor: item.value }}
                         className={`w-9 h-9 rounded-full cursor-pointer ${
-                          color == value ? "border-2 border-slate-400 shadow-lg" : ""
+                          color == value ? "border-4 border-slate-400 shadow-lg" : ""
                         }`}
                       ></span>
                     );
