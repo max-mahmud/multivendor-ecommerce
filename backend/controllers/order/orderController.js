@@ -135,7 +135,7 @@ class orderController {
 
         try {
             if (searchValue) {
-                //td search value
+                // search value
             } else {
                 const orders = await authOrderModel.find({
                     sellerId,
@@ -189,7 +189,7 @@ class orderController {
 
         try {
             if (searchValue) {
-                //td search value
+                // search value
             } else {
                 const orders = await customerOrder.aggregate([
                     {

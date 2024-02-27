@@ -13,7 +13,9 @@ import { toast } from "react-hot-toast";
 const Reviews = ({ product }) => {
   const dispatch = useDispatch();
   const { userInfo } = useSelector((state) => state.auth);
-  const { successMessage, reviews, totalReview, rating_review } = useSelector((state) => state.home);
+  const { successMessage, errorMessage, reviews, totalReview, rating_review } = useSelector(
+    (state) => state.home
+  );
   const [perPage, setPerPage] = useState(5);
 
   const [rat, setRat] = useState("");
@@ -49,7 +51,11 @@ const Reviews = ({ product }) => {
       setReviewText("");
       dispatch(messageClear());
     }
-  }, [successMessage]);
+    if (errorMessage) {
+      toast.error(errorMessage);
+      dispatch(messageClear());
+    }
+  }, [successMessage, errorMessage]);
 
   useEffect(() => {
     if (product._id) {

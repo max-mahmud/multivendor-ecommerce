@@ -152,26 +152,27 @@ class homeControllers {
             userId
         } = req.body
         try {
-            //td   
-            // const totalOrder = await customerOrder.find({
-            //     customerId: new ObjectId(userId)
-            // })
-            // let result = [];
-            // for (let item of totalOrder) {
-            //     for (let prd of item.products) {
-            //         result.push(prd._id)
-            //     }
-            // }
-            // const isExist = result.filter(p => p.toString() === productId.toString())
-
-            await reviewModel.create({
-                productId,
-                name,
-                rating,
-                review,
-                date: moment(Date.now()).format('LL')
+            const totalOrder = await customerOrder.find({
+                customerId: new ObjectId(userId), payment_status: "paid"
             })
-
+            let result = [];
+            for (let item of totalOrder) {
+                for (let prd of item.products) {
+                    result.push(prd._id)
+                }
+            }
+            const isExist = result.filter(p => p.toString() === productId.toString())
+            if (isExist.length > 0) {
+                await reviewModel.create({
+                    productId,
+                    name,
+                    rating,
+                    review,
+                    date: moment(Date.now()).format('LL')
+                })
+            } else {
+                return responseReturn(res, 404, { error: 'You Did not Parchest This Product , Yet' })
+            }
             let rat = 0;
             const reviews = await reviewModel.find({
                 productId

@@ -7,7 +7,7 @@ class sellerController {
         const skipPage = parseInt(parPage) * (parseInt(page) - 1)
         try {
             if (searchValue) {
-                //td   do later
+                //do later
             } else {
                 const sellers = await sellerModel.find({ status: 'pending' }).skip(skipPage).limit(parPage).sort({ createdAt: -1 })
                 const totalSeller = await sellerModel.find({ status: 'pending' }).countDocuments()

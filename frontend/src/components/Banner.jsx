@@ -60,6 +60,7 @@ const Banner = ({ banners }) => {
               ? filterBanner.slice(0, 4).map((prd, i) => {
                   return (
                     <Link
+                      key={i}
                       to={`/product/details/${prd.link}`}
                       className="w-full p-1 bg-slate-200 cursor-pointer hoverEffect"
                     >
