@@ -14,6 +14,7 @@ const SellerDetails = () => {
     dispatch(get_seller(sellerId));
   }, [sellerId]);
   const [status, setStatus] = useState("");
+
   const submit = (e) => {
     e.preventDefault();
     dispatch(
@@ -23,6 +24,7 @@ const SellerDetails = () => {
       })
     );
   };
+
   useEffect(() => {
     if (successMessage) {
       toast.success(successMessage);

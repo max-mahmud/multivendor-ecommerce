@@ -58,8 +58,8 @@ const OrderDetails = () => {
             <h2>#{order._id}</h2>
             <span>{order.date}</span>
           </div>
-          <div className="flex flex-wrap">
-            <div className="w-[32%]">
+          <div className="flex flex-wrap sm:flex-row flex-col">
+            <div className="sm:w-[32%] w-full">
               <div className="pr-3 text-slate-600 text-lg">
                 <div className="flex flex-col gap-1">
                   <h2 className="pb-2 font-semibold">Deliver to : {order.shippingInfo?.name}</h2>
@@ -95,7 +95,7 @@ const OrderDetails = () => {
                 </div>
               </div>
             </div>
-            <div className="w-[68%]">
+            <div className="sm:w-[68%] w-full">
               <div className="pl-3">
                 <div className="mt-4 flex flex-col">
                   {order?.suborder?.map((o, i) => (

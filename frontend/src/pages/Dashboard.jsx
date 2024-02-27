@@ -17,28 +17,28 @@ const Dashboard = () => {
   return (
     <div>
       <Headers />
-      <div className="bg-slate-100 mt-5">
+      <div className="bg-slate-200/70 mt-5">
         <div className="w-[90%] mx-auto pt-5 md-lg:block hidden">
           <div>
             <button
               onClick={() => setFilterShow(!filterShow)}
-              className="text-center py-3 px-3 bg-indigo-500 text-white"
+              className="text-center py-3 px-3 bg-orange-500 text-white"
             >
               <FaList />
             </button>
           </div>
         </div>
-        <div className="h-full mx-auto">
+        <div className="h-full mx-auto ">
           <div className="py-5 flex md-lg:w-[90%] mx-auto relative">
             <div
-              className={` rounded-md z-50 md-lg:absolute ${
+              className={`bg-slate-50 md-lg:shadow-lg  rounded-md z-50 md-lg:absolute ${
                 filterShow ? "-left-4" : "-left-[360px]"
               } w-[270px] ml-4 border-r`}
             >
-              <div className="py-5 text-slate-600 pl-7 ">
+              <div className="py-5 text-slate-600 ">
                 <Link
                   to="/dashboard"
-                  className={`dashboard-link ${
+                  className={`dashboard-link pl-7 ${
                     pathname === "/dashboard" ? "border-r-2 bg-orange-100 border-orange-600" : ""
                   }`}
                 >
@@ -49,7 +49,7 @@ const Dashboard = () => {
                 </Link>
                 <Link
                   to="/dashboard/my-orders"
-                  className={`dashboard-link ${
+                  className={`dashboard-link  pl-7 ${
                     pathname === "/dashboard/my-orders" ? "border-r-2 bg-orange-100 border-orange-600" : ""
                   }`}
                 >
@@ -60,7 +60,7 @@ const Dashboard = () => {
                 </Link>
                 <Link
                   to="/dashboard/my-compare"
-                  className={`dashboard-link ${
+                  className={`dashboard-link pl-7  ${
                     pathname === "/dashboard/my-compare" ? "border-r-2 bg-orange-100 border-orange-600" : ""
                   }`}
                 >
@@ -71,7 +71,7 @@ const Dashboard = () => {
                 </Link>
                 <Link
                   to="/dashboard/my-wishlist"
-                  className={`dashboard-link ${
+                  className={`dashboard-link pl-7 ${
                     pathname === "/dashboard/my-wishlist" ? "border-r-2 bg-orange-100 border-orange-600" : ""
                   }`}
                 >
@@ -82,11 +82,11 @@ const Dashboard = () => {
                 </Link>
                 {/* setting */}
                 <span className="font-bold ">
-                  <span className="block pl-3 text-xl pt-7 pb-2">Setting</span>
+                  <span className="block pl-5 text-xl pt-7 pb-2">Setting</span>
                 </span>
                 <Link
                   to="/dashboard/edit-profile"
-                  className={`dashboard-link  ${
+                  className={`dashboard-link pl-7 ${
                     pathname === "/dashboard/edit-profile" ? "border-r-2 bg-orange-100 border-orange-600" : ""
                   }`}
                 >
@@ -97,23 +97,17 @@ const Dashboard = () => {
                 </Link>
                 <Link
                   to="/dashboard/change-password"
-                  className={`dashboard-link  ${
+                  className={`dashboard-link pl-7 ${
                     pathname === "/dashboard/change-password"
                       ? "border-r-2 bg-orange-100 border-orange-600"
                       : ""
                   }`}
                 >
-                  <span className="text-xl">
+                  <span className="text-xl ">
                     <Si1Password />
                   </span>
                   <span className="block">Change Password</span>
                 </Link>
-                {/* <span className="dashboard-link">
-                  <span className="text-xl">
-                    <RiLogoutBoxFill />
-                  </span>
-                  <span className="block">Logout</span>
-                </span> */}
               </div>
             </div>
             <div className="w-[calc(100%-270px)] md-lg:w-full">

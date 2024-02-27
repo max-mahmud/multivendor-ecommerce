@@ -44,47 +44,66 @@ const Orders = () => {
         </div>
         <div className="relative mt-5 overflow-x-auto">
           <div className="w-full text-sm text-left slate-600">
-            <div className="text-sm text-slate-600 bg-slate-300 uppercase border-b border-slate-400">
-              <div className="flex justify-between items-start font-medium">
-                <div className="py-3 w-[25%]">Order Id</div>
-                <div className="py-3 w-[13%]">Price</div>
-                <div className="py-3 w-[18%]">Payment Status</div>
-                <div className="py-3 w-[18%]">Order Status</div>
-                <div className="py-3 w-[18%]">Action</div>
-                <div className="py-3 w-[8%]">
-                  <BsArrowBarDown />
-                </div>
-              </div>
-            </div>
-            {myOrders.map((o, i) => (
-              <div className="text-slate-700">
-                <div className="flex justify-between items-start border-b border-slate-300">
-                  <div className="py-4 w-[25%] font-medium whitespace-nowrap">{o._id}</div>
-                  <div className="py-4 w-[13%]">${o.price}</div>
-                  <div className="py-4 w-[18%]">{o.payment_status}</div>
-                  <div className="py-4 w-[18%]">{o.delivery_status}</div>
-                  <div className="py-4 w-[18%]">
-                    <Link to={`/admin/dashboard/order/details/${o._id}`}>view</Link>
-                  </div>
-                  <div
-                    onClick={(e) => setShow(show === o._id ? "" : o._id)}
-                    className="py-4 cursor-pointer w-[8%]"
-                  >
-                    <MdKeyboardArrowDown />
-                  </div>
-                </div>
-                <div className={show === o._id ? "block border-b border-slate-400 bg-slate-300" : "hidden"}>
-                  {o.suborder.map((so, i) => (
-                    <div className="flex justify-start items-start border-b border-slate-400">
-                      <div className="py-4 w-[25%] font-medium whitespace-nowrap pl-3">${so._id}</div>
-                      <div className="py-4 w-[13%]">${so.price}</div>
-                      <div className="py-4 w-[18%]">{so.payment_status}</div>
-                      <div className="py-4 w-[18%]">{so.delivery_status}</div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            ))}
+            <table className="w-full">
+              <thead className="text-sm text-slate-600 bg-slate-300 uppercase border-b border-slate-400">
+                <tr className="font-medium">
+                  <th className="py-3 px-2 whitespace-nowrap">Order Id</th>
+                  <th className="py-3 px-2 whitespace-nowrap">Price</th>
+                  <th className="py-3 px-2 whitespace-nowrap">Payment Status</th>
+                  <th className="py-3 px-2 whitespace-nowrap">Order Status</th>
+                  <th className="py-3 px-2 whitespace-nowrap ">Action</th>
+                  <th className="py-3 px-2 whitespace-nowrap ">
+                    <BsArrowBarDown />
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="text-slate-700">
+                {myOrders.map((o, i) => (
+                  <React.Fragment key={o._id}>
+                    <tr className="border-b border-slate-300">
+                      <td className="py-4 px-2 font-medium whitespace-nowrap">{o._id}</td>
+                      <td className="py-4 px-2 whitespace-nowrap">${o.price}</td>
+                      <td className="py-4 px-2 whitespace-nowrap">{o.payment_status}</td>
+                      <td className="py-4 px-2 whitespace-nowrap">{o.delivery_status}</td>
+                      <td className="py-4 px-2 whitespace-nowrap">
+                        <Link
+                          to={`/admin/dashboard/order/details/${o._id}`}
+                          className="bg-green-200 px-2 py-1"
+                        >
+                          view
+                        </Link>
+                      </td>
+                      <td
+                        onClick={(e) => setShow(show === o._id ? "" : o._id)}
+                        className="py-1 px-2 cursor-pointer whitespace-nowrap "
+                      >
+                        <MdKeyboardArrowDown />
+                      </td>
+                    </tr>
+                    {show === o._id && (
+                      <tr className="bg-slate-300">
+                        <td colSpan="6">
+                          <table className="w-full">
+                            <tbody>
+                              {o.suborder.map((so, i) => (
+                                <tr key={so._id} className="border-b border-slate-400">
+                                  <td className="py-4 px-3 w-[25%] font-medium whitespace-nowrap">
+                                    ${so._id}
+                                  </td>
+                                  <td className="py-4 px-3 w-[13%]">${so.price}</td>
+                                  <td className="py-4 px-3 w-[18%]">{so.payment_status}</td>
+                                  <td className="py-4 px-3 w-[18%]">{so.delivery_status}</td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                        </td>
+                      </tr>
+                    )}
+                  </React.Fragment>
+                ))}
+              </tbody>
+            </table>
           </div>
         </div>
         {totalOrder <= parPage ? (

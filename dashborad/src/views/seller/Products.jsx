@@ -44,31 +44,31 @@ const Products = () => {
           <table className="w-full text-sm text-left text-slate-600">
             <thead className="text-sm text-slate-600 uppercase border-b bg-slate-300">
               <tr>
-                <th scope="col" className="py-3 px-4">
+                <th scope="col" className="py-3 lg:px-4 px-2">
                   No
                 </th>
-                <th scope="col" className="py-3 px-4">
+                <th scope="col" className="py-3 lg:px-4 px-2">
                   Image
                 </th>
-                <th scope="col" className="py-3 px-4">
+                <th scope="col" className="py-3 lg:px-4 px-2">
                   Name
                 </th>
-                <th scope="col" className="py-3 px-4">
+                <th scope="col" className="py-3 lg:px-4 px-2">
                   Category
                 </th>
-                <th scope="col" className="py-3 px-4">
+                <th scope="col" className="py-3 lg:px-4 px-2">
                   Brand
                 </th>
-                <th scope="col" className="py-3 px-4">
+                <th scope="col" className="py-3 lg:px-4 px-2">
                   Price
                 </th>
-                <th scope="col" className="py-3 px-4">
+                <th scope="col" className="py-3 lg:px-4 px-2">
                   Discount
                 </th>
-                <th scope="col" className="py-3 px-4">
+                <th scope="col" className="py-3 lg:px-4 px-2">
                   Stock
                 </th>
-                <th scope="col" className="py-3 px-4">
+                <th scope="col" className="py-3 lg:px-4 px-2">
                   Action
                 </th>
               </tr>
@@ -76,31 +76,31 @@ const Products = () => {
             <tbody>
               {products.map((d, i) => (
                 <tr key={i}>
-                  <td scope="row" className="py-1 px-4 font-medium whitespace-nowrap">
+                  <td scope="row" className="py-1 lg:px-4 px-2 font-medium whitespace-nowrap">
                     {i + 1}
                   </td>
-                  <td scope="row" className="py-1 px-4 font-medium whitespace-nowrap">
+                  <td scope="row" className="py-1 lg:px-4 px-2 font-medium whitespace-nowrap">
                     <img className="w-[45px] h-[45px]" src={d.images[0]} alt="" />
                   </td>
-                  <td scope="row" className="py-1 px-4 font-medium whitespace-nowrap">
+                  <td scope="row" className="py-1 lg:px-4 px-2 font-medium whitespace-nowrap">
                     <span>{d?.name?.slice(0, 16)}...</span>
                   </td>
-                  <td scope="row" className="py-1 px-4 font-medium whitespace-nowrap">
+                  <td scope="row" className="py-1 lg:px-4 px-2 font-medium whitespace-nowrap">
                     <span>{d.category}</span>
                   </td>
-                  <td scope="row" className="py-1 px-4 font-medium whitespace-nowrap">
+                  <td scope="row" className="py-1 lg:px-4 px-2 font-medium whitespace-nowrap">
                     <span>{d.brand}</span>
                   </td>
-                  <td scope="row" className="py-1 px-4 font-medium whitespace-nowrap">
+                  <td scope="row" className="py-1 lg:px-4 px-2 font-medium whitespace-nowrap">
                     <span>${d.price}</span>
                   </td>
-                  <td scope="row" className="py-1 px-4 font-medium whitespace-nowrap">
+                  <td scope="row" className="py-1 lg:px-4 px-2 font-medium whitespace-nowrap">
                     {d.discount === 0 ? <span>no discount</span> : <span>${d.discount}%</span>}
                   </td>
-                  <td scope="row" className="py-1 px-4 font-medium whitespace-nowrap">
+                  <td scope="row" className="py-1 lg:px-4 px-2 font-medium whitespace-nowrap">
                     <span>{d.stock}</span>
                   </td>
-                  <td scope="row" className="py-1 px-4 font-medium whitespace-nowrap text-white">
+                  <td scope="row" className="py-1 lg:px-4 px-2 font-medium whitespace-nowrap text-white">
                     <div className="flex justify-start items-center gap-2">
                       <Link
                         to={`/seller/dashboard/edit-product/${d._id}`}

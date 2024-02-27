@@ -29,7 +29,7 @@ const Index = () => {
   };
   return (
     <div>
-      <h2 className="text-2xl font-bold text-slate-600 mb-4  uppercase">Dashboard</h2>
+      <h2 className="text-2xl p-1 bg-slate-50 font-bold text-slate-600 mb-4  uppercase">Dashboard</h2>
       <div className="grid grid-cols-3 md:grid-cols-1 md-lg:gap-4 gap-8  font-medium">
         <div className="flex justify-center items-center  shadow-md p-5 bg-green-500 rounded-md gap-5">
           <div className="bg-green-100 w-[47px] h-[47px] rounded-full flex justify-center items-center text-xl ">
@@ -65,46 +65,46 @@ const Index = () => {
           </div>
         </div>
       </div>
-      <div className="bg-slate-100 p-4 mt-5 rounded ">
+      <div className="bg-slate-100 p-4 md-lg:p-1 mt-5 rounded ">
         <h2 className="text-lg font-semibold text-slate-600">Recent Orders</h2>
         <div className="pt-4 shadow">
           <div className="relative overflow-x-auto">
             <table className="w-full text-sm text-left text-gray-500">
-              <thead className="text-xs font-bold text-gray-50 uppercase bg-slate-400">
+              <thead className="text-xs font-medium text-gray-50 uppercase bg-orange-600">
                 <tr>
-                  <th scope="col" className="px-6 py-3">
+                  <th scope="col" className="px-6 md:px-1 py-3">
                     Order Id
                   </th>
-                  <th scope="col" className="px-6 py-3">
+                  <th scope="col" className="px-6 md:px-1 py-3">
                     Price
                   </th>
-                  <th scope="col" className="px-6 py-3">
+                  <th scope="col" className="px-6 md:px-1 py-3">
                     Payment status
                   </th>
-                  <th scope="col" className="px-6 py-3">
+                  <th scope="col" className="px-6 md:px-1 py-3">
                     Order status
                   </th>
-                  <th scope="col" className="px-6 py-3">
+                  <th scope="col" className="px-6 md:px-1 py-3">
                     Action
                   </th>
                 </tr>
               </thead>
               <tbody>
                 {recentOrders.map((o, i) => (
-                  <tr key={i} className="bg-slate-200 border-b border-slate-50  ">
-                    <td scope="row" className="px-6 md-lg:px-1 py-4 font-medium whitespace-nowrap">
+                  <tr key={i} className="bg-orange-100/50 border-b border-slate-50  ">
+                    <td scope="row" className="px-6 md:px-1 py-4 font-medium whitespace-nowrap">
                       {o._id}
                     </td>
-                    <td scope="row" className="px-6 md-lg:px-1 py-4 font-medium whitespace-nowrap">
+                    <td scope="row" className="px-6 md:px-1 py-4 font-medium whitespace-nowrap">
                       ${o.price}
                     </td>
-                    <td scope="row" className="px-6 md-lg:px-1 py-4 font-medium whitespace-nowrap">
+                    <td scope="row" className="px-6 md:px-1 py-4 font-medium whitespace-nowrap">
                       {o.payment_status}
                     </td>
-                    <td scope="row" className="px-6 md-lg:px-1 py-4 font-medium whitespace-nowrap">
+                    <td scope="row" className="px-6 md:px-1 py-4 font-medium whitespace-nowrap">
                       {o.delivery_status}
                     </td>
-                    <td scope="row" className="px-6 py-4">
+                    <td scope="row" className="px-6 md:px-1 py-4 whitespace-nowrap">
                       <Link to={`/dashboard/order/details/${o._id}`}>
                         <span className="bg-green-100 text-green-800 text-sm font-normal mr-2 px-2.5 py-[1px] rounded">
                           view

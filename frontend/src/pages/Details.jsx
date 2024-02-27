@@ -28,6 +28,7 @@ const Details = () => {
   const { product, relatedProducts, totalReview } = useSelector((state) => state.home);
   const { userInfo } = useSelector((state) => state.auth);
   const { errorMessage, successMessage } = useSelector((state) => state.card);
+  const [moveTop, setMoveTop] = useState("");
 
   const [quantity, setQuantity] = useState(1);
 
@@ -106,7 +107,7 @@ const Details = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, []);
+  }, [moveTop]);
 
   return (
     <div className="bg-slate-100">
@@ -237,19 +238,19 @@ const Details = () => {
                   </span>
                 </div>
               </div>
-              <div className="">
-                <div className="flex items-center gap-3 font-bold">
-                  <h4>Tags :</h4>
-                  <div className="flex gap-1 flex-wrap">
-                    {product.tagArray &&
-                      product.tagArray.map((item, i) => {
-                        return (
-                          <span key={i} className="bg-slate-300 text-sm font-medium px-2 py-1">
-                            {item}
-                          </span>
-                        );
-                      })}
-                  </div>
+              <div className="flex items-center gap-1 font-bold">
+                <div className="w-[150px] text-black font-bold text-xl ">
+                  <span>Tags :</span>
+                </div>
+                <div className="flex gap-1 flex-wrap">
+                  {product.tagArray &&
+                    product.tagArray.map((item, i) => {
+                      return (
+                        <span key={i} className="bg-slate-300 text-sm font-medium px-2 py-1">
+                          {item}
+                        </span>
+                      );
+                    })}
                 </div>
               </div>
             </div>
@@ -370,7 +371,11 @@ const Details = () => {
               {relatedProducts.map((p, i) => {
                 return (
                   <SwiperSlide key={i}>
-                    <Link className="block">
+                    <Link
+                      to={`/product/details/${p.slug}`}
+                      onClick={() => setMoveTop(true)}
+                      className="block bg-slate-50 p-1"
+                    >
                       <div className="relative h-[240px]">
                         <div className="w-full h-full">
                           <img className="w-full h-full" src={p.images[0]} />

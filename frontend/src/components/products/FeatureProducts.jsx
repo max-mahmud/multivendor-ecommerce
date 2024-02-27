@@ -43,6 +43,7 @@ const FeatureProducts = ({ products }) => {
     );
   };
   const add_compare = (pro) => {
+    console.log(pro.colorArray);
     if (comparelist_count >= 4) {
       toast.error("Already Added Many Items");
     } else {
@@ -56,6 +57,7 @@ const FeatureProducts = ({ products }) => {
           discount: pro.discount,
           rating: pro.rating,
           slug: pro.slug,
+          colorArray: pro.colorArray,
         })
       );
     }
@@ -83,7 +85,10 @@ const FeatureProducts = ({ products }) => {
       <div className="w-full grid grid-cols-4 md-lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-6">
         {products
           ? products.map((p, i) => (
-              <div className="border group transition-all duration-500 hover:shadow-md z-0 " key={i}>
+              <div
+                className="border group transition-all duration-500 hover:shadow-md z-0 bg-slate-50 "
+                key={i}
+              >
                 <div className="relative overflow-hidden">
                   {p.discount ? (
                     <div className="flex justify-center items-center absolute text-white w-[38px] h-[38px] rounded-full bg-red-500 font-semibold text-xs right-2 top-2">
@@ -97,7 +102,7 @@ const FeatureProducts = ({ products }) => {
                     onClick={() => navigate(`/product/details/${p.slug}`)}
                     className="sm:w-full w-full h-[240px] cursor-pointer"
                     src={`${p.images[0]}`}
-                    alt="product image"
+                    alt="img"
                   />
                   <ul className="flex flex-col transition-all duration-500 justify-start items-start gap-2 z-50 ">
                     <li

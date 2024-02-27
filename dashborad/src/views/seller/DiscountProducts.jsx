@@ -31,31 +31,31 @@ const DiscountProducts = () => {
           <table className="w-full text-sm text-left text-slate-600">
             <thead className="text-sm text-slate-600 uppercase border-b bg-slate-300">
               <tr>
-                <th scope="col" className="py-3 px-4">
+                <th scope="col" className="py-3 lg:px-4 px-2">
                   No
                 </th>
-                <th scope="col" className="py-3 px-4">
+                <th scope="col" className="py-3 lg:px-4 px-2">
                   Image
                 </th>
-                <th scope="col" className="py-3 px-4">
+                <th scope="col" className="py-3 lg:px-4 px-2">
                   Name
                 </th>
-                <th scope="col" className="py-3 px-4">
+                <th scope="col" className="py-3 lg:px-4 px-2">
                   Category
                 </th>
-                <th scope="col" className="py-3 px-4">
+                <th scope="col" className="py-3 lg:px-4 px-2">
                   Brand
                 </th>
-                <th scope="col" className="py-3 px-4">
+                <th scope="col" className="py-3 lg:px-4 px-2">
                   Price
                 </th>
-                <th scope="col" className="py-3 px-4">
+                <th scope="col" className="py-3 lg:px-4 px-2">
                   Discount
                 </th>
-                <th scope="col" className="py-3 px-4">
+                <th scope="col" className="py-3 lg:px-4 px-2">
                   Stock
                 </th>
-                <th scope="col" className="py-3 px-4">
+                <th scope="col" className="py-3 lg:px-4 px-2">
                   Action
                 </th>
               </tr>
@@ -63,31 +63,31 @@ const DiscountProducts = () => {
             <tbody>
               {products?.map((p, i) => (
                 <tr key={i}>
-                  <td scope="row" className="py-1 px-4 font-medium whitespace-nowrap">
+                  <td scope="row" className="py-1 lg:px-4 px-2 font-medium whitespace-nowrap">
                     {i + 1}
                   </td>
-                  <td scope="row" className="py-1 px-4 font-medium whitespace-nowrap">
+                  <td scope="row" className="py-1 lg:px-4 px-2 font-medium whitespace-nowrap">
                     <img className="w-[45px] h-[45px]" src={p.images[0]} alt="" />
                   </td>
-                  <td scope="row" className="py-1 px-4 font-medium whitespace-nowrap">
+                  <td scope="row" className="py-1 lg:px-4 px-2 font-medium whitespace-nowrap">
                     <span>{p.name}</span>
                   </td>
-                  <td scope="row" className="py-1 px-4 font-medium whitespace-nowrap">
+                  <td scope="row" className="py-1 lg:px-4 px-2 font-medium whitespace-nowrap">
                     <span>{p.category}</span>
                   </td>
-                  <td scope="row" className="py-1 px-4 font-medium whitespace-nowrap">
+                  <td scope="row" className="py-1 lg:px-4 px-2 font-medium whitespace-nowrap">
                     <span>{p.brand}</span>
                   </td>
-                  <td scope="row" className="py-1 px-4 font-medium whitespace-nowrap">
+                  <td scope="row" className="py-1 lg:px-4 px-2 font-medium whitespace-nowrap">
                     <span>${p.price}</span>
                   </td>
-                  <td scope="row" className="py-1 px-4 font-medium whitespace-nowrap">
+                  <td scope="row" className="py-1 lg:px-4 px-2 font-medium whitespace-nowrap">
                     <span>{p.discount}%</span>
                   </td>
-                  <td scope="row" className="py-1 px-4 font-medium whitespace-nowrap">
+                  <td scope="row" className="py-1 lg:px-4 px-2 font-medium whitespace-nowrap">
                     <span>{p.stock}</span>
                   </td>
-                  <td scope="row" className="py-1 px-4 font-medium whitespace-nowrap">
+                  <td scope="row" className="py-1 lg:px-4 px-2 font-medium whitespace-nowrap">
                     <div className="flex justify-start items-center gap-4">
                       <Link className="p-[6px] bg-yellow-500 rounded hover:shadow-lg hover:shadow-yellow-500/50">
                         <FaEdit />

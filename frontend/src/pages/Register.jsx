@@ -51,7 +51,7 @@ const Register = () => {
       )}
       <Headers />
       <div className="bg-slate-200 mt-4">
-        <div className="w-full justify-center items-center p-10">
+        <div className="w-full justify-center items-center py-10">
           <div className="w-[320px] mx-auto bg-white rounded-md">
             <div className="px-5 py-8">
               <h2 className="text-center w-full text-xl text-slate-600 font-bold">Register</h2>

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import FadeLoader from "react-spinners/FadeLoader";
 import axios from "axios";
 import { loadStripe } from "@stripe/stripe-js";
 import { ImSpinner4 } from "react-icons/im";
@@ -17,47 +16,60 @@ const ConfirmOrder = () => {
   const [message, setMessage] = useState(null);
 
   useEffect(() => {
-    if (!stripe) {
-      return;
-    }
-    const clientSecret = new URLSearchParams(window.location.search).get("payment_intent_client_secret");
-    if (!clientSecret) {
-      return;
-    }
-    stripe.retrievePaymentIntent(clientSecret).then(({ paymentIntent }) => {
-      switch (paymentIntent.status) {
-        case "succeeded":
-          setMessage("succeeded");
-          break;
-        case "processing":
-          setMessage("processing");
-          break;
-        case "requires_payment_method":
-          setMessage("failed");
-          break;
-        default:
-          setMessage("failed");
+    const fetchData = async () => {
+      try {
+        const tempStripe = await load();
+        setStripe(tempStripe);
+      } catch (error) {
+        console.error("Error loading Stripe:", error);
+        // Handle error gracefully, e.g., display an error message
       }
-    });
-  }, [stripe]);
+    };
 
-  const get_load = async () => {
-    const tempStripe = await load();
-    setStripe(tempStripe);
-  };
-  useEffect(() => {
-    get_load();
+    fetchData();
   }, []);
+
+  useEffect(() => {
+    if (!stripe) return;
+
+    const clientSecret = new URLSearchParams(window.location.search).get("payment_intent_client_secret");
+    if (!clientSecret) return;
+
+    stripe
+      .retrievePaymentIntent(clientSecret)
+      .then(({ paymentIntent }) => {
+        switch (paymentIntent.status) {
+          case "succeeded":
+            setMessage("succeeded");
+            break;
+          case "processing":
+            setMessage("processing");
+            break;
+          case "requires_payment_method":
+            setMessage("failed");
+            break;
+          default:
+            setMessage("failed");
+        }
+      })
+      .catch((error) => {
+        console.error("Error retrieving payment intent:", error);
+        setMessage("failed");
+        // Handle error gracefully, e.g., display an error message
+      });
+  }, [stripe]);
 
   const update_payment = async () => {
     const orderId = localStorage.getItem("orderId");
+    console.log(orderId);
     if (orderId) {
       try {
         await axios.get(`http://localhost:5000/api/order/confirm/${orderId}`);
         localStorage.removeItem("orderId");
         setLoader(false);
       } catch (error) {
-        console.log(error.response.data);
+        console.error("Error updating payment:", error);
+        // Handle error gracefully, e.g., display an error message
       }
     }
   };
@@ -67,8 +79,9 @@ const ConfirmOrder = () => {
       update_payment();
     }
   }, [message]);
+
   return (
-    <div className="w-screeen h-screen flex justify-center items-center flex-col gap-4">
+    <div className="w-screen h-screen flex justify-center items-center flex-col gap-4">
       {message === "failed" || message === "processing" ? (
         <>
           <h4 className="text-4xl text-red-500 font-bold">Error</h4>

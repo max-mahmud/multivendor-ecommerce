@@ -14,8 +14,8 @@ const Order = () => {
   }, [orderId]);
 
   return (
-    <div className="bg-slate-200 shadow p-5">
-      <h2 className="text-slate-600 font-semibold">
+    <div className="bg-slate-50 shadow p-5">
+      <h2 className="text-slate-600 p-1 bg-slate-50 font-semibold">
         #{myOrder._id} , <span className="pl-1">{myOrder.date}</span>
       </h2>
       <div className="grid grid-cols-2 gap-3">

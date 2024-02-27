@@ -46,7 +46,7 @@ const Wishlist = () => {
 
   return (
     <>
-      <h2 className="text-2xl font-bold mb-4 text-slate-600 uppercase">Wishlist</h2>
+      <h2 className="text-2xl font-bold mb-4 p-1 bg-slate-50 text-slate-600 uppercase">Wishlist</h2>
       <div className="w-full grid grid-cols-4 md-lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-6">
         {wishlist.map((p, i) => (
           <div className="border group transition-all duration-500 hover:shadow-md " key={i}>

@@ -71,8 +71,8 @@ const EditProfile = () => {
     <>
       {edit ? (
         <>
-          <h2 className="text-2xl font-bold mb-4 text-slate-600 uppercase">Edit Profile</h2>
-          <div className="max-w-md mx-auto">
+          <h2 className="text-2xl font-bold p-1 bg-slate-50 mb-4 text-slate-600 uppercase">Edit Profile</h2>
+          <div className="max-w-md mx-auto bg-slate-50 p-3">
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700">Name:</label>
@@ -130,8 +130,8 @@ const EditProfile = () => {
         </>
       ) : (
         <div className="pl-5 mx-auto  ">
-          <h2 className="text-2xl font-bold mb-4 text-slate-600 uppercase">Profile</h2>
-          <div className=" bg-slate-200 p-7 shadow relative">
+          <h2 className="text-2xl font-bold mb-4 text-slate-600 p-1 bg-slate-50 uppercase">Profile</h2>
+          <div className=" bg-slate-50 p-7 shadow relative">
             <button
               onClick={() => setEdit(!edit)}
               className="absolute top-2 right-2 bg-green-500 hover:bg-green-600 px-5 py-1.5 font-medium text-white rounded"
@@ -145,7 +145,7 @@ const EditProfile = () => {
                 <SiSpinrilla size={56} className="animate-spin text-orange-500" />
               </div>
             ) : (
-              <div className="flex justify-center mx-auto relative rounded-full w-[210px] h-[210px]">
+              <div className="flex justify-center mx-auto relative sm:mt-5 rounded-full w-[210px] h-[210px]">
                 {/* Invisible file input */}
                 <input
                   type="file"

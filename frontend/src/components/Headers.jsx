@@ -35,6 +35,7 @@ const Headers = () => {
 
   const search = () => {
     navigate(`/products/search?category=${category}&&value=${searchValue}`);
+    dispatch(emptyAdvancedSearch());
   };
   const searchAdvabced = (value) => {
     navigate(`/products/search?category=${category}&&value=${value}`);
@@ -155,11 +156,11 @@ const Headers = () => {
                   <Logo />
                 </Link>
                 <div
-                  className="justify-center items-center w-[30px] h-[30px] bg-white text-slate-600 border border-slate-600 rounded-sm cursor-pointer lg:hidden md-lg:flex xl:hidden hidden"
+                  className="justify-center items-center w-[30px] h-[30px] bg-white text-slate-600 border-2 border-slate-300 rounded-sm cursor-pointer lg:hidden md-lg:flex xl:hidden hidden"
                   onClick={() => setShowShidebar(false)}
                 >
                   <span>
-                    <FaList />
+                    <FaList className="text-slate-500 text-xl" />
                   </span>
                 </div>
               </div>
@@ -208,8 +209,8 @@ const Headers = () => {
                     </Link>
                   </li>
                 </ul>
-                <div className="flex md-lg:hidden justify-center items-center gap-5">
-                  <div className="flex justify-center gap-5">
+                <div className="flex md-lg:fixed  md-lg:bottom-4 md-lg:right-4 md-lg:bg-orange-50 md-lg:p-2 md-lg:rounded-lg  md-lg:shadow-xl z-20  justify-center items-center gap-5">
+                  <div className="flex justify-center md-lg:flex-col gap-5">
                     <div
                       onClick={() => navigate("/dashboard/my-compare")}
                       className="relative flex justify-center items-center cursor-pointer w-[35px] h-[35px] rounded-full bg-[#e2e2e2]"
@@ -266,7 +267,7 @@ const Headers = () => {
         >
           <div className="flex justify-start flex-col gap-6">
             <Link to="/">
-              <img src="http://localhost:3000/images/logo.png" alt="logo" />
+              <Logo />
             </Link>
             <div className="flex justify-star items-center gap-10">
               {userInfo ? (
@@ -280,37 +281,50 @@ const Headers = () => {
                   <span>{userInfo.name}</span>
                 </Link>
               ) : (
-                <div className="flex cursor-pointer justify-center items-center gap-2 text-sm">
+                <Link to={"/login"} className="flex cursor-pointer justify-center items-center gap-2 text-sm">
                   <span>
                     <FaLock />
                   </span>
                   <span>Login</span>
-                </div>
+                </Link>
               )}
             </div>
             <ul className="flex flex-col justify-start items-start  text-md font-semibold uppercase">
               <li>
-                <Link className={`py-2 block ${pathname === "/" ? "text-[#7fad39]" : "text-slate-600"}`}>
+                <Link
+                  to={"/"}
+                  className={`py-2 block ${pathname === "/" ? "text-[#7fad39]" : "text-slate-600"}`}
+                >
                   Home
                 </Link>
               </li>
               <li>
-                <Link className={`py-2 block ${pathname === "/shop" ? "text-[#7fad39]" : "text-slate-600"}`}>
+                <Link
+                  to={"/shops"}
+                  className={`py-2 block ${pathname === "/shops" ? "text-[#7fad39]" : "text-slate-600"}`}
+                >
                   Shop
                 </Link>
               </li>
               <li>
-                <Link className={`py-2 block ${pathname === "/blog" ? "text-[#7fad39]" : "text-slate-600"}`}>
+                <Link
+                  to={"/blog"}
+                  className={`py-2 block ${pathname === "/blog" ? "text-[#7fad39]" : "text-slate-600"}`}
+                >
                   Blog
                 </Link>
               </li>
               <li>
-                <Link className={`py-2 block ${pathname === "/about" ? "text-[#7fad39]" : "text-slate-600"}`}>
+                <Link
+                  to={"/about"}
+                  className={`py-2 block ${pathname === "/about" ? "text-[#7fad39]" : "text-slate-600"}`}
+                >
                   About
                 </Link>
               </li>
               <li>
                 <Link
+                  to={"/contact"}
                   className={`py-2 block ${pathname === "/contact" ? "text-[#7fad39]" : "text-slate-600"}`}
                 >
                   Contact
@@ -432,7 +446,7 @@ const Headers = () => {
                     Search
                   </button>
                   <div
-                    className="bg-slate-100 border border-slate-200 absolute top-[48px] z-50 left-0 max-h-[350px] overflow-y-auto w-full"
+                    className="bg-slate-100 border border-slate-200 absolute top-[48px] z-10 left-0 max-h-[350px] overflow-y-auto w-full"
                     style={{
                       scrollbarWidth: "thin",
                       scrollbarColor: "rgba(251, 146, 60, 0.7) rgba(251, 146, 60, 0.3)",

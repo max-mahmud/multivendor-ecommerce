@@ -73,35 +73,40 @@ class sellerController {
     }
 
     get_active_sellers = async (req, res) => {
-        let { page, searchValue, parPage } = req.query
-        page = parseInt(page)
-        parPage = parseInt(parPage)
+        let { page, searchValue, parPage } = req.query;
+        page = parseInt(page);
+        parPage = parseInt(parPage);
 
-        const skipPage = parPage * (page - 1)
+        const skipPage = parPage * (page - 1);
 
         try {
+            let query = { status: 'active' };
+
             if (searchValue) {
-                const sellers = await sellerModel.find({
-                    $text: { $search: searchValue },
-                    status: 'active'
-                }).skip(skipPage).limit(parPage).sort({ createdAt: -1 })
-
-                const totalSeller = await sellerModel.find({
-                    $text: { $search: searchValue },
-                    status: 'active'
-                }).countDocuments()
-
-                responseReturn(res, 200, { totalSeller, sellers })
-            } else {
-                const sellers = await sellerModel.find({ status: 'active' }).skip(skipPage).limit(parPage).sort({ createdAt: -1 })
-                const totalSeller = await sellerModel.find({ status: 'active' }).countDocuments()
-                responseReturn(res, 200, { totalSeller, sellers })
+                query.$or = [
+                    { name: { $regex: searchValue, $options: 'i' } },
+                    { 'shopInfo.shopName': { $regex: searchValue, $options: 'i' } }
+                ];
             }
 
+            const sellers = await sellerModel.find(query)
+                .skip(skipPage)
+                .limit(parPage)
+                .sort({ createdAt: -1 });
+
+            const totalSeller = await sellerModel.countDocuments(query);
+
+            if (sellers.length === 0) {
+                responseReturn(res, 404, { message: "No sellers found matching the search criteria." });
+            } else {
+                responseReturn(res, 200, { totalSeller, sellers });
+            }
         } catch (error) {
-            console.log('active seller get ' + error.message)
+            console.log('active seller get ' + error.message);
+            responseReturn(res, 500, { error: "Internal server error." });
         }
     }
+
 }
 
 module.exports = new sellerController()

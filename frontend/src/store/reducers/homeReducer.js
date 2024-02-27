@@ -149,6 +149,7 @@ export const homeReducer = createSlice({
         errorMessage: '',
         banners: [],
         advanced_search_prd: [],
+        loader: false
     },
     reducers: {
         messageClear: (state, _) => {
@@ -176,11 +177,18 @@ export const homeReducer = createSlice({
                 state.latest_product = latest_product;
                 state.priceRange = priceRange;
             })
+            .addCase(query_products.pending, (state, action) => {
+                state.loader = true
+            })
             .addCase(query_products.fulfilled, (state, action) => {
                 const { products, totalProduct, parPage } = action.payload;
                 state.products = products;
                 state.totalProduct = totalProduct;
                 state.parPage = parPage;
+                state.loader = false
+            })
+            .addCase(query_products.rejected, (state, action) => {
+                state.loader = false
             })
             .addCase(get_product.fulfilled, (state, { payload }) => {
                 state.product = payload.product

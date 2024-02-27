@@ -1,8 +1,10 @@
 const striptModel = require('../models/stripeModel')
 const sellerModel = require('../models/sellerModel')
 const withdrowRequest = require('../models/withdrowModel')
+const sellerWallet = require('../models/sellerWallet')
 const { responseReturn } = require('../utiles/response')
 const { v4: uuidv4 } = require('uuid')
+const { mongo: { ObjectId } } = require('mongoose')
 
 const stripe = require("stripe")(
     "sk_test_51N8amPIt63Wcx3eVr72l77kfPTDgInVEaTT9d4G1JgngM0YEgAIwocli1hC0sKidMuzPiUNimOpqxXtIKeFkhnQo00EQgFUaDA"
@@ -82,7 +84,6 @@ class paymentController {
 
     get_seller_payemt_details = async (req, res) => {
         const { sellerId } = req.params
-
         try {
             const payments = await sellerWallet.find({ sellerId })
 
@@ -139,7 +140,7 @@ class paymentController {
 
     withdrowal_request = async (req, res) => {
         const { amount, sellerId } = req.body
-        // console.log(req.body)
+        console.log(req.body)
         try {
             const withdrowal = await withdrowRequest.create({
                 sellerId,
@@ -178,8 +179,8 @@ class paymentController {
             await withdrowRequest.findByIdAndUpdate(paymentId, { status: 'success' })
             responseReturn(res, 200, { payment, message: 'request confirm success' })
         } catch (error) {
-            console.log(error)
-            responseReturn(res, 500, { message: 'Internal server error' })
+            console.log(error.message)
+            responseReturn(res, 500, { message: 'Internal server error or Account Not Connected' })
         }
 
     }

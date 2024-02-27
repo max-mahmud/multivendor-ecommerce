@@ -160,52 +160,64 @@ const Payments = () => {
             </form>
           </div>
           <div className=" text-slate-700">
-            <h2 className="text-lg pb-4">Pending withdrawal request</h2>
-            <div className="w-full overflow-x-auto">
-              <div className="flex bg-slate-300 uppercase text-xs min-w-[340px] font-medium">
-                <div className="w-[25%] p-2">No</div>
-                <div className="w-[25%] p-2">Amount</div>
-                <div className="w-[25%] p-2">status</div>
-                <div className="w-[25%] p-2">date</div>
+            {pendingWithdrows.length > 0 ? (
+              <div className="w-full overflow-x-auto">
+                <h2 className="text-lg pb-4">Pending withdrawal request</h2>
+                <div className="flex bg-slate-300 uppercase text-xs min-w-[340px] font-medium">
+                  <div className="w-[25%] p-2">No</div>
+                  <div className="w-[25%] p-2">Amount</div>
+                  <div className="w-[25%] p-2">status</div>
+                  <div className="w-[25%] p-2">date</div>
+                </div>
+                {
+                  <List
+                    style={{ minWidth: "340px", overflowX: "hidden" }}
+                    className="List"
+                    height={350}
+                    itemCount={pendingWithdrows.length}
+                    itemSize={35}
+                    outerElementType={outerElementType}
+                  >
+                    {Row}
+                  </List>
+                }
               </div>
-              {
-                <List
-                  style={{ minWidth: "340px", overflowX: "hidden" }}
-                  className="List"
-                  height={350}
-                  itemCount={pendingWithdrows.length}
-                  itemSize={35}
-                  outerElementType={outerElementType}
-                >
-                  {Row}
-                </List>
-              }
-            </div>
+            ) : (
+              <h4 className="py-16 text-center text-slate-600 text-xl font-bold w-full">
+                Pending withdrawal Request Not Found
+              </h4>
+            )}
           </div>
         </div>
         <div className="bg-slate-100 shadow  text-slate-700 rounded-md p-5">
           <div>
-            <h2 className="text-lg pb-4">Success Withdrawal</h2>
-            <div className="w-full overflow-x-auto">
-              <div className="flex bg-slate-300 uppercase text-xs font-medium min-w-[340px]">
-                <div className="w-[25%] p-2">No</div>
-                <div className="w-[25%] p-2">Amount</div>
-                <div className="w-[25%] p-2">status</div>
-                <div className="w-[25%] p-2">date</div>
+            {successWithdrows.length > 0 ? (
+              <div className="w-full overflow-x-auto">
+                <h2 className="text-lg pb-4">Success Withdrawal</h2>
+                <div className="flex bg-slate-300 uppercase text-xs font-medium min-w-[340px]">
+                  <div className="w-[25%] p-2">No</div>
+                  <div className="w-[25%] p-2">Amount</div>
+                  <div className="w-[25%] p-2">status</div>
+                  <div className="w-[25%] p-2">date</div>
+                </div>
+                {
+                  <List
+                    style={{ minWidth: "340px", overflowX: "hidden" }}
+                    className="List"
+                    height={350}
+                    itemCount={successWithdrows.length}
+                    itemSize={35}
+                    outerElementType={outerElementType}
+                  >
+                    {Rows}
+                  </List>
+                }
               </div>
-              {
-                <List
-                  style={{ minWidth: "340px", overflowX: "hidden" }}
-                  className="List"
-                  height={350}
-                  itemCount={successWithdrows.length}
-                  itemSize={35}
-                  outerElementType={outerElementType}
-                >
-                  {Rows}
-                </List>
-              }
-            </div>
+            ) : (
+              <h4 className="py-16 text-center text-slate-600 text-xl font-bold w-full">
+                Success withdrawal Not Found
+              </h4>
+            )}
           </div>
         </div>
       </div>

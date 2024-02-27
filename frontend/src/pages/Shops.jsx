@@ -15,15 +15,15 @@ import { price_range_product, query_products } from "../store/reducers/homeReduc
 import PageHeader from "./PageHeader";
 import RatingSelector from "../components/RatingSelector";
 import { colourOptions, tagOptions } from "./../assets/data";
+import Skeleton from "../components/Skeleton";
 
 const Shops = () => {
-  const { products, totalProduct, latest_product, categorys, priceRange, parPage } = useSelector(
+  const { products, totalProduct, loader, categorys, priceRange, parPage } = useSelector(
     (state) => state.home
   );
 
   const dispatch = useDispatch();
   const [pageNumber, setPageNumber] = useState(1);
-  //.. const [perPage, setPerPage] = useState(3);
   const [styles, setStyles] = useState("grid");
   const [filter, setFilter] = useState(true);
   const [category, setCategory] = useState("");
@@ -53,20 +53,24 @@ const Shops = () => {
   };
 
   useEffect(() => {
-    dispatch(
-      query_products({
-        low: state.values[0],
-        high: state.values[1],
-        category,
-        tagValue,
-        rating,
-        sortPrice,
-        sortByDate,
-        InStock,
-        pageNumber,
-        color,
-      })
-    );
+    const timeoutId = setTimeout(() => {
+      dispatch(
+        query_products({
+          low: state.values[0],
+          high: state.values[1],
+          category,
+          tagValue,
+          rating,
+          sortPrice,
+          sortByDate,
+          InStock,
+          pageNumber,
+          color,
+        })
+      );
+    }, 100);
+
+    return () => clearTimeout(timeoutId);
   }, [
     state.values[0],
     state.values[1],
@@ -110,7 +114,7 @@ const Shops = () => {
           </div>
           <div className="w-full flex flex-wrap">
             <div
-              className={`w-3/12 md-lg:w-4/12 md:w-full pr-8 ${
+              className={`w-3/12 md-lg:w-4/12 md:w-full md:pr-0 pr-8 mb-0 md:mb-5 ${
                 filter ? "md:h-0 md:overflow-hidden md:mb-6" : "md:h-auto md:overflow-auto md:mb-0"
               }`}
             >
@@ -210,23 +214,20 @@ const Shops = () => {
                   ))}
                 </div>
               </div>
-              <div className="p-2 flex flex-col gap-4 md:hidden bg-white shadow my-2">
-                <button onClick={Reset} className="bg-red-400 text-white px-5 py-2 font-medium">
+              <div className="p-2 w-full bg-white shadow my-2">
+                <button onClick={Reset} className="bg-red-400 text-white w-full px-5 py-2 font-medium">
                   Reset
                 </button>
               </div>
-              {/* <div className="py-5 flex flex-col gap-4 md:hidden">
-                <Products title="Latest Products" products={latest_product} />
-              </div> */}
             </div>
             <div className="w-9/12 md-lg:w-8/12 md:w-full">
               <div className="md:pl-0">
-                <div className="py-4 shadow bg-white mb-8 px-3 rounded-md flex justify-between items-start border">
+                <div className="py-4 shadow bg-white mb-8 px-3 rounded-md flex justify-between sm:flex-col sm:gap-2 items-start border">
                   <h2 className="text-lg font-medium text-slate-600">{totalProduct} Products</h2>
                   <div className="flex justify-center items-center gap-3">
                     <select
                       onChange={(e) => setSortByDate(e.target.value)}
-                      className="p-1 border outline-0 text-slate-600 font-semibold"
+                      className="p-1 border outline-0 text-slate-600 font-semibold "
                       name=""
                       id=""
                     >
@@ -266,7 +267,15 @@ const Shops = () => {
                 </div>
 
                 <div className="pb-8">
-                  <ShopProducts products={products} styles={styles} />
+                  {loader ? (
+                    <div className="grid grid-cols-3 md-lg:grid-cols-2 sm:grid-cols-1 gap-3">
+                      {Array.from({ length: 6 }).map((_, i) => (
+                        <Skeleton styles={"h-[260px] w-full rounded-md "} key={i} />
+                      ))}
+                    </div>
+                  ) : (
+                    <ShopProducts products={products} styles={styles} />
+                  )}
                 </div>
                 <div>
                   {totalProduct > parPage && (

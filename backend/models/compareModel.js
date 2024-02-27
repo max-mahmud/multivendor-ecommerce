@@ -32,7 +32,10 @@ const compareSchema = new Schema({
     rating: {
         type: Number,
         default: 0
-    }
+    },
+    colorArray: [{
+        type: String
+    }],
 }, { timestamps: true })
 
 module.exports = model('compares', compareSchema)

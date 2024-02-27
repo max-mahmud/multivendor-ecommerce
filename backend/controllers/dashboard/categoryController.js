@@ -51,10 +51,16 @@ class categoryController {
                 const categorys = await categoryModel.find({
                     $text: { $search: searchValue }
                 }).skip(skipPage).limit(parPage).sort({ createdAt: -1 })
+
                 const totalCategory = await categoryModel.find({
                     $text: { $search: searchValue }
                 }).countDocuments()
-                responseReturn(res, 200, { totalCategory, categorys })
+
+                if (categorys.length === 0) {
+                    responseReturn(res, 404, { message: "No categorys found matching the search criteria." });
+                } else {
+                    responseReturn(res, 200, { totalCategory, categorys });
+                }
             }
             else if (searchValue === '' && page && parPage) {
                 const categorys = await categoryModel.find({}).skip(skipPage).limit(parPage).sort({ createdAt: -1 })

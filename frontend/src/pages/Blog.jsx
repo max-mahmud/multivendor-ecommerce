@@ -13,7 +13,7 @@ const Blog = () => {
       <div className="bg-gray-100">
         <div className="max-w-4xl mx-auto px-4 py-8">
           <h2 className="text-3xl font-bold mb-8">Welcome to Our Blog</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 gap-8">
             <div className="bg-white shadow-md rounded-lg overflow-hidden">
               <img src={img1} alt="Blog Image 1" className="w-full h-72 object-cover object-center" />
               <div className="p-6">

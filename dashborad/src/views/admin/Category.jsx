@@ -13,7 +13,9 @@ import { categoryAdd, messageClear, get_category } from "../../store/Reducers/ca
 
 const Category = () => {
   const dispatch = useDispatch();
-  const { loader, successMessage, errorMessage, categorys } = useSelector((state) => state.category);
+  const { loader, successMessage, errorMessage, categorys, totalCategory } = useSelector(
+    (state) => state.category
+  );
   const [currentPage, setCurrentPage] = useState(1);
   const [searchValue, setSearchValue] = useState("");
   const [parPage, setParPage] = useState(5);
@@ -103,7 +105,7 @@ const Category = () => {
                 </thead>
                 <tbody>
                   {categorys.map((d, i) => (
-                    <tr key={i}>
+                    <tr key={i} className="border-b">
                       <td scope="row" className="py-1 px-4 font-medium whitespace-nowrap">
                         {i + 1}
                       </td>
@@ -132,7 +134,7 @@ const Category = () => {
               <Pagination
                 pageNumber={currentPage}
                 setPageNumber={setCurrentPage}
-                totalItem={50}
+                totalItem={totalCategory}
                 parPage={parPage}
                 showItem={4}
               />

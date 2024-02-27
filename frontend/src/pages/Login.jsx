@@ -44,7 +44,7 @@ const Login = () => {
     <div>
       <Headers />
       <div className="bg-slate-200 mt-4">
-        <div className=" justify-center items-center p-10">
+        <div className=" justify-center items-center py-10">
           <div className="w-[320px]  mx-auto bg-white rounded-md">
             <div className="px-5 py-8">
               <h2 className="text-center  text-xl text-slate-600 font-bold">Login</h2>

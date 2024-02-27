@@ -245,7 +245,7 @@ const Card = () => {
             </div>
           ) : (
             <div>
-              <Link className="px-4 py-1 bg-indigo-500 text-white" to="/shops">
+              <Link className="px-4 py-1 bg-orange-500 text-white" to="/shops">
                 Shop Now
               </Link>
             </div>

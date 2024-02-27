@@ -8,8 +8,9 @@ import { get_seller_dashboard_index_data } from "../../store/Reducers/dashboardI
 import DashboardCard from "../components/DashboardCard";
 
 const SellerDashboard = () => {
-  const { totalSale, totalOrder, totalProduct, totalPendingOrder, totalSeller, recentOrders, recentMessage } =
-    useSelector((state) => state.dashboardIndex);
+  const { totalSale, totalOrder, totalProduct, totalPendingOrder, recentOrders } = useSelector(
+    (state) => state.dashboardIndex
+  );
 
   const dispatch = useDispatch();
 
@@ -36,7 +37,7 @@ const SellerDashboard = () => {
       color: ["#181ee8", "#181ee8", "#00cfe8"],
       chart: {
         background: "transparent",
-        foreColor: "#d0d2d6",
+        foreColor: "#3b3b3b",
         stacked: true,
       },
       dataLabels: {
@@ -85,13 +86,13 @@ const SellerDashboard = () => {
       },
       chart: {
         background: "transparent",
-        foreColor: "#d0d2d6",
+        foreColor: "#3b3b3b",
       },
     },
   };
   return (
     <div className="px-2 md:px-7 py-5">
-      <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-7">
+      <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-3">
         <DashboardCard
           Bordercolor={"border-yellow-500"}
           textColor="text-yellow-500"
@@ -147,46 +148,50 @@ const SellerDashboard = () => {
       <div className="w-full p-4  bg-slate-100 rounded-md mt-6">
         <div className="flex justify-between items-center">
           <h2 className="font-semibold text-lg text-slate-600 pb-3">Recent Orders</h2>
-          <Link className="font-semibold text-sm text-slate-600">View All</Link>
+          <Link to={"/seller/dashboard/orders"} className="font-semibold text-sm text-slate-600">
+            View All
+          </Link>
         </div>
         <div className="relative overflow-x-auto">
           <table className="w-full text-sm text-left text-slate-600">
-            <thead className="text-sm text-slate-600 uppercase border-b bg-slate-300">
+            <thead className="sm:text-sm text-xs text-slate-600 uppercase border-b bg-slate-300">
               <tr>
-                <th scope="col" className="py-3 px-4">
+                <th scope="col" className="py-3 lg:px-4 px-2 whitespace-nowrap ">
                   Order Id
                 </th>
-                <th scope="col" className="py-3 px-4">
+                <th scope="col" className="py-3 lg:px-4 px-2 whitespace-nowrap">
                   Price
                 </th>
-                <th scope="col" className="py-3 px-4">
+                <th scope="col" className="py-3 lg:px-4 px-2 whitespace-nowrap">
                   Payment Status
                 </th>
-                <th scope="col" className="py-3 px-4">
+                <th scope="col" className="py-3 lg:px-4 px-2 whitespace-nowrap">
                   Order Status
                 </th>
-                <th scope="col" className="py-3 px-4">
+                <th scope="col" className="py-3 lg:px-4 px-2 whitespace-nowrap">
                   Active
                 </th>
               </tr>
             </thead>
             <tbody>
-              {[1, 2, 3, 4, 5].map((d, i) => (
-                <tr key={i}>
-                  <td scope="row" className="py-3 px-4 font-medium whitespace-nowrap">
-                    #455fdf54545
+              {recentOrders.map((d, i) => (
+                <tr key={i} className="border-b">
+                  <td scope="row" className="py-3 lg:px-4 px-2 font-medium whitespace-nowrap">
+                    #{d._id}
                   </td>
-                  <td scope="row" className="py-3 px-4 font-medium whitespace-nowrap">
-                    $656
+                  <td scope="row" className="py-3 lg:px-4 px-2 font-medium whitespace-nowrap">
+                    ${d.price}
                   </td>
-                  <td scope="row" className="py-3 px-4 font-medium whitespace-nowrap">
-                    <span>pending</span>
+                  <td scope="row" className="py-3 lg:px-4 px-2 font-medium whitespace-nowrap">
+                    <span>{d.delivery_status}</span>
                   </td>
-                  <td scope="row" className="py-3 px-4 font-medium whitespace-nowrap">
-                    <span>pending</span>
+                  <td scope="row" className="py-3 lg:px-4 px-2 font-medium whitespace-nowrap">
+                    <span>{d.payment_status}</span>
                   </td>
-                  <td scope="row" className="py-3 px-4 font-medium whitespace-nowrap">
-                    <Link>view</Link>
+                  <td scope="row" className="py-3 lg:px-4 px-2 font-medium whitespace-nowrap ">
+                    <Link to={`/seller/dashboard/order/details/${d._id}`} className="bg-green-200 py-1 px-2">
+                      view
+                    </Link>
                   </td>
                 </tr>
               ))}

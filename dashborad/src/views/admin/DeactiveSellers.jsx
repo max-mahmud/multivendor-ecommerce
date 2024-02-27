@@ -132,7 +132,7 @@ const DeactiveSellers = () => {
           )}
         </div>
       ) : (
-        <div className="w-full p-4  bg-slate-100 rounded-md text-3xl text-center font-bold text-slate-500">
+        <div className="w-full py-20  bg-slate-100 rounded-md text-3xl text-center font-bold text-slate-500">
           No DeActive Seller Found{" "}
         </div>
       )}
