@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { get_category } from "./store/reducers/homeReducer";
 import "react-multi-carousel/lib/styles.css";
 import Loading from "./components/Loading";
+import ProtechUser from "./utils/ProtectUser";
 
 const Home = lazy(() => import("./pages/Home"));
 const Shops = lazy(() => import("./pages/Shops"));
@@ -53,14 +54,16 @@ function App() {
           <Route path="/product/details/:slug" element={<Details />} />
 
           {/* Dashboard Routes */}
-          <Route path="/dashboard" element={<Dashboard />}>
-            <Route path="" element={<Index />} />
-            <Route path="my-orders" element={<Orders />} />
-            <Route path="my-wishlist" element={<Wishlist />} />
-            <Route path="edit-profile" element={<EditProfile />} />
-            <Route path="my-compare" element={<CompareProduct />} />
-            <Route path="order/details/:orderId" element={<Order />} />
-            <Route path="change-password" element={<ChangePassword />} />
+          <Route path="/dashboard" element={<ProtechUser />}>
+            <Route path="" element={<Dashboard />}>
+              <Route path="" element={<Index />} />
+              <Route path="my-orders" element={<Orders />} />
+              <Route path="my-wishlist" element={<Wishlist />} />
+              <Route path="edit-profile" element={<EditProfile />} />
+              <Route path="my-compare" element={<CompareProduct />} />
+              <Route path="order/details/:orderId" element={<Order />} />
+              <Route path="change-password" element={<ChangePassword />} />
+            </Route>
           </Route>
         </Routes>
       </Suspense>

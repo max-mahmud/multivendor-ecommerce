@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-hot-toast";
 import { customer_login, messageClear } from "../store/reducers/authReducer";
+import Loading from "../components/Loading";
 
 const Login = () => {
   const { loader, successMessage, errorMessage, userInfo } = useSelector((state) => state.auth);
@@ -42,6 +43,7 @@ const Login = () => {
   }, [successMessage, errorMessage]);
   return (
     <div>
+      {loader && <Loading />}
       <Headers />
       <div className="bg-slate-200 mt-4">
         <div className=" justify-center items-center py-10">

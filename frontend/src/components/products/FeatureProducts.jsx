@@ -29,26 +29,9 @@ const FeatureProducts = ({ products }) => {
   };
 
   const add_wishlist = (pro) => {
-    dispatch(
-      add_to_wishlist({
-        userId: userInfo.id,
-        productId: pro._id,
-        name: pro.name,
-        price: pro.price,
-        image: pro.images[0],
-        discount: pro.discount,
-        rating: pro.rating,
-        slug: pro.slug,
-      })
-    );
-  };
-  const add_compare = (pro) => {
-    console.log(pro.colorArray);
-    if (comparelist_count >= 4) {
-      toast.error("Already Added Many Items");
-    } else {
+    if (userInfo) {
       dispatch(
-        add_to_compare({
+        add_to_wishlist({
           userId: userInfo.id,
           productId: pro._id,
           name: pro.name,
@@ -57,9 +40,34 @@ const FeatureProducts = ({ products }) => {
           discount: pro.discount,
           rating: pro.rating,
           slug: pro.slug,
-          colorArray: pro.colorArray,
         })
       );
+    } else {
+      navigate("/login");
+    }
+  };
+
+  const add_compare = (pro) => {
+    if (userInfo) {
+      if (comparelist_count >= 4) {
+        toast.error("Already Added Many Items");
+      } else {
+        dispatch(
+          add_to_compare({
+            userId: userInfo.id,
+            productId: pro._id,
+            name: pro.name,
+            price: pro.price,
+            image: pro.images[0],
+            discount: pro.discount,
+            rating: pro.rating,
+            slug: pro.slug,
+            colorArray: pro.colorArray,
+          })
+        );
+      }
+    } else {
+      navigate("/login");
     }
   };
 
