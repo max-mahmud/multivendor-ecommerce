@@ -5,8 +5,13 @@ Multivendor - E-commerce
 //About The project:
 
 **This is a multivendor project**
+
 Authentication System
+
 Search, filter, pagination and many more
+
 Payment system
+
 Admin and Seller Dashboard
+
 Product, category, banner CRUD and many more
